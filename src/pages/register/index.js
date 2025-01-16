@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { register } from "/Users/cagataydalaman/Desktop/sahibinden/src/firebase.js";
+import { register } from "../../firebase.js";
 
 export default function Register() {
-  const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { collection, query, where, getDocs } from "firebase/firestore";
-import { db, getCategoryById } from "/Users/cagataydalaman/Desktop/sahibinden/src/firebase.js";
+import { collection, query, getDocs } from "firebase/firestore";
+import { db, getCategoryById } from "../../firebase.js";
 
 const CategoryDetail = () => {
   const { id } = useParams();
