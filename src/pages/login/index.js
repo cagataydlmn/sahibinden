@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { login, register } from "/Users/cagataydalaman/Desktop/sahibinden/src/firebase.js";
-import { login as loginHandle } from "/Users/cagataydalaman/Desktop/sahibinden/src/store/auth.js";
+import { login as loginHandle } from "../../store/auth";
 import { useDispatch } from "react-redux";
-import { Navigate, NavLink, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
+import { login } from "../../firebase";
 export default function Login(){
     const dispatch = useDispatch()
     const navigate=useNavigate()

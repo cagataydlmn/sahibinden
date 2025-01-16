@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 import routes from "./routes/index.js"
-import store from '/Users/cagataydalaman/Desktop/sahibinden/src/store/index.js';
 import { Provider } from 'react-redux';
+import store from './store/index.js'; // göreli yol
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
