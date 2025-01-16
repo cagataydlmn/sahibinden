@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link, NavLink, Outlet } from "react-router-dom";
-
+import webIcon from '../../assets/web_icon.jpeg';
 export default function Nav() {
   const { user } = useSelector((state) => state.auth);
   const logout = () => {
@@ -15,8 +15,8 @@ export default function Nav() {
         <div className="nav__general">
           <div className="">
             <Link to="/" className="nav__general__left">
-              <img src="/assets/web_icon.jpeg" alt="link" />
-            </Link>
+            <img src={webIcon} alt="link" />;
+                        </Link>
           </div>
           <div className="nav__general__input">
             <input placeholder="Aramak istediğiniz ürün" />
