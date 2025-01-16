@@ -5,7 +5,7 @@ import Advert from "../pages/advert";
 import Home from "../pages/home";
 import Login from "../pages/login";
 import Register from "../pages/register";
-import '/Users/cagataydalaman/Desktop/sahibinden/src/style/style.scss';
+import '../style/style.scss';
 import Provider from "../context";
 import AdvertDetail from "../pages/advertDetail";
 import Profile from "../pages/profile";
