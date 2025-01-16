@@ -3,7 +3,6 @@ import { useSite } from "../../context";
 
 export default function Categories() {
   const {
-    selectedCategory,
     categories,
   } = useSite();
 

@@ -1,4 +1,3 @@
-import { current } from "@reduxjs/toolkit";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { useState } from "react";
 import { useSite } from "../../context";
@@ -22,7 +21,7 @@ export default function Advert() {
 
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [step, setStep] = useState(1);
-  const [detail, setDetail] = useState(null);
+
   const [tempCategory, setTempCategory] = useState(null);
   const [photos, setPhotos] = useState([]);
   const [previews, setPreviews] = useState([]);
@@ -132,6 +131,7 @@ export default function Advert() {
         fileUrls.push(downloadURL);
       } catch (error) {
         console.error("Fotoğraf yüklenirken bir hata oluştu:", error);
+        console.log(isFormVisible)
       }
     }
 
@@ -144,7 +144,6 @@ export default function Advert() {
     const photoUrls = await handleFileUpload(photos);
 
     const advertData = {
-      model,
       tempCategory,
       altcategory,
       price: parseFloat(price),
@@ -218,7 +217,7 @@ export default function Advert() {
               {category.name}
             </button>
           ))}
-        {step === 2 &&
+        {step === 2 && 
           subCategories.map((sub) => (
             <div
               value={altcategory}

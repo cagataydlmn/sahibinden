@@ -3,14 +3,23 @@ import { useNavigate } from "react-router-dom";
 import { register } from "../../firebase.js";
 
 export default function Register() {
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const user = await register(email, password, name, lastName);
+    try {
+      const user = await register(email, password, name, lastName);
+      if (user) {
+        navigate("/"); 
+      }
+    } catch (error) {
+      console.error("Kayıt hatası:", error);
+    }
   };
 
   return (

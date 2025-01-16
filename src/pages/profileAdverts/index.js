@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { deleteAdvert, getAddvert, getAdvertByUser } from "../../firebase";
+import { deleteAdvert, getAddvert } from "../../firebase";
 export default function ProfileAdverts() {
   const [advert, setAdvert] = useState([]);
   const [items, setItems] = useState([]);
@@ -33,7 +33,7 @@ export default function ProfileAdverts() {
     } else {
       console.log("User not found in localStorage.");
     }
-  }, [advert]);
+  }, [advert,user]);
   const handleDelete = async (id) => {
     try {
       await deleteAdvert(id); // Firebase'deki ilanı sil
