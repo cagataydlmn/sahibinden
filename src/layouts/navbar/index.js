@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link, NavLink, Outlet } from "react-router-dom";
-import webIcon from '../../assets/web_icon.jpeg';
+import webIcon from "../../assets/web_icon.jpeg";
 export default function Nav() {
   const { user } = useSelector((state) => state.auth);
   const logout = () => {
@@ -15,16 +15,20 @@ export default function Nav() {
         <div className="nav__general">
           <div className="">
             <Link to="/" className="nav__general__left">
-            <img src={webIcon} alt="link" />;
-                        </Link>
+              <img src={webIcon} alt="link" />;
+            </Link>
           </div>
           <div className="nav__general__input">
             <input placeholder="Aramak istediğiniz ürün" />
           </div>
           {user ? (
             <div className="nav__general__right">
-              <NavLink className="nav-link" to="/post-advert">İlan Ver</NavLink>
-              <NavLink className="nav-link" to="/profile">Profil</NavLink>
+              <NavLink className="nav-link" to="/post-advert">
+                İlan Ver
+              </NavLink>
+              <NavLink className="nav-link" to="/profile">
+                Profil
+              </NavLink>
               <NavLink className="nav-link" onClick={logout} to="/">
                 Çıkış Yap
               </NavLink>
@@ -41,6 +45,24 @@ export default function Nav() {
           )}
         </div>
       </nav>
+      <div className="nav__media">
+        <NavLink to="/">Ana Sayfa</NavLink>
+        {user ? (
+        <><NavLink className="nav-link" to="/post-advert">
+        İlan Ver
+      </NavLink>
+<NavLink className="nav-link" to="/profile">
+  Profil
+</NavLink></>):(
+  <><NavLink className="nav-link" to="/login">
+        İlan Ver
+      </NavLink>
+<NavLink className="nav-link" to="/login">
+  Profil
+</NavLink>
+</>)}
+        
+      </div>
       <Outlet />
     </div>
   );
