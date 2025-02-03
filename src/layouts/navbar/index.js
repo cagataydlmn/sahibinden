@@ -1,36 +1,57 @@
-import React from "react";
 import { useSelector } from "react-redux";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import webIcon from "../../assets/web_icon.jpeg";
+import defaultProfile from "../../assets/default-profile.jpeg"; // Varsayılan profil fotoğrafını içe aktar
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useEffect, useState } from "react";
+import Search from "../../components/search/idnex";
+import MobileNav from "../mobileNav";
+
 export default function Nav() {
   const { user } = useSelector((state) => state.auth);
-  const logout = () => {
-    localStorage.removeItem("user");
-    document.location.href = "/";
-  };
+  const [profilePhoto, setProfilePhoto] = useState(null);
+  
+  useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log("Auth değişti, yeni photoURL:", user.photoURL);
+        setProfilePhoto(user.photoURL);
+      }
+    });
+  
+    return () => unsubscribe(); // Cleanup
+  }, []);
+
+  // Eğer profil fotoğrafı "undefined" içeren URL ise varsayılanı kullan
+  const isInvalidPhoto =
+    profilePhoto &&
+    profilePhoto.includes("undefined");
 
   return (
-    <div className="">
+    <div>
+      <MobileNav/>
       <nav className="nav">
         <div className="nav__general">
-          <div className="">
+          <div>
             <Link to="/" className="nav__general__left">
-              <img src={webIcon} alt="link" />;
+              <img src={webIcon} alt="link" />
             </Link>
           </div>
-          <div className="nav__general__input">
-            <input placeholder="Aramak istediğiniz ürün" />
-          </div>
+         <Search/>
           {user ? (
             <div className="nav__general__right">
               <NavLink className="nav-link" to="/post-advert">
                 İlan Ver
               </NavLink>
               <NavLink className="nav-link" to="/profile">
-                Profil
-              </NavLink>
-              <NavLink className="nav-link" onClick={logout} to="/">
-                Çıkış Yap
+                <div className="profile-info">
+                  <img
+                    src={isInvalidPhoto ? defaultProfile : profilePhoto}
+                    alt="Profil"
+                    className="profile-photo"
+                  />
+                </div>
               </NavLink>
             </div>
           ) : (
@@ -48,20 +69,22 @@ export default function Nav() {
       <div className="nav__media">
         <NavLink to="/">Ana Sayfa</NavLink>
         {user ? (
-        <><NavLink className="nav-link" to="/post-advert">
-        İlan Ver
-      </NavLink>
-<NavLink className="nav-link" to="/profile">
-  Profil
-</NavLink></>):(
-  <><NavLink className="nav-link" to="/login">
-        İlan Ver
-      </NavLink>
-<NavLink className="nav-link" to="/login">
-  Profil
-</NavLink>
-</>)}
-        
+          <>
+           <NavLink>Kategoriler</NavLink>
+            <div className="profile-info">
+                  <img
+                    src={isInvalidPhoto ? defaultProfile : profilePhoto}
+                    alt="Profil"
+                    className="profile-photo"
+                  />
+                </div>
+          </>
+        ) : (
+          <div><NavLink>Kategoriler</NavLink>
+          <NavLink className="nav-link" to="/login">
+            Profil
+          </NavLink></div>
+        )}
       </div>
       <Outlet />
     </div>

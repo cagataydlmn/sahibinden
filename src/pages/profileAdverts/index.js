@@ -15,23 +15,18 @@ export default function ProfileAdverts() {
     if (user) {
       try {
         const parsedData = JSON.parse(user);
-        console.log("Parsed user:", parsedData);
 
         if (parsedData?.user?.uid) {
-          console.log("User UID:", parsedData.user.uid);
 
           const filteredAds = advert.filter(
             (ad) => ad.uid === parsedData.user.uid
           );
           setItems(filteredAds);
         } else {
-          console.log("UID not found in the user object.");
         }
       } catch (error) {
-        console.error("Error parsing user data:", error);
       }
     } else {
-      console.log("User not found in localStorage.");
     }
   }, [advert,user]);
   const handleDelete = async (id) => {

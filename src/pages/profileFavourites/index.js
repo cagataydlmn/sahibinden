@@ -1,6 +1,11 @@
-export default function ProfileFavourites(){
-    return(
-        <div>
-        favoriler</div>
-    )
+
+export default function ProfileFavourites() {
+
+
+
+  return (
+    <div>
+      favoriler
+    </div>
+  );
 }

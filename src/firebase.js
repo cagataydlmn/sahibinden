@@ -12,13 +12,21 @@ import {
   getDocs,
   deleteDoc,
   Timestamp,
+  updateDoc,
 } from "firebase/firestore";
 import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithRedirect,
+  EmailAuthProvider,
+  reauthenticateWithCredential,
+  updatePassword,
+  updateProfile,
 } from "firebase/auth";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { updateProfilePhoto as updateProfilePhotoAction } from "./store/auth.js"; // Redux aksiyonunu farklı isimle import et
 
 const firebaseConfig = {
   apiKey: "AIzaSyB38qo6DyFftA91SJJwgMgL-BaI8YazfgI",
@@ -43,11 +51,26 @@ export const register = async (email, password, name, lastName) => {
       password
     );
 
+    // Varsayılan fotoğrafı public klasöründen al
+    const defaultPhotoPath = "/default-profile.jpeg"; // public klasörüne yerleştirilmiş görsel
+    const defaultPhotoFile = await fetch(defaultPhotoPath).then((res) =>
+      res.blob()
+    );
+
+    const fileRef = ref(
+      storage,
+      `profilePhotos/${user.uid}/default-profile.jpg`
+    );
+    await uploadBytes(fileRef, defaultPhotoFile); // İlk yükleme
+    const defaultPhotoURL = await getDownloadURL(fileRef); // URL'yi al
+
+    // Firestore'a kullanıcı bilgilerini ekle
     await addDoc(collection(db, "users"), {
       uid: user.uid,
       email: user.email,
       name: name,
       lastName: lastName,
+      profilePhoto: defaultPhotoURL, // Fotoğraf URL'si
     });
 
     return user;
@@ -57,6 +80,57 @@ export const register = async (email, password, name, lastName) => {
   }
 };
 
+export const updateProfilePhoto = (file) => async (dispatch) => {
+  try {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (!user) throw new Error("Kullanıcı bulunamadı.");
+    if (!file) throw new Error("Dosya seçilmedi.");
+
+    // Firestore'daki kullanıcı belgesini bul
+    const usersRef = collection(db, "users");
+    const q = query(usersRef, where("uid", "==", user.uid));
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot.empty) {
+      throw new Error("Firestore'da böyle bir kullanıcı bulunamadı!");
+    }
+    const userDocID = querySnapshot.docs[0].id;
+
+    // Fotoğrafı Storage'a yükle
+    const uniqueFileName = `${user.uid}_${new Date().getTime()}_${file.name}`;
+    const fileRef = ref(storage, `profilePhotos/${user.uid}/${uniqueFileName}`);
+    await uploadBytes(fileRef, file);
+    const downloadURL = await getDownloadURL(fileRef);
+
+    // Firestore belgesini güncelle
+    const userDocRef = doc(db, "users", userDocID);
+    await updateDoc(userDocRef, { profilePhoto: downloadURL });
+
+    // Authentication güncelle
+    await updateProfile(user, { photoURL: downloadURL });
+    await auth.currentUser.reload();
+
+    // LocalStorage güncelle
+    localStorage.setItem("profilePhoto", auth.currentUser.photoURL);
+
+    console.log("Profil fotoğrafı başarıyla güncellendi:", downloadURL);
+
+    // Redux state'i güncelle (sadece URL'i gönderiyoruz)
+    dispatch(updateProfilePhotoAction(downloadURL));
+
+    // downloadURL'i return et
+    return downloadURL;
+  } catch (error) {
+    console.error("Profil fotoğrafı yükleme hatası:", error.message);
+    throw error;
+  }
+};
+
+//google ile giriş
+export const googleSignIn = () => {
+  const { provider } = new GoogleAuthProvider();
+  signInWithRedirect(auth, provider);
+};
 export const login = async (email, password) => {
   const { user } = await signInWithEmailAndPassword(auth, email, password);
   return { user };
@@ -230,7 +304,7 @@ export const addAdvert = async (data) => {
       ...data,
       uid: user.uid,
       createdAt: Timestamp.now(),
-        });
+    });
 
     console.log("İlan başarıyla eklendi");
   } catch (error) {
@@ -311,7 +385,7 @@ export const getDetailById = async (categoryId, subcategoryId, detailId) => {
     const detailDoc = await getDoc(detailRef);
 
     if (detailDoc.exists()) {
-      return detailDoc.data().name; 
+      return detailDoc.data().name;
     } else {
       console.error("Detay bulunamadı.");
       return "Bilinmeyen Detay";
@@ -322,8 +396,12 @@ export const getDetailById = async (categoryId, subcategoryId, detailId) => {
   }
 };
 
-
-export const getMoreDetailById = async (categoryId, subcategoryId, detailId,moreDetailId) => {
+export const getMoreDetailById = async (
+  categoryId,
+  subcategoryId,
+  detailId,
+  moreDetailId
+) => {
   try {
     const detailRef = doc(
       db,
@@ -333,7 +411,7 @@ export const getMoreDetailById = async (categoryId, subcategoryId, detailId,more
     const detailDoc = await getDoc(detailRef);
 
     if (detailDoc.exists()) {
-      return detailDoc.data().name; 
+      return detailDoc.data().name;
     } else {
       console.error("Detay bulunamadı.");
       return "Bilinmeyen Detay";
@@ -348,33 +426,49 @@ export const deleteAdvert = async (itemId) => {
   const itemRef = doc(db, "products", itemId);
   await deleteDoc(itemRef);
 };
+
+export const changePassword = async (currentPassword, newPassword) => {
+  const auth = getAuth();
+  const user = auth.currentUser;
+
+  if (!user) {
+    throw new Error("Kullanıcı oturum açmamış");
+  }
+
+  const credentials = EmailAuthProvider.credential(user.email, currentPassword);
+
+  try {
+    await reauthenticateWithCredential(user, credentials);
+
+    await updatePassword(user, newPassword);
+
+    return "Şifre başarıyla değiştirildi!";
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+//like
+
 export const addLike = async (likeItem, uid) => {
   try {
-    const user = auth.currentUser; 
-    if (!user) {
-      console.error("Kullanıcı giriş yapmamış.");
-      return;
+    const likesRef = collection(db, "likeAdverts");
+    const q = query(likesRef, where("uid", "==", uid));
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+      console.log("Bu ürün zaten beğenilenlerde mevcut!");
+    } else {
+      await addDoc(likesRef, {
+        ...likeItem,
+        uid: uid,
+      });
+      console.log("Ürün beğenilere eklendi");
     }
-
-    if (
-      likeItem === null ||
-      (Array.isArray(likeItem) && likeItem.length === 0) ||
-      (typeof likeItem === "string" && likeItem.trim().length === 0)
-    ) {
-      console.log("Eklenecek veri yok.");
-      return;
-    }
-
-    // "likeadverts" koleksiyonuna yeni bir doküman ekleyelim
-    await addDoc(collection(db, "likeadverts"), {
-      productId: likeItem.productId, // beğenilen ürün ID'si
-      uid: user.uid, // kullanıcı UID'si
-      createdAt: Timestamp.now(), // Eklenme tarihi
-    });
-
-    console.log("Ürün başarıyla beğenilere eklendi.");
   } catch (error) {
     console.error("Ürün beğenilere eklenirken hata oluştu: ", error);
   }
 };
- 
+
+//Mesajlar
+// giriş  yapan kullanıcı id sini al. ürünü ekleyenin kullanıcı idsini al.

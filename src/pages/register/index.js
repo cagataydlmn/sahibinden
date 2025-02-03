@@ -1,6 +1,8 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { register } from "../../firebase.js";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -15,7 +17,7 @@ export default function Register() {
     try {
       const user = await register(email, password, name, lastName);
       if (user) {
-        navigate("/"); 
+        navigate("/");
       }
     } catch (error) {
       console.error("Kayıt hatası:", error);
@@ -25,43 +27,52 @@ export default function Register() {
   return (
     <div className="register">
       <form className="register__general" onSubmit={handleSubmit}>
-        <div className="register__general__name">
-          <label>İsim</label>
-          <input
-            type="text"
-            placeholder="Adı"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
+        <div className="register__general__top">
+          <FontAwesomeIcon icon={faGoogle} />
+          |
+          <FontAwesomeIcon icon={faGoogle} />
         </div>
-        <div className="register__general__name">
-          <label>Soyisim</label>
-          <input
-            placeholder="soyisim"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            type="text"
-          />
+
+        <div className="register__general__genel">
+          <div className="register__general__genel__name">
+            <input
+              type="text"
+              placeholder="Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <input
+              placeholder="Last Name"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              type="text"
+            />
+          </div>
+
+          <div className="register__general__genel__mid">
+            <input
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              type="e-mail"
+            />
+          </div>
+          <div className="register__general__genel__mid">
+            <input
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              type="password"
+            />
+          </div>
         </div>
-        <div className="register__general__name">
-          <label>E-mail</label>
-          <input
-            placeholder="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            type="e-mail"
-          />
+
+        <div className="register__general__under">
+          <button>Kayıt ol</button>
+          <div className="register__general__under__text">
+            Hesabın varsa <Link to="/login">Giriş Yap!</Link>
+          </div>
         </div>
-        <div className="register__general__name">
-          <label>Şifre</label>
-          <input
-            placeholder="şifre"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            type="password"
-          />
-        </div>
-        <button>kayıt ol</button>
       </form>
     </div>
   );

@@ -131,7 +131,7 @@ export default function Advert() {
         fileUrls.push(downloadURL);
       } catch (error) {
         console.error("Fotoğraf yüklenirken bir hata oluştu:", error);
-        console.log(isFormVisible)
+        console.log(isFormVisible);
       }
     }
 
@@ -201,23 +201,25 @@ export default function Advert() {
       }}
     >
       <form onSubmit={submitHandle}>
-        {step}
         {step === 1 &&
           categories.map((category) => (
-            <button
-              type="button"
-              key={category.id}
-              onClick={() => handleCategorySelect(category.id)}
-              value={category}
-              style={{
-                margin: "5px",
-                background: tempCategory === category.id ? "lightblue" : "gray",
-              }}
-            >
-              {category.name}
-            </button>
+            <div className="category">
+              <button
+                type="button"
+                key={category.id}
+                onClick={() => handleCategorySelect(category.id)}
+                value={category}
+                style={{
+                  margin: "5px",
+                  background:
+                    tempCategory === category.id ? "lightblue" : "gray",
+                }}
+              >
+                {category.name}
+              </button>
+            </div>
           ))}
-        {step === 2 && 
+        {step === 2 &&
           subCategories.map((sub) => (
             <div
               value={altcategory}
@@ -265,8 +267,7 @@ export default function Advert() {
                 {moreDetail.name}
               </div>
             ))
-          : 
-            step === 4 && setStep((prevStep) => prevStep + 1)}
+          : step === 4 && setStep((prevStep) => prevStep + 1)}
         {step === 5 && (
           <div>
             <h3>Fotoğrafları Yükleyin</h3>

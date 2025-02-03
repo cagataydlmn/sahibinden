@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import Search from "../../components/search/idnex";
 import { getAddvert } from "../../firebase";
 import Categories from "../../layouts/categories";
 
@@ -12,6 +13,10 @@ export default function Home() {
 
   return (
     <div>
+      <div className="just__home">
+      <Search/>
+
+      </div>
       <Categories />
       <div className="home">
         {Products.map((advert) => (

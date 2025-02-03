@@ -1,5 +1,10 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { getCategory, getDetail, getMoreDetail, getSubCategory } from "../firebase";
+import {
+  getCategory,
+  getDetail,
+  getMoreDetail,
+  getSubCategory,
+} from "../firebase";
 
 export const AppContext = createContext();
 
@@ -12,9 +17,24 @@ const Provider = ({ children }) => {
   const [selectedDetail, setSelectedDetail] = useState(null);
   const [moreDetails, setMoreDetails] = useState([]);
   const [selectedMoreDetail, setSelectedMoreDetail] = useState(null);
+  const [likeItems, setLikeItems] = useState([]);
 
   useEffect(() => {
     getCategory(setCategories);
+  }, []);
+
+  useEffect(() => {
+    if (likeItems.length > 0) {
+      localStorage.setItem("likeItems", JSON.stringify(likeItems));
+    }
+  }, [likeItems]);
+
+  useEffect(() => {
+    const liked = JSON.parse(localStorage.getItem("likeItems"));
+
+    if (liked?.length > 0) {
+      setLikeItems(liked);
+    }
   }, []);
 
   useEffect(() => {
@@ -40,10 +60,12 @@ const Provider = ({ children }) => {
         selectedCategory,
         selectedSubCategory,
         selectedDetail,
-        setMoreDetails
+        setMoreDetails,
+        likeItems,
+        setLikeItems
       );
     }
-  }, [selectedCategory, selectedSubCategory, selectedDetail]);
+  }, [selectedCategory, selectedSubCategory, selectedDetail, likeItems]);
 
   return (
     <AppContext.Provider

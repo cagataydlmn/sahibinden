@@ -1,5 +1,14 @@
 export default function ProfileMessages(){
     return(
-        <div>mesajlar</div>
+        <div>
+            <div>Mesajların gözüktüğü alan </div>
+
+            <div>
+                <hr/>
+                <div>
+                    <input placeholder="mesaj gönderin"/>
+                </div>
+            </div>
+        </div>
     )
 }
