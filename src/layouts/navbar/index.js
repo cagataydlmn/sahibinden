@@ -45,13 +45,13 @@ export default function Nav() {
                 İlan Ver
               </NavLink>
               <NavLink className="nav-link" to="/profile">
-                <div className="profile-info">
+                <NavLink className="profile-info">
                   <img
                     src={isInvalidPhoto ? defaultProfile : profilePhoto}
                     alt="Profil"
                     className="profile-photo"
                   />
-                </div>
+                </NavLink>
               </NavLink>
             </div>
           ) : (
@@ -71,13 +71,13 @@ export default function Nav() {
         {user ? (
           <>
            <NavLink>Kategoriler</NavLink>
-            <div className="profile-info">
+            <NavLink to="/profile" className="">
                   <img
                     src={isInvalidPhoto ? defaultProfile : profilePhoto}
                     alt="Profil"
                     className="profile-photo"
                   />
-                </div>
+                </NavLink>
           </>
         ) : (
           <div><NavLink>Kategoriler</NavLink>
