@@ -13,6 +13,7 @@ import {
   deleteDoc,
   Timestamp,
   updateDoc,
+  arrayRemove,
 } from "firebase/firestore";
 import {
   getAuth,
@@ -25,7 +26,7 @@ import {
   updatePassword,
   updateProfile,
 } from "firebase/auth";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 import { updateProfilePhoto as updateProfilePhotoAction } from "./store/auth.js"; // Redux aksiyonunu farklı isimle import et
 
 const firebaseConfig = {
@@ -321,7 +322,21 @@ export const getAddvert = (callback) => {
     callback(products);
   });
 };
+export async function updateAdvert(id, updatedData) {
+  const docRef = doc(db, "products", id);
+  const docSnap = await getDoc(docRef);
 
+  if (docSnap.exists()) {
+    const currentData = docSnap.data();
+
+
+    const dataToUpdate = { ...currentData, ...updatedData };
+
+    await updateDoc(docRef, dataToUpdate);
+  } else {
+    console.log("İlan bulunamadı!");
+  }
+}
 const storage = getStorage(app);
 
 export const uploadImage = async (file, folderName) => {
@@ -334,6 +349,22 @@ export const uploadImage = async (file, folderName) => {
   } catch (error) {
     console.error("Görsel yüklenirken hata oluştu:", error);
     throw error;
+  }
+};
+export const deleteImage = async (photoURL,folderName,file) => {
+  try {
+    const photoRef = ref(storage, photoURL);
+
+    await deleteObject(photoRef);
+    console.log("Fotoğraf başarıyla silindi");
+
+    const advertRef = ref(storage, `${folderName}/${file.name}`);
+    await updateDoc(advertRef, {
+      foto: arrayRemove(photoURL),  
+    });
+    console.log("Firestore güncellendi");
+  } catch (error) {
+    console.error("Fotoğraf silinirken hata oluştu:", error);
   }
 };
 

@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { deleteAdvert, getAddvert } from "../../firebase";
+import EditAdvertModal from "../../modals/editAdvertModal";
+
 export default function ProfileAdverts() {
   const [advert, setAdvert] = useState([]);
   const [items, setItems] = useState([]);
+  const [editingAdvert, setEditingAdvert] = useState(null); // Düzenlenecek ilan bilgileri
 
   const user = localStorage.getItem("user");
 
@@ -15,35 +18,39 @@ export default function ProfileAdverts() {
     if (user) {
       try {
         const parsedData = JSON.parse(user);
-
         if (parsedData?.user?.uid) {
-
           const filteredAds = advert.filter(
             (ad) => ad.uid === parsedData.user.uid
           );
           setItems(filteredAds);
-        } else {
         }
       } catch (error) {
+        console.error(error);
       }
-    } else {
     }
-  }, [advert,user]);
+  }, [advert, user]);
+
   const handleDelete = async (id) => {
     try {
-      await deleteAdvert(id); // Firebase'deki ilanı sil
-      setItems((prevItems) => prevItems.filter((item) => item.id !== id)); // Listedeki öğeyi kaldır
+      await deleteAdvert(id);
+      setItems((prevItems) => prevItems.filter((item) => item.id !== id));
       alert("İlan başarıyla silindi!");
     } catch (error) {
       console.error("İlan silinirken bir hata oluştu:", error);
       alert("Bir hata oluştu, lütfen tekrar deneyin.");
     }
   };
+
+  // Modal açmak için ilanı state'e atıyoruz
+  const handleEdit = (advert) => {
+    setEditingAdvert(advert);
+  };
+
   return (
     <div className="home">
       {items.map((advert) => (
-        <div className="home__advert">
-          <Link to={`adverts/${advert.id}`} key={advert.id}>
+        <div className="home__advert" key={advert.id}>
+          <Link to={`adverts/${advert.id}`}>
             <div>
               <img
                 src={advert.foto[0]}
@@ -72,9 +79,38 @@ export default function ProfileAdverts() {
             }}
           >
             İlanı satmaktan vazgeçtim
-          </button>{" "}
+          </button>
+          <button
+            onClick={() => handleEdit(advert)}
+            style={{
+              marginTop: "10px",
+              padding: "5px 10px",
+              backgroundColor: "green",
+              color: "white",
+              border: "none",
+              borderRadius: "4px",
+              cursor: "pointer",
+            }}
+          >
+            İlanı düzenle
+          </button>
         </div>
       ))}
+
+      {editingAdvert && (
+        <EditAdvertModal
+          advert={editingAdvert}
+          onClose={() => setEditingAdvert(null)}
+          onUpdate={(updatedAdvert) => {
+            setItems((prevItems) =>
+              prevItems.map((item) =>
+                item.id === updatedAdvert.id ? updatedAdvert : item
+              )
+            );
+            setEditingAdvert(null);
+          }}
+        />
+      )}
     </div>
   );
 }

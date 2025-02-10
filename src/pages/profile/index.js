@@ -65,8 +65,11 @@ export default function Profile() {
             >
               {item}
             </li>
+            
           ))}
+          
         </ul>
+
         {user ? (
                  <button  style={{
                   margin: "450px 0 0 0",

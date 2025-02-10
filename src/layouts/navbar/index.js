@@ -4,8 +4,8 @@ import webIcon from "../../assets/web_icon.jpeg";
 import defaultProfile from "../../assets/default-profile.jpeg"; // Varsayılan profil fotoğrafını içe aktar
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from "react";
-import Search from "../../components/search/idnex";
 import MobileNav from "../mobileNav";
+import Search from "../../components/search";
 
 export default function Nav() {
   const { user } = useSelector((state) => state.auth);
@@ -45,7 +45,7 @@ export default function Nav() {
                 İlan Ver
               </NavLink>
               <NavLink className="nav-link" to="/profile">
-                <NavLink className="profile-info">
+                <NavLink className="profile-info" to="/profile">
                   <img
                     src={isInvalidPhoto ? defaultProfile : profilePhoto}
                     alt="Profil"
