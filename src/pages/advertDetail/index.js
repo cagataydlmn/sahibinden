@@ -1,12 +1,15 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import {
+  checkIfFavorite,
+  db,
   getAddvert,
   getCategoryById,
   getDetailById,
   getMoreDetailById,
   getSubCategoryById,
   getUserById,
+  toggleFavoriteFirebase,
 } from "../../firebase";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -15,7 +18,8 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import { Navigation, Pagination, Scrollbar } from "swiper/modules";
 import Loading from "../../layouts/loading";
-
+import { getAuth } from "firebase/auth";
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 export default function AdvertDetail() {
   const { advertId } = useParams();
@@ -26,7 +30,10 @@ export default function AdvertDetail() {
   const [subCategoryName, setSubCategoryName] = useState("Bilinmeyen Kategori");
   const [detailName, setDetailName] = useState("bilinmeyen");
   const [moreDetailName, setMoreDetailName] = useState("bilinmeyen");
-
+  const [isButtonLoading, setIsButtonLoading] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const auth = getAuth();
+  const user = auth.currentUser;
   useEffect(() => {
     if (advertId) {
       setLoading(true);
@@ -88,11 +95,66 @@ export default function AdvertDetail() {
       });
     }
   }, [advertId]);
+  useEffect(() => {
+    const checkFavoriteStatus = async () => {
+      const auth = getAuth();
+      const user = auth.currentUser;
+      if (!user) return;
+
+      try {
+        const usersRef = collection(db, "users");
+        const q = query(usersRef, where("uid", "==", user.uid));
+        const querySnapshot = await getDocs(q);
+
+        if (!querySnapshot.empty) {
+          const userDoc = querySnapshot.docs[0];
+          const userData = userDoc.data();
+          const favorites = userData.favorites || [];
+          setIsFavorite(favorites.includes(advertId));  // Favori olup olmadığını kontrol et
+        }
+      } catch (error) {
+        console.error("Favori durumu kontrolü sırasında hata oluştu:", error);
+      }
+    };
+
+    checkFavoriteStatus();  // Favori durumu kontrolünü başlat
+  }, [advertId]);  // advertId değişirse tekrar çalışacak
+
+  // Favori durumu değiştir
+  const handleFavoriteToggle = async () => {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (!user) {
+      alert("Lütfen giriş yapın.");
+      return;
+    }
+  
+    setIsButtonLoading(true); // Buton yüklemesini başlat
+  
+    try {
+      // Favoriyi ekle/kaldır
+      const updatedFavorites = await toggleFavoriteFirebase(user.uid, advertId);
+      
+      // Favori durumu güncelle
+      setIsFavorite(updatedFavorites.includes(advertId)); 
+      console.log("Favori Başarıyla Güncellendi!");
+    } catch (error) {
+      console.error("Favori ekleme/kaldırma sırasında hata oluştu:", error);
+      alert("Favori işlemi sırasında bir hata oluştu.");
+    } finally {
+      setIsButtonLoading(false); // Buton yüklemesini durdur
+    }
+  };
+  
 
   if (loading) {
     return <Loading />;
   }
-
+  if (!user) {
+    alert("Lütfen giriş yapın.");
+    return;
+  }
+  console.log("Current User UID: ", user.uid);
   return (
     <div className="advert-detail">
       <div className="advert-detail-top">
@@ -145,6 +207,21 @@ export default function AdvertDetail() {
           <button>Mesaj gönder</button>
         </div>
       </div>
+      <button 
+  onClick={handleFavoriteToggle} 
+  disabled={isButtonLoading}
+  className={`favorite-button ${isFavorite ? 'is-favorite' : ''}`}
+>
+  {isButtonLoading 
+    ? "İşlem yapılıyor..." 
+    : isFavorite 
+      ? "Favorilerden Çıkar" 
+      : "Favorilere Ekle"
+      
+  }
+  
+</button>
+
       <div className="advert-detail-border">
         <div>
           <h3>{advert.price} TL</h3>

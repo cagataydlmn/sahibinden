@@ -13,7 +13,9 @@ import {
   deleteDoc,
   Timestamp,
   updateDoc,
+  setDoc,
   arrayRemove,
+  arrayUnion,
 } from "firebase/firestore";
 import {
   getAuth,
@@ -27,7 +29,6 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
-import { updateProfilePhoto as updateProfilePhotoAction } from "./store/auth.js"; // Redux aksiyonunu farklı isimle import et
 
 const firebaseConfig = {
   apiKey: "AIzaSyB38qo6DyFftA91SJJwgMgL-BaI8YazfgI",
@@ -46,32 +47,21 @@ export { db, auth };
 
 export const register = async (email, password, name, lastName) => {
   try {
-    const { user } = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-
-    // Varsayılan fotoğrafı public klasöründen al
-    const defaultPhotoPath = "/default-profile.jpeg"; // public klasörüne yerleştirilmiş görsel
-    const defaultPhotoFile = await fetch(defaultPhotoPath).then((res) =>
-      res.blob()
-    );
-
-    const fileRef = ref(
-      storage,
-      `profilePhotos/${user.uid}/default-profile.jpg`
-    );
-    await uploadBytes(fileRef, defaultPhotoFile); // İlk yükleme
-    const defaultPhotoURL = await getDownloadURL(fileRef); // URL'yi al
+    const { user } = await createUserWithEmailAndPassword(auth, email, password);
+    
+    // Kullanıcı profilini güncelle
+    await updateProfile(auth.currentUser, {
+      displayName: `${name} ${lastName}`
+    });
 
     // Firestore'a kullanıcı bilgilerini ekle
-    await addDoc(collection(db, "users"), {
+    await setDoc(doc(db, "users", user.uid), {
       uid: user.uid,
       email: user.email,
       name: name,
       lastName: lastName,
-      profilePhoto: defaultPhotoURL, // Fotoğraf URL'si
+      displayName: `${name} ${lastName}`,
+      createdAt: Timestamp.now()
     });
 
     return user;
@@ -81,25 +71,27 @@ export const register = async (email, password, name, lastName) => {
   }
 };
 
-export const updateProfilePhoto = (file) => async (dispatch) => {
+export const updateProfilePhoto = async (file) => {
   try {
     const auth = getAuth();
     const user = auth.currentUser;
+
     if (!user) throw new Error("Kullanıcı bulunamadı.");
     if (!file) throw new Error("Dosya seçilmedi.");
 
-    // Firestore'daki kullanıcı belgesini bul
+    // Kullanıcının Firestore'daki gerçek belge ID'sini bul
     const usersRef = collection(db, "users");
     const q = query(usersRef, where("uid", "==", user.uid));
     const querySnapshot = await getDocs(q);
+
     if (querySnapshot.empty) {
       throw new Error("Firestore'da böyle bir kullanıcı bulunamadı!");
     }
-    const userDocID = querySnapshot.docs[0].id;
 
-    // Fotoğrafı Storage'a yükle
-    const uniqueFileName = `${user.uid}_${new Date().getTime()}_${file.name}`;
-    const fileRef = ref(storage, `profilePhotos/${user.uid}/${uniqueFileName}`);
+    const userDocID = querySnapshot.docs[0].id; // Firestore'daki gerçek belge ID'si
+
+    // Yeni profil fotoğrafını yükle
+    const fileRef = ref(storage, `profilePhotos/${user.uid}/${file.name}`);
     await uploadBytes(fileRef, file);
     const downloadURL = await getDownloadURL(fileRef);
 
@@ -107,19 +99,7 @@ export const updateProfilePhoto = (file) => async (dispatch) => {
     const userDocRef = doc(db, "users", userDocID);
     await updateDoc(userDocRef, { profilePhoto: downloadURL });
 
-    // Authentication güncelle
-    await updateProfile(user, { photoURL: downloadURL });
-    await auth.currentUser.reload();
-
-    // LocalStorage güncelle
-    localStorage.setItem("profilePhoto", auth.currentUser.photoURL);
-
     console.log("Profil fotoğrafı başarıyla güncellendi:", downloadURL);
-
-    // Redux state'i güncelle (sadece URL'i gönderiyoruz)
-    dispatch(updateProfilePhotoAction(downloadURL));
-
-    // downloadURL'i return et
     return downloadURL;
   } catch (error) {
     console.error("Profil fotoğrafı yükleme hatası:", error.message);
@@ -127,31 +107,29 @@ export const updateProfilePhoto = (file) => async (dispatch) => {
   }
 };
 
-//google ile giriş
+//google ile giriş 
 export const googleSignIn = () => {
-  const { provider } = new GoogleAuthProvider();
+  const {provider} = new GoogleAuthProvider();
   signInWithRedirect(auth, provider);
 };
+
 export const login = async (email, password) => {
   const { user } = await signInWithEmailAndPassword(auth, email, password);
   return { user };
 };
+
 export const getUserById = async (uid) => {
   try {
-    const usersRef = collection(db, "users");
-    const userQuery = query(usersRef, where("uid", "==", uid));
-    const querySnapshot = await getDocs(userQuery);
-
-    if (!querySnapshot.empty) {
-      const userDoc = querySnapshot.docs[0];
+    const userDoc = await getDoc(doc(db, "users", uid));
+    if (userDoc.exists()) {
       return userDoc.data();
     } else {
-      console.error("Kullanıcı bulunamadı.");
+      console.warn(`Kullanıcı bulunamadı (UID: ${uid})`);
       return null;
     }
   } catch (error) {
-    console.error("Kullanıcı bilgisi alınırken hata oluştu:", error);
-    return null;
+    console.error("Kullanıcı verisi çekilirken hata:", error);
+    throw error;
   }
 };
 
@@ -322,21 +300,7 @@ export const getAddvert = (callback) => {
     callback(products);
   });
 };
-export async function updateAdvert(id, updatedData) {
-  const docRef = doc(db, "products", id);
-  const docSnap = await getDoc(docRef);
 
-  if (docSnap.exists()) {
-    const currentData = docSnap.data();
-
-
-    const dataToUpdate = { ...currentData, ...updatedData };
-
-    await updateDoc(docRef, dataToUpdate);
-  } else {
-    console.log("İlan bulunamadı!");
-  }
-}
 const storage = getStorage(app);
 
 export const uploadImage = async (file, folderName) => {
@@ -349,22 +313,6 @@ export const uploadImage = async (file, folderName) => {
   } catch (error) {
     console.error("Görsel yüklenirken hata oluştu:", error);
     throw error;
-  }
-};
-export const deleteImage = async (photoURL,folderName,file) => {
-  try {
-    const photoRef = ref(storage, photoURL);
-
-    await deleteObject(photoRef);
-    console.log("Fotoğraf başarıyla silindi");
-
-    const advertRef = ref(storage, `${folderName}/${file.name}`);
-    await updateDoc(advertRef, {
-      foto: arrayRemove(photoURL),  
-    });
-    console.log("Firestore güncellendi");
-  } catch (error) {
-    console.error("Fotoğraf silinirken hata oluştu:", error);
   }
 };
 
@@ -457,13 +405,43 @@ export const deleteAdvert = async (itemId) => {
   const itemRef = doc(db, "products", itemId);
   await deleteDoc(itemRef);
 };
+export async function updateAdvert(id, updatedData) {
+  const docRef = doc(db, "products", id);
+  const docSnap = await getDoc(docRef);
 
+  if (docSnap.exists()) {
+    const currentData = docSnap.data();
+
+
+    const dataToUpdate = { ...currentData, ...updatedData };
+
+    await updateDoc(docRef, dataToUpdate);
+  } else {
+    console.log("İlan bulunamadı!");
+  }
+}
+export const deleteImage = async (photoURL,folderName,file) => {
+  try {
+    const photoRef = ref(storage, photoURL);
+
+    await deleteObject(photoRef);
+    console.log("Fotoğraf başarıyla silindi");
+
+    const advertRef = ref(storage, `${folderName}/${file.name}`);
+    await updateDoc(advertRef, {
+      foto: arrayRemove(photoURL),  
+    });
+    console.log("Firestore güncellendi");
+  } catch (error) {
+    console.error("Fotoğraf silinirken hata oluştu:", error);
+  }
+};
 export const changePassword = async (currentPassword, newPassword) => {
   const auth = getAuth();
   const user = auth.currentUser;
 
   if (!user) {
-    throw new Error("Kullanıcı oturum açmamış");
+    throw new Error('Kullanıcı oturum açmamış');
   }
 
   const credentials = EmailAuthProvider.credential(user.email, currentPassword);
@@ -471,35 +449,65 @@ export const changePassword = async (currentPassword, newPassword) => {
   try {
     await reauthenticateWithCredential(user, credentials);
 
+    // Yeni şifreyi güncelleme
     await updatePassword(user, newPassword);
-
-    return "Şifre başarıyla değiştirildi!";
+    
+    return 'Şifre başarıyla değiştirildi!';
   } catch (error) {
     throw new Error(error.message);
   }
 };
 
-//like
+//Mesajlar
+// giriş  yapan kullanıcı id sini al. ürünü ekleyenin kullanıcı idsini al. 
+export const toggleFavoriteFirebase = async (userId, advertId) => {
+  const userRef = doc(db, "users", userId); // Kullanıcı belgesine doğrudan erişim sağlıyoruz
 
-export const addLike = async (likeItem, uid) => {
   try {
-    const likesRef = collection(db, "likeAdverts");
-    const q = query(likesRef, where("uid", "==", uid));
-    const querySnapshot = await getDocs(q);
+    // Kullanıcı belgesini alıyoruz
+    const userDoc = await getDoc(userRef);
 
-    if (!querySnapshot.empty) {
-      console.log("Bu ürün zaten beğenilenlerde mevcut!");
-    } else {
-      await addDoc(likesRef, {
-        ...likeItem,
-        uid: uid,
+    if (!userDoc.exists()) {
+      // Kullanıcı belgesi yoksa, yeni bir belge oluşturuyoruz
+      console.log(`Kullanıcı bulunamadı (UID: ${userId})`);
+      await setDoc(userRef, {
+        uid: userId,
+        favorites: []  // Başlangıçta boş favoriler listesi
       });
-      console.log("Ürün beğenilere eklendi");
+      console.log(`Yeni kullanıcı belgesi oluşturuldu (UID: ${userId})`);
+      return []; // Boş bir favoriler listesi döndür
     }
+
+    // Favori listesini alıyoruz
+    const favorites = userDoc.data()?.favorites || [];
+
+    // Favorilerde varsa, çıkar; yoksa ekle
+    if (favorites.includes(advertId)) {
+      await updateDoc(userRef, {
+        favorites: arrayRemove(advertId)
+      });
+    } else {
+      await updateDoc(userRef, {
+        favorites: arrayUnion(advertId)
+      });
+    }
+
+    // Güncellenmiş favoriler listesini alıyoruz
+    const updatedUserDoc = await getDoc(userRef);
+    return updatedUserDoc.data()?.favorites || [];
   } catch (error) {
-    console.error("Ürün beğenilere eklenirken hata oluştu: ", error);
+    console.error("Favori güncelleme hatası:", error);
+    throw error;
   }
 };
 
-//Mesajlar
-// giriş  yapan kullanıcı id sini al. ürünü ekleyenin kullanıcı idsini al.
+export const checkIfFavorite = async (userId, advertId) => {
+  try {
+    const userRef = doc(db, "users", userId);
+    const userDoc = await getDoc(userRef);
+    return userDoc.data()?.favorites?.includes(advertId) || false;  
+  } catch (error) {
+    console.error("Favori kontrol hatası:", error);
+    return false;
+  }
+};

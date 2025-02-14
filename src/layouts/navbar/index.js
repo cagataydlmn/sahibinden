@@ -15,15 +15,13 @@ export default function Nav() {
     const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        console.log("Auth değişti, yeni photoURL:", user.photoURL);
         setProfilePhoto(user.photoURL);
       }
     });
   
-    return () => unsubscribe(); // Cleanup
+    return () => unsubscribe()
   }, []);
 
-  // Eğer profil fotoğrafı "undefined" içeren URL ise varsayılanı kullan
   const isInvalidPhoto =
     profilePhoto &&
     profilePhoto.includes("undefined");
