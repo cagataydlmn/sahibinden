@@ -5,12 +5,13 @@ import Advert from "../pages/advert";
 import Home from "../pages/home";
 import Login from "../pages/login";
 import Register from "../pages/register";
-import '../style/style.scss';
+import "../style/style.scss";
 import Provider from "../context";
 import AdvertDetail from "../pages/advertDetail";
 import Profile from "../pages/profile";
 import CategoryDetail from "../pages/categoryDetail";
 import ChatPage from "../pages/profileMessages";
+import Messages from "../pages/profileMessages";
 
 const routes = createBrowserRouter([
   {
@@ -42,33 +43,30 @@ const routes = createBrowserRouter([
         element: <Advert />,
       },
       {
-        path:"/adverts/:advertId",
-        element:<AdvertDetail/>
-
+        path: "/adverts/:advertId",
+        element: <AdvertDetail />,
       },
       {
-        path:"/profile/adverts/:advertId",
-        element:<AdvertDetail/>
-
+        path: "/profile/adverts/:advertId",
+        element: <AdvertDetail />,
       },
       {
-        path:"/Profile",
-        element:<Profile/>
-
+        path: "/Profile",
+        element: <Profile />,
       },
       {
-        path:"/category/:id",
-        element:<CategoryDetail/>
-
+        path: "/category/:id",
+        element: <CategoryDetail />,
       },
       {
-        path:"/chat/:advertId"  ,
-        element:<ChatPage/> 
+        path: "/chat/:advertId",
+        element: <ChatPage />,
       },
-      {path:"/category/:id/sub/:subCategoryId",
-    element:<CategoryDetail/>}
-      
-
+      { path: "/category/:id/sub/:subCategoryId", element: <CategoryDetail /> },
+      {
+        path: "/messages/:chatId",
+        element: <Messages />,
+      },
     ],
   },
 ]);

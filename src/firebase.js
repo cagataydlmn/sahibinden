@@ -15,6 +15,8 @@ import {
   updateDoc,
   setDoc,
   arrayRemove,
+  orderBy,
+  serverTimestamp,
 } from "firebase/firestore";
 import {
   getAuth,
@@ -580,4 +582,55 @@ export const getProductsById = async (productIds) => {
     return []; // Hata durumunda boş bir dizi döndür
   }
 };
+export const sendMessage = async (senderId, receiverId, text) => {
+  const chatId = `${senderId}_${receiverId}`;
 
+  // Mesajı messages/{chatId}/messages alt koleksiyonuna ekle
+  const messagesRef = collection(db, "messages", chatId, "messages");
+  await addDoc(messagesRef, {
+    senderId,
+    receiverId,
+    text,
+    timestamp: serverTimestamp(),
+  });
+
+  // Chat belgesini güncelle
+  const chatRef = doc(db, "messages", chatId);
+  await setDoc(
+    chatRef,
+    {
+      lastMessage: text,
+      lastMessageTimestamp: serverTimestamp(),
+      userIds: [senderId, receiverId],
+    },
+    { merge: true }
+  );
+};
+
+// Kullanıcının sohbetlerini getir
+export const getChats = async (userId) => {
+  const chatsRef = collection(db, "messages");
+  const q = query(chatsRef, where("userIds", "array-contains", userId));
+  const querySnapshot = await getDocs(q);
+
+  const chats = [];
+  querySnapshot.forEach((doc) => {
+    chats.push({ id: doc.id, ...doc.data() });
+  });
+
+  return chats;
+};
+
+// Belirli bir chat'in mesajlarını getir
+export const getMessages = async (chatId) => {
+  const messagesRef = collection(db, "messages", chatId, "messages");
+  const q = query(messagesRef, orderBy("timestamp", "asc"));
+  const querySnapshot = await getDocs(q);
+
+  const messages = [];
+  querySnapshot.forEach((doc) => {
+    messages.push({ id: doc.id, ...doc.data() });
+  });
+
+  return messages;
+};

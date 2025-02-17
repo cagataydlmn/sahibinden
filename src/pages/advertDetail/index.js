@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import {
   db,
@@ -33,6 +33,8 @@ export default function AdvertDetail() {
   const [isFavorite, setIsFavorite] = useState(false);
   const auth = getAuth();
   const user = auth.currentUser;
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (advertId) {
       setLoading(true);
@@ -164,6 +166,24 @@ export default function AdvertDetail() {
     return;
   }
   console.log("Current User UID: ", user.uid);
+  const handleSendMessage = async () => {
+    if (!user) {
+      alert("Lütfen giriş yapın.");
+      return;
+    }
+
+    if (!advert || !advert.uid) {
+      alert("İlan bilgileri yüklenemedi.");
+      return;
+    }
+
+    const receiverId = advert.uid;
+    const senderId = user.uid;
+
+    // Mesajlaşma ekranına yönlendir
+    navigate(`/messages/${senderId}_${receiverId}`);
+  };
+
   return (
     <div className="advert-detail">
       <div className="advert-detail-top">
@@ -213,7 +233,7 @@ export default function AdvertDetail() {
         </Swiper>
         <div className="username">
           Ekleyen: {userName}
-          <button>Mesaj gönder</button>
+          <button onClick={handleSendMessage}>Mesaj Gönder</button>
         </div>
       </div>
       <button 
