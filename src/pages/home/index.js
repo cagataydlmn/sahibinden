@@ -12,11 +12,10 @@ export default function Home() {
 
   return (
     <div>
-                <Link to="/admin123">ADMİN</Link>
+      <Link to="/admin123">ADMİN</Link>
 
       <div className="just__home">
-      <search/>
-
+        <search />
       </div>
       <Categories />
       <div className="home">

@@ -6,7 +6,7 @@ import EditAdvertModal from "../../modals/editAdvertModal";
 export default function ProfileAdverts() {
   const [advert, setAdvert] = useState([]);
   const [items, setItems] = useState([]);
-  const [editingAdvert, setEditingAdvert] = useState(null); // Düzenlenecek ilan bilgileri
+  const [editingAdvert, setEditingAdvert] = useState(null); 
 
   const user = localStorage.getItem("user");
 
@@ -41,7 +41,6 @@ export default function ProfileAdverts() {
     }
   };
 
-  // Modal açmak için ilanı state'e atıyoruz
   const handleEdit = (advert) => {
     setEditingAdvert(advert);
   };

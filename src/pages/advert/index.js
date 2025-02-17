@@ -193,43 +193,36 @@ export default function Advert() {
   };
 
   return (
-    <div
-      className="addadvert"
-      style={{
-        display: "flex",
-        justifyContent: "center",
-      }}
-    >
-      <form onSubmit={submitHandle}>
-        {step === 1 &&
-          categories.map((category) => (
-            <div className="category">
-              <button
-                type="button"
-                key={category.id}
-                onClick={() => handleCategorySelect(category.id)}
-                value={category}
-                style={{
-                  margin: "5px",
-                  background:
-                    tempCategory === category.id ? "lightblue" : "gray",
-                }}
-              >
-                {category.name}
-              </button>
-            </div>
-          ))}
+    <div className="addadvert flex justify-center py-6">
+      <form onSubmit={submitHandle} className="w-full max-w-4xl space-y-6">
+        <div>
+          {step === 1 &&
+            categories.map((category) => (
+              <div className="flex w-full mb-4" key={category.id}>
+                <button
+                  className={`w-full py-3 px-6 text-center rounded-lg ${
+                    tempCategory === category.id
+                      ? "bg-blue-600 text-white border-2 border-blue-700 shadow-md"
+                      : "bg-gray-200 text-gray-700 border-2 border-gray-300"
+                  } transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50`}
+                  type="button"
+                  onClick={() => handleCategorySelect(category.id)}
+                >
+                  {category.name}
+                </button>
+              </div>
+            ))}
+        </div>
         {step === 2 &&
           subCategories.map((sub) => (
             <div
-              value={altcategory}
               key={sub.id}
               onClick={() => handleSubCategorySelect(sub.id)}
-              style={{
-                cursor: "pointer",
-                padding: "5px",
-                background: selectedSubCategory === sub.id ? "#eee" : "#fff",
-              }}
+              className={`cursor-pointer py-3 px-4 rounded-lg mb-4 transition-all duration-200 ${
+                selectedSubCategory === sub.id
+                  ? "bg-blue-100 text-blue-700 border-2 border-blue-300"
+                  : "bg-white text-gray-700 border-2 border-gray-200"
+              } hover:bg-blue-50 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50`}
             >
               {sub.name}
             </div>
@@ -239,13 +232,12 @@ export default function Advert() {
           details.map((detail) => (
             <div
               key={detail.id}
-              value={marka}
               onClick={() => handleDetailSelect(detail.id)}
-              style={{
-                cursor: "pointer",
-                padding: "5px",
-                background: selectedDetail === detail.id ? "#eee" : "#fff",
-              }}
+              className={`cursor-pointer py-3 px-4 rounded-lg mb-4 transition-all duration-200 ${
+                selectedDetail === detail.id
+                  ? "bg-blue-100 text-blue-700 border-2 border-blue-300"
+                  : "bg-white text-gray-700 border-2 border-gray-200"
+              } hover:bg-blue-50 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50`}
             >
               {detail.name}
             </div>
@@ -254,15 +246,13 @@ export default function Advert() {
         {step === 4 && moreDetails && moreDetails.length > 0
           ? moreDetails.map((moreDetail) => (
               <div
-                value={model}
                 key={moreDetail.id}
                 onClick={() => handleMoreDetailSelect(moreDetail.id)}
-                style={{
-                  cursor: "pointer",
-                  padding: "5px",
-                  background:
-                    selectedMoreDetail === moreDetail.id ? "#eee" : "#fff",
-                }}
+                className={`cursor-pointer py-3 px-4 rounded-lg mb-4 transition-all duration-200 ${
+                  selectedMoreDetail === moreDetail.id
+                    ? "bg-blue-100 text-blue-700 border-2 border-blue-300"
+                    : "bg-white text-gray-700 border-2 border-gray-200"
+                } hover:bg-blue-50 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50`}
               >
                 {moreDetail.name}
               </div>
@@ -270,44 +260,34 @@ export default function Advert() {
           : step === 4 && setStep((prevStep) => prevStep + 1)}
         {step === 5 && (
           <div>
-            <h3>Fotoğrafları Yükleyin</h3>
+            <h3 className="text-xl font-semibold mb-4">
+              Fotoğrafları Yükleyin
+            </h3>
             <input
               value={foto}
               type="file"
               accept="image/*"
               multiple
               onChange={handlePhotoUpload}
+              className="w-full py-2 px-4 mb-4 border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             {previews.length > 0 && (
-              <div
-                style={{ display: "flex", flexWrap: "wrap", marginTop: "10px" }}
-              >
+              <div className="flex flex-wrap space-x-4 mt-4">
                 {previews.map((preview, index) => (
                   <div
                     key={index}
-                    style={{ margin: "10px", textAlign: "center" }}
+                    className="flex flex-col items-center justify-center"
                   >
                     <img
                       src={preview}
                       alt={`Preview ${index}`}
-                      style={{
-                        width: "100px",
-                        height: "auto",
-                        display: "block",
-                        marginBottom: "5px",
-                      }}
+                      className="w-24 h-24 object-cover rounded-lg mb-2"
                     />
                     <button
                       type="button"
                       onClick={() => removePhoto(index)}
                       value={foto}
-                      style={{
-                        background: "red",
-                        color: "white",
-                        border: "none",
-                        padding: "5px",
-                        cursor: "pointer",
-                      }}
+                      className="bg-red-500 text-white py-1 px-3 rounded-lg hover:bg-red-600"
                     >
                       Kaldır
                     </button>
@@ -315,7 +295,9 @@ export default function Advert() {
                 ))}
               </div>
             )}
-            <p>{photos.length}/10 fotoğraf yüklendi.</p>
+            <p className="mt-2 text-sm text-gray-600">
+              {photos.length}/10 fotoğraf yüklendi.
+            </p>
           </div>
         )}
 
@@ -324,12 +306,13 @@ export default function Advert() {
             {selectedCategory === "FecwhXkriZmMzoepLg4E" ? (
               <div className="car">
                 <h3>Otomobil Detayları</h3>
-                <div className="car__title">
+                <div className="car__title w-full ">
                   başlık:
                   <input
                     value={title}
                     type="text"
                     onChange={(e) => setTitle(e.target.value)}
+                    className="h-[50px]"
                   />
                 </div>
                 <div className="car__price">
@@ -536,92 +519,95 @@ export default function Advert() {
           </>
         )}
         {step === 7 && (
-          <div>
-            <h3>İlan Önizlemesi</h3>
-            <p>
-              <strong>Kategori:</strong>{" "}
-              {categories.find((cat) => cat.id === selectedCategory)?.name ||
-                "Belirtilmedi"}
-            </p>
+          <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md flex flex-col">
+            <h3 className="text-2xl font-semibold text-center mb-4">
+              İlan Önizlemesi
+            </h3>
+            <div className="border-b pb-4 mb-4 text-center md:text-left">
+              <p>
+                <strong>Kategori:</strong>{" "}
+                {categories.find((cat) => cat.id === selectedCategory)?.name ||
+                  "Belirtilmedi"}
+              </p>
 
-            <p>
-              <strong>Alt Kategori:</strong>{" "}
-              {subCategories.find((sub) => sub.id === selectedSubCategory)
-                ?.name || "Belirtilmedi"}
-            </p>
+              <p>
+                <strong>Alt Kategori:</strong>{" "}
+                {subCategories.find((sub) => sub.id === selectedSubCategory)
+                  ?.name || "Belirtilmedi"}
+              </p>
 
-            <p>
-              <strong>Detay:</strong>{" "}
-              {details.find((detail) => detail.id === selectedDetail)?.name ||
-                "Belirtilmedi"}
-            </p>
+              <p>
+                <strong>Detay:</strong>{" "}
+                {details.find((detail) => detail.id === selectedDetail)?.name ||
+                  "Belirtilmedi"}
+              </p>
 
-            <p>
-              <strong>Daha Fazla Detay:</strong>{" "}
-              {moreDetails.find((more) => more.id === selectedMoreDetail)
-                ?.name || "Belirtilmedi"}
-            </p>
-
-            <div>
-              <h4>Fotoğraflar:</h4>
+              <p>
+                <strong>Daha Fazla Detay:</strong>{" "}
+                {moreDetails.find((more) => more.id === selectedMoreDetail)
+                  ?.name || "Belirtilmedi"}
+              </p>
+            </div>
+            <div className="flex flex-col">
+              <h4 className="text-lg font-semibold mb-2 text-center md:text-left">
+                Fotoğraflar:
+              </h4>
               {previews.length > 0 ? (
-                <div>
+                <div className="grid grid-cols-3 gap-4">
                   {previews.map((preview, index) => (
-                    <div key={index}>
+                    <div
+                      key={index}
+                      className="border rounded-lg overflow-hidden"
+                    >
                       <img
                         src={preview}
                         alt={`Preview ${index}`}
-                        style={{
-                          width: "100px",
-                          height: "auto",
-                          display: "block",
-                          marginBottom: "5px",
-                        }}
+                        className="w-24 h-24 md:w-32 md:h-32 object-cover rounded-lg shadow"
                       />
                     </div>
                   ))}
                 </div>
               ) : (
-                <p>Fotoğraf yüklenmedi.</p>
+                <p className="text-gray-500">Fotoğraf yüklenmedi.</p>
               )}
             </div>
-
-            <button
-              onClick={submitHandle}
-              style={{
-                marginTop: "20px",
-                padding: "10px",
-                backgroundColor: "green",
-                color: "white",
-                border: "none",
-                cursor: "pointer",
-              }}
-            >
-              İlanı Yayınla
-            </button>
+            <div className="mt-6 flex flex-col md:flex-row justify-between gap-4">
+              <button
+                onClick={submitHandle}
+                className="px-6 py-3 bg-green-600 text-white rounded-lg shadow hover:bg-green-700"
+              >
+                İlanı Yayınla
+              </button>
+            </div>
           </div>
         )}
-
-        {step > 1 && (
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              previousStep();
-            }}
-          >
-            Geri
-          </button>
-        )}
-        {step < 7 && (
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              nextStep();
-            }}
-          >
-            Devam Et
-          </button>
-        )}
+        <div className="flex justify-center">
+          {step > 1 && (
+            <div className="flex justify-start">
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  previousStep();
+                }}
+              >
+                Geri
+              </button>
+            </div>
+          )}
+          {step < 7 && (
+            <div className="flex justify-end">
+              <button
+                className=""
+                onClick={(e) => {
+                  e.preventDefault();
+                  nextStep();
+                }}
+              >
+                Devam Et
+              </button>
+            </div>
+          )}
+        </div>
       </form>
     </div>
   );

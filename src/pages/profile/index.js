@@ -67,16 +67,13 @@ export default function Profile() {
             </li>
             
           ))}
-          
-        </ul>
-
-        {user ? (
+           {user ? (
                  <button  style={{
-                  margin: "450px 0 0 0",
                   backgroundColor: "red",
                   color: "white",
                   border: "none",
-                  borderRadius: "4px",               
+                  borderRadius: "4px", 
+                  width:"90%"              
                 }} onClick={logout} to="/">çıkış yap</button>
           ) : (
             <div className="nav__general__right">
@@ -84,6 +81,9 @@ export default function Profile() {
             </div>
           )}
      
+        </ul>
+
+       
       </div>
 
       <div style={{ flex: 1, padding: "20px" }}>

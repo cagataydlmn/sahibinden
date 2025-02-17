@@ -15,7 +15,6 @@ import {
   updateDoc,
   setDoc,
   arrayRemove,
-  arrayUnion,
 } from "firebase/firestore";
 import {
   getAuth,
@@ -458,56 +457,113 @@ export const changePassword = async (currentPassword, newPassword) => {
   }
 };
 
-//Mesajlar
-// giriş  yapan kullanıcı id sini al. ürünü ekleyenin kullanıcı idsini al. 
-export const toggleFavoriteFirebase = async (userId, advertId) => {
-  const userRef = doc(db, "users", userId); // Kullanıcı belgesine doğrudan erişim sağlıyoruz
-
-  try {
-    // Kullanıcı belgesini alıyoruz
-    const userDoc = await getDoc(userRef);
-
-    if (!userDoc.exists()) {
-      // Kullanıcı belgesi yoksa, yeni bir belge oluşturuyoruz
-      console.log(`Kullanıcı bulunamadı (UID: ${userId})`);
-      await setDoc(userRef, {
-        uid: userId,
-        favorites: []  // Başlangıçta boş favoriler listesi
-      });
-      console.log(`Yeni kullanıcı belgesi oluşturuldu (UID: ${userId})`);
-      return []; // Boş bir favoriler listesi döndür
-    }
-
-    // Favori listesini alıyoruz
-    const favorites = userDoc.data()?.favorites || [];
-
-    // Favorilerde varsa, çıkar; yoksa ekle
-    if (favorites.includes(advertId)) {
-      await updateDoc(userRef, {
-        favorites: arrayRemove(advertId)
-      });
-    } else {
-      await updateDoc(userRef, {
-        favorites: arrayUnion(advertId)
-      });
-    }
-
-    // Güncellenmiş favoriler listesini alıyoruz
-    const updatedUserDoc = await getDoc(userRef);
-    return updatedUserDoc.data()?.favorites || [];
-  } catch (error) {
-    console.error("Favori güncelleme hatası:", error);
-    throw error;
+export const toggleFavoriteFirebase = async (uid, advertId, currentFavorites) => {
+  if (!advertId) {
+    console.error("Advert ID geçerli değil!");
+    return;
   }
-};
 
-export const checkIfFavorite = async (userId, advertId) => {
+  // currentFavorites geçerli bir dizi mi diye kontrol et
+  if (!Array.isArray(currentFavorites)) {
+    console.error("currentFavorites geçerli bir dizi değil!");
+    currentFavorites = [];  // Geçerli değilse boş bir dizi ile başla
+  }
+
+  const auth = getAuth();
+  const user = auth.currentUser;
+
+  if (!user) {
+    throw new Error("Kullanıcı bulunamadı.");
+  }
+
+  // Kullanıcının Firestore'daki belgesini bul
+  const usersRef = collection(db, "users");
+  const q = query(usersRef, where("uid", "==", user.uid));
+  const querySnapshot = await getDocs(q);
+
+  if (querySnapshot.empty) {
+    console.error("Kullanıcı belgesi bulunamadı!");
+    throw new Error("Kullanıcı belgesi bulunamadı!");
+  }
+
+  // Kullanıcı belgesini al
+  const userDoc = querySnapshot.docs[0];
+  const userRef = doc(db, "users", userDoc.id); // userDoc.id, Firestore'daki belge ID'sidir
+
+  // Favori ekleme ya da çıkarma işlemi
+  const updatedFavorites = currentFavorites.includes(advertId)
+    ? currentFavorites.filter(id => id !== advertId)
+    : [...currentFavorites, advertId];
+
+  await updateDoc(userRef, { favorites: updatedFavorites });
+  return updatedFavorites;
+};
+export const checkIfFavorite = async (uid, advertId) => {
   try {
-    const userRef = doc(db, "users", userId);
+    const userRef = doc(db, "users", uid);  // Kullanıcının UID'sini kullanarak kullanıcı belgesini alıyoruz
     const userDoc = await getDoc(userRef);
-    return userDoc.data()?.favorites?.includes(advertId) || false;  
+
+    // Kullanıcı belgesi var mı diye kontrol et
+    if (!userDoc.exists()) {
+      console.error("Kullanıcı bulunamadı.");
+      return false;
+    }
+
+    // Kullanıcının favorites alanını kontrol et
+    const favorites = userDoc.data()?.favorites || [];
+    if (!Array.isArray(favorites)) {
+      console.error("Favoriler geçerli bir dizi değil!");
+      return false;
+    }
+
+    return favorites.includes(advertId);  // Favori listesinde var mı diye kontrol et
   } catch (error) {
     console.error("Favori kontrol hatası:", error);
     return false;
   }
 };
+
+
+export const getUserFavorites = async (uid) => {
+  if (!uid) {
+    console.warn("UID bulunamadı!");
+    return null;
+  }
+
+  try {
+    const userDocRef = doc(db, "users", uid);
+    const userDocSnap = await getDoc(userDocRef);
+
+    if (userDocSnap.exists()) {
+      const userData = userDocSnap.data();
+      return userData.favorites || []; // Favorites varsa döndür, yoksa boş array
+    } else {
+      console.warn(`Kullanıcı bulunamadı (UID: ${uid})`);
+      return [];
+    }
+  } catch (error) {
+    console.error("Favoriler çekilirken hata oluştu:", error);
+    throw error;
+  }
+};
+
+
+export const getProductsById = async (productIds) => {
+  try {
+    const productsRef = collection(db, "products"); // products koleksiyonuna referans
+    const q = query(productsRef, where("id", "in", productIds)); // `in` operatörü ile birden fazla ID sorgulama
+    const querySnapshot = await getDocs(q); // Sorguyu çalıştır
+
+    const productsData = [];
+    
+    querySnapshot.forEach((doc) => {
+      productsData.push(doc.data()); // Her bir ürünün verisini productsData dizisine ekle
+    });
+
+    return productsData; // Ürünleri döndür
+  } catch (error) {
+    console.error("Ürünler alınırken hata oluştu:", error);
+    return []; // Hata durumunda boş bir dizi döndür
+  }
+};
+

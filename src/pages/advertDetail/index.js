@@ -1,7 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import {
-  checkIfFavorite,
   db,
   getAddvert,
   getCategoryById,
@@ -100,12 +99,12 @@ export default function AdvertDetail() {
       const auth = getAuth();
       const user = auth.currentUser;
       if (!user) return;
-
+  
       try {
         const usersRef = collection(db, "users");
         const q = query(usersRef, where("uid", "==", user.uid));
         const querySnapshot = await getDocs(q);
-
+  
         if (!querySnapshot.empty) {
           const userDoc = querySnapshot.docs[0];
           const userData = userDoc.data();
@@ -116,9 +115,9 @@ export default function AdvertDetail() {
         console.error("Favori durumu kontrolü sırasında hata oluştu:", error);
       }
     };
-
+  
     checkFavoriteStatus();  // Favori durumu kontrolünü başlat
-  }, [advertId]);  // advertId değişirse tekrar çalışacak
+  }, [advertId, user]);  // advertId veya user değişirse tekrar çalışacak
 
   // Favori durumu değiştir
   const handleFavoriteToggle = async () => {
@@ -132,12 +131,23 @@ export default function AdvertDetail() {
     setIsButtonLoading(true); // Buton yüklemesini başlat
   
     try {
-      // Favoriyi ekle/kaldır
-      const updatedFavorites = await toggleFavoriteFirebase(user.uid, advertId);
-      
-      // Favori durumu güncelle
-      setIsFavorite(updatedFavorites.includes(advertId)); 
-      console.log("Favori Başarıyla Güncellendi!");
+      // Kullanıcının mevcut favorilerini al
+      const usersRef = collection(db, "users");
+      const q = query(usersRef, where("uid", "==", user.uid));
+      const querySnapshot = await getDocs(q);
+  
+      if (!querySnapshot.empty) {
+        const userDoc = querySnapshot.docs[0];
+        const userData = userDoc.data();
+        const currentFavorites = userData.favorites || [];
+  
+        // Favoriyi ekle/kaldır
+        const updatedFavorites = await toggleFavoriteFirebase(user.uid, advertId, currentFavorites);
+  
+        // Favori durumu güncelle
+        setIsFavorite(updatedFavorites.includes(advertId));
+        console.log("Favori Başarıyla Güncellendi!");
+      }
     } catch (error) {
       console.error("Favori ekleme/kaldırma sırasında hata oluştu:", error);
       alert("Favori işlemi sırasında bir hata oluştu.");
@@ -145,7 +155,6 @@ export default function AdvertDetail() {
       setIsButtonLoading(false); // Buton yüklemesini durdur
     }
   };
-  
 
   if (loading) {
     return <Loading />;
