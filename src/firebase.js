@@ -313,25 +313,38 @@ export const uploadImage = async (file, folderName) => {
     console.error("Görsel yüklenirken hata oluştu:", error);
     throw error;
   }
-};
-
-export const getCategoryById = async (categoryId) => {
+};export const getCategoryById = async (categoryId, subCategoryId) => {
   try {
+    // Kategori verisini al
     const categoryRef = doc(db, "categories", categoryId);
     const categoryDoc = await getDoc(categoryRef);
 
-    if (categoryDoc.exists()) {
-      return categoryDoc.data().name;
-    } else {
+    if (!categoryDoc.exists()) {
       console.error("Kategori bulunamadı.");
       return "Bilinmeyen Kategori";
     }
+
+    const categoryName = categoryDoc.data().name;
+
+    // Eğer alt kategori varsa, alt kategoriyi al
+    if (subCategoryId) {
+      const subCategoryRef = doc(db, "categories", categoryId, "subcategories", subCategoryId);
+      const subCategoryDoc = await getDoc(subCategoryRef);
+
+      if (subCategoryDoc.exists()) {
+        return subCategoryDoc.data().name; // Alt kategori adı
+      } else {
+        console.error("Alt kategori bulunamadı.");
+        return categoryName; // Alt kategori yoksa ana kategori adı
+      }
+    }
+
+    return categoryName; // Alt kategori yoksa ana kategori adı döndür
   } catch (error) {
     console.error("Kategori bilgisi alınırken hata oluştu:", error);
     return "Hata";
   }
 };
-
 export const getSubCategoryById = async (subCategoryId, categoryId) => {
   try {
     const subCategoryRef = doc(
@@ -342,16 +355,17 @@ export const getSubCategoryById = async (subCategoryId, categoryId) => {
     const subCategoryDoc = await getDoc(subCategoryRef);
 
     if (subCategoryDoc.exists()) {
-      return subCategoryDoc.data().name;
+      return subCategoryDoc.data().name; // Alt kategori adı
     } else {
-      console.error("Kategori bulunamadı.");
-      return "Bilinmeyen Kategori";
+      console.error("Alt kategori bulunamadı.");
+      return "Bilinmeyen Alt Kategori"; // Alt kategori yoksa bilinen bir değer döndür
     }
   } catch (error) {
     console.error("Kategori bilgisi alınırken hata oluştu:", error);
     return "Hata";
   }
 };
+
 
 export const getDetailById = async (categoryId, subcategoryId, detailId) => {
   try {

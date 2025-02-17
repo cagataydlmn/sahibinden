@@ -11,8 +11,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div>
-      <Link to="/admin123">ADMİN</Link>
+    <div className="flex">
 
       <div className="just__home">
         <search />

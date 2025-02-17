@@ -7,4 +7,7 @@ module.exports = {
     extend: {},
   },
   plugins: [],
+  corePlugins: {
+    preflight: false, // Preflight'ı devre dışı bırak
+  },
 }

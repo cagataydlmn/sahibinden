@@ -10,7 +10,6 @@ import Provider from "../context";
 import AdvertDetail from "../pages/advertDetail";
 import Profile from "../pages/profile";
 import CategoryDetail from "../pages/categoryDetail";
-import ProfileMessages from "../pages/profileMessages";
 import ChatPage from "../pages/profileMessages";
 
 const routes = createBrowserRouter([
@@ -65,7 +64,9 @@ const routes = createBrowserRouter([
       {
         path:"/chat/:advertId"  ,
         element:<ChatPage/> 
-      }
+      },
+      {path:"/category/:id/sub/:subCategoryId",
+    element:<CategoryDetail/>}
       
 
     ],
