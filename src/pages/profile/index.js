@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import Loading from "../../layouts/loading";
 import ProfileAdverts from "../profileAdverts";
 import ProfileFavourites from "../profileFavourites";
-import ProfileMessages from "../profileMessages";
 import ProfileSell from "../profileSell";
 import ProfileSettings from "../profileSettings";
 
@@ -19,7 +18,6 @@ export default function Profile() {
     İlanlarım: <ProfileAdverts />,
     Sattıklarım: <ProfileSell />,
     Ayarlar: <ProfileSettings />,
-    Mesajlar: <ProfileMessages />,
     Favoriler: <ProfileFavourites />,
     deneme: <Loading />,
   };

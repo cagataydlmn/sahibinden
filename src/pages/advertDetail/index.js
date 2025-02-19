@@ -1,4 +1,4 @@
-import { useParams,useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import {
   db,
@@ -7,7 +7,7 @@ import {
   getDetailById,
   getMoreDetailById,
   getSubCategoryById,
-  getUserById,
+  getUserByUID,
   toggleFavoriteFirebase,
 } from "../../firebase";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -19,6 +19,8 @@ import { Navigation, Pagination, Scrollbar } from "swiper/modules";
 import Loading from "../../layouts/loading";
 import { getAuth } from "firebase/auth";
 import { collection, getDocs, query, where } from "firebase/firestore";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
 export default function AdvertDetail() {
   const { advertId } = useParams();
@@ -31,6 +33,8 @@ export default function AdvertDetail() {
   const [moreDetailName, setMoreDetailName] = useState("bilinmeyen");
   const [isButtonLoading, setIsButtonLoading] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [profilePhoto, setProfilePhoto] = useState(null);
+
   const auth = getAuth();
   const user = auth.currentUser;
   const navigate = useNavigate();
@@ -43,9 +47,12 @@ export default function AdvertDetail() {
         setAdvert(foundAdvert);
 
         if (foundAdvert && foundAdvert.uid) {
-          const user = await getUserById(foundAdvert.uid);
+          const user = await getUserByUID(foundAdvert.uid);
+          console.log("Kullanıcı Verisi:", user); // Kullanıcı verisini kontrol et
           setUserName(user?.name || "Bilinmeyen Kullanıcı");
+          setProfilePhoto(user?.profilePhoto || "/default-profile.jpg"); // Varsayılan resim ekledik
         }
+
         if (foundAdvert && foundAdvert.tempCategory) {
           const category = await getCategoryById(foundAdvert.tempCategory);
           setCategoryName(category || "Bilinmeyen Kategori");
@@ -101,25 +108,25 @@ export default function AdvertDetail() {
       const auth = getAuth();
       const user = auth.currentUser;
       if (!user) return;
-  
+
       try {
         const usersRef = collection(db, "users");
         const q = query(usersRef, where("uid", "==", user.uid));
         const querySnapshot = await getDocs(q);
-  
+
         if (!querySnapshot.empty) {
           const userDoc = querySnapshot.docs[0];
           const userData = userDoc.data();
           const favorites = userData.favorites || [];
-          setIsFavorite(favorites.includes(advertId));  // Favori olup olmadığını kontrol et
+          setIsFavorite(favorites.includes(advertId)); // Favori olup olmadığını kontrol et
         }
       } catch (error) {
         console.error("Favori durumu kontrolü sırasında hata oluştu:", error);
       }
     };
-  
-    checkFavoriteStatus();  // Favori durumu kontrolünü başlat
-  }, [advertId, user]);  // advertId veya user değişirse tekrar çalışacak
+
+    checkFavoriteStatus();
+  }, [advertId, user]); // advertId veya user değişirse tekrar çalışacak
 
   // Favori durumu değiştir
   const handleFavoriteToggle = async () => {
@@ -129,23 +136,27 @@ export default function AdvertDetail() {
       alert("Lütfen giriş yapın.");
       return;
     }
-  
+
     setIsButtonLoading(true); // Buton yüklemesini başlat
-  
+
     try {
       // Kullanıcının mevcut favorilerini al
       const usersRef = collection(db, "users");
       const q = query(usersRef, where("uid", "==", user.uid));
       const querySnapshot = await getDocs(q);
-  
+
       if (!querySnapshot.empty) {
         const userDoc = querySnapshot.docs[0];
         const userData = userDoc.data();
         const currentFavorites = userData.favorites || [];
-  
+
         // Favoriyi ekle/kaldır
-        const updatedFavorites = await toggleFavoriteFirebase(user.uid, advertId, currentFavorites);
-  
+        const updatedFavorites = await toggleFavoriteFirebase(
+          user.uid,
+          advertId,
+          currentFavorites
+        );
+
         // Favori durumu güncelle
         setIsFavorite(updatedFavorites.includes(advertId));
         console.log("Favori Başarıyla Güncellendi!");
@@ -165,7 +176,7 @@ export default function AdvertDetail() {
     alert("Lütfen giriş yapın.");
     return;
   }
-  console.log("Current User UID: ", user.uid);
+  console.log("Current User UID: ", user.email);
   const handleSendMessage = async () => {
     if (!user) {
       alert("Lütfen giriş yapın.");
@@ -214,6 +225,21 @@ export default function AdvertDetail() {
                   justifyContent: "center",
                 }}
               >
+                <button
+                  onClick={handleFavoriteToggle}
+                  disabled={isButtonLoading}
+                  className={`absolute top-2 right-2 p-2 rounded-full transition-all text-[20px] ${
+                    isFavorite
+                      ? "bg-red-100 text-red-500"
+                      : "bg-white/70 text-gray-500"
+                  } hover:bg-red-200`}
+                >
+                  {isFavorite ? (
+                    <FontAwesomeIcon icon={faHeart} className="text-red-500" />
+                  ) : (
+                    <FontAwesomeIcon icon={faHeart} className="text-gray-500" />
+                  )}
+                </button>
                 <img
                   src={imageUrl}
                   alt={`Advert ${index + 1}`}
@@ -231,25 +257,23 @@ export default function AdvertDetail() {
             </SwiperSlide>
           )}
         </Swiper>
-        <div className="username">
-          Ekleyen: {userName}
-          <button onClick={handleSendMessage}>Mesaj Gönder</button>
+          <div className="username">
+
+          <div className="flex items-center gap-5 p-[15px] border border-gray-300 rounded-lg shadow-sm bg-white">
+          <img
+            src={profilePhoto}
+            alt="Profil Fotoğrafı"
+            className="w-[70px] h-[70px] rounded-full object-cover border-2 border-gray-300"
+            />
+  <div className="text-xl font-semibold text-gray-800">
+            {userName ? userName : "Bilinmeyen Kullanıcı"}</div>
         </div>
+        <button   className="w-[110%] mt-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition duration-200"
+ onClick={handleSendMessage}>
+          Mesaj Gönder</button>
       </div>
-      <button 
-  onClick={handleFavoriteToggle} 
-  disabled={isButtonLoading}
-  className={`favorite-button ${isFavorite ? 'is-favorite' : ''}`}
->
-  {isButtonLoading 
-    ? "İşlem yapılıyor..." 
-    : isFavorite 
-      ? "Favorilerden Çıkar" 
-      : "Favorilere Ekle"
-      
-  }
-  
-</button>
+      </div>
+
 
       <div className="advert-detail-border">
         <div>

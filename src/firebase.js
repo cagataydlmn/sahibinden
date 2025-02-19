@@ -133,7 +133,25 @@ export const getUserById = async (uid) => {
     throw error;
   }
 };
+export const getUserByUID = async (uid) => {
+  if (!uid) return null;
 
+  try {
+    const usersRef = collection(db, "users");
+    const q = query(usersRef, where("uid", "==", uid));
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+      return querySnapshot.docs[0].data(); // Kullanıcı bilgilerini döndür
+    } else {
+      console.warn("Kullanıcı bulunamadı.");
+      return null;
+    }
+  } catch (error) {
+    console.error("Kullanıcı verisi alınırken hata oluştu:", error);
+    return null;
+  }
+};
 // kategoriler
 
 export const addCategory = async (categoryData) => {
@@ -582,8 +600,10 @@ export const getProductsById = async (productIds) => {
     return []; // Hata durumunda boş bir dizi döndür
   }
 };
+
+
 export const sendMessage = async (senderId, receiverId, text) => {
-  const chatId = `${senderId}_${receiverId}`;
+  const chatId = [senderId, receiverId].sort().join("_");
 
   // Mesajı messages/{chatId}/messages alt koleksiyonuna ekle
   const messagesRef = collection(db, "messages", chatId, "messages");

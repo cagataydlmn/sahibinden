@@ -62,16 +62,16 @@
 
     &__input {
       position: relative;
-      width: 60%;
-      margin: 0 auto;
-
+      margin: 0 20px;
+      width: 50%;
       input {
         width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
+        padding: 10px 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
         font-size: 16px;
         outline: none;
+      
        
       }
       input:focus {
@@ -79,7 +79,7 @@
         box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
       }
       .results-dropdown {
-        width: 102%;
+        width: 105%;
         position: absolute;
         top: 100%;
         left: 0;
@@ -439,9 +439,18 @@ button,
     gap: 30px;
 
     .username {
-      width: 300px;
-      border: 1px solid black;
-      height: 100px;
+     width: 300px;
+  height: 100px;
+  border: 1px solid #ddd; /* Daha soft bir kenar rengi */
+  border-radius: 10px; /* Köşeleri yuvarlat */
+  padding: 15px;
+  display: flex;
+  align-items: center; /* İçeriği dikeyde ortala */
+  justify-content: flex-start; /* İçeriği sola hizala */
+  background-color: #f9f9f9; /* Hafif gri bir arka plan */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Hafif gölge efekti */
+  flex-direction: column; /* İçeriği dikeyde hizalamak için */
+  gap: 10px; /* Elemanlar arasına boşluk ekle */
     }
   }
 
@@ -781,7 +790,19 @@ button,
 .just__home{
   display: none;
 }
+.messages{
+  ul{
+    list-style: none;
+    padding: 0;
+  }
+  a{
+    text-decoration: none;
+  }
+}
 @media (max-width:800px) {
+  .advert-detail-border{
+    margin-top: 65px;
+  }
   .just__home{
     display: flex;
   }

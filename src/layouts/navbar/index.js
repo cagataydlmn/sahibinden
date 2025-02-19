@@ -6,7 +6,8 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from "react";
 import MobileNav from "../mobileNav";
 import Search from "../../components/search";
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCamera, faMessage } from '@fortawesome/free-solid-svg-icons';
 export default function Nav() {
   const { user } = useSelector((state) => state.auth);
   const [profilePhoto, setProfilePhoto] = useState(null);
@@ -39,8 +40,10 @@ export default function Nav() {
          <Search/>
           {user ? (
             <div className="nav__general__right">
-              <NavLink className="nav-link" to="/post-advert">
-                İlan Ver
+              <NavLink className="nav-link flex gap-3" to="/post-advert">
+              <FontAwesomeIcon className="size-[30px]" icon={faCamera} /> Sat              </NavLink>
+              <NavLink to="/messages">
+              <FontAwesomeIcon className="size-[30px] flex " icon={faMessage} />
               </NavLink>
               <NavLink className="nav-link" to="/profile">
                 <NavLink className="profile-info" to="/profile">

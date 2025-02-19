@@ -11,7 +11,6 @@ import AdvertDetail from "../pages/advertDetail";
 import Profile from "../pages/profile";
 import CategoryDetail from "../pages/categoryDetail";
 import ChatPage from "../pages/profileMessages";
-import Messages from "../pages/profileMessages";
 
 const routes = createBrowserRouter([
   {
@@ -65,8 +64,12 @@ const routes = createBrowserRouter([
       { path: "/category/:id/sub/:subCategoryId", element: <CategoryDetail /> },
       {
         path: "/messages/:chatId",
-        element: <Messages />,
+        element: <ChatPage />,
       },
+      {
+        path:"/messages",
+        element:<ChatPage/>
+      }
     ],
   },
 ]);

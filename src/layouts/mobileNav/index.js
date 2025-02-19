@@ -27,9 +27,9 @@ export default function MobileNav(){
             <Link to="/" className="">
                     Bazar
             </Link>
-            <div>
-                mesajlarşma
-            </div>
+            <Link to="/messages" className="">
+                    Mesajlar
+            </Link>
         </div>
       
         </div>
