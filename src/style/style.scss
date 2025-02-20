@@ -809,14 +809,21 @@ button,
   .mobile__nav {
     display: flex;
     flex-direction: column;
-
+    a{
+      color: black;
+    }
     &__top {
       display: flex;
       justify-content: space-between;
       align-items: center;
       &__left{
         background-color: #c8d8f0;
+        
       }
+      .nav__general__right{
+        background-color: rgb(255, 255, 255);
+         
+        }
     }
   }
 
@@ -842,7 +849,6 @@ button,
   }
 
   .nav__media {
-    position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
@@ -1050,8 +1056,24 @@ h3 {
   padding-bottom: 6px;
 }
 
+.message__mobile{
+  display: none;
+}
+.message{
+  display: block;
+}
 /* Küçük ekranlar için */
 @media (max-width: 768px) {
+  .message{
+    display: none;
+  }
+  .message__mobile{
+    display: flex;
+    justify-content: center;
+    li{
+      border-bottom: 1px solid;
+    }
+  }
   .model-content {
     max-width: 90%;
     padding: 16px;

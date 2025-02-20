@@ -8,9 +8,17 @@ const ProfilePhotoUpload = () => {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [previewUrl, setPreviewUrl] = useState(""); // Fotoğrafın önizlemesi için state
 
   const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
+    const file = event.target.files[0];
+    setSelectedFile(file);
+    
+    // Fotoğraf seçildiyse, önizlemeyi oluştur
+    if (file) {
+      const objectUrl = URL.createObjectURL(file);
+      setPreviewUrl(objectUrl);
+    }
   };
 
   const handleUpload = async () => {
@@ -24,7 +32,6 @@ const ProfilePhotoUpload = () => {
     setSuccess("");
 
     try {
-      // Redux'a sadece URL gönderiyoruz!
       await dispatch(updateProfilePhoto(selectedFile));
       setSuccess("Profil fotoğrafı başarıyla güncellendi!");
     } catch (error) {
@@ -34,9 +41,18 @@ const ProfilePhotoUpload = () => {
       setUploading(false);
     }
   };
+
   return (
     <div>
       <h2>Profil Fotoğrafı Güncelle</h2>
+      
+      {/* Seçilen fotoğraf varsa, önizlemeyi göster */}
+      {previewUrl && (
+        <div>
+          <img src={previewUrl} alt="Preview" style={{ width: "100px", height: "100px", objectFit: "cover" }} />
+        </div>
+      )}
+
       <input type="file" onChange={handleFileChange} />
       <button onClick={handleUpload} disabled={uploading}>
         {uploading ? "Yükleniyor..." : "Yükle"}

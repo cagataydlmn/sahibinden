@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import webIcon from "../../assets/web_icon.jpeg";
-import defaultProfile from "../../assets/default-profile.jpeg"; // Varsayılan profil fotoğrafını içe aktar
+import defaultProfile from "../../assets/default-profile.jpeg";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from "react";
 import MobileNav from "../mobileNav";
@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera, faMessage } from '@fortawesome/free-solid-svg-icons';
 export default function Nav() {
   const { user } = useSelector((state) => state.auth);
-  const [profilePhoto, setProfilePhoto] = useState(null);
+  const [profilePhoto, setProfilePhoto] = useState(defaultProfile);
   
   useEffect(() => {
     const auth = getAuth();

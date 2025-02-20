@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import defaultProfile from "../../assets/default-profile.jpeg";
 import {
   db,
   getAddvert,
@@ -33,7 +34,7 @@ export default function AdvertDetail() {
   const [moreDetailName, setMoreDetailName] = useState("bilinmeyen");
   const [isButtonLoading, setIsButtonLoading] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
-  const [profilePhoto, setProfilePhoto] = useState(null);
+  const [profilePhoto, setProfilePhoto] = useState(defaultProfile);
 
   const auth = getAuth();
   const user = auth.currentUser;

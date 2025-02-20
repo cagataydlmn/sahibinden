@@ -52,7 +52,7 @@ export const register = async (email, password, name, lastName) => {
     
     // Kullanıcı profilini güncelle
     await updateProfile(auth.currentUser, {
-      displayName: `${name} ${lastName}`
+      username: `${name} ${lastName}`
     });
 
     // Firestore'a kullanıcı bilgilerini ekle
@@ -61,7 +61,7 @@ export const register = async (email, password, name, lastName) => {
       email: user.email,
       name: name,
       lastName: lastName,
-      displayName: `${name} ${lastName}`,
+      username: `${name} ${lastName}`,
       createdAt: Timestamp.now()
     });
 
@@ -72,38 +72,33 @@ export const register = async (email, password, name, lastName) => {
   }
 };
 
-export const updateProfilePhoto = async (file) => {
+export const updateProfilePhoto = (file) => async (dispatch) => {
+  const auth = getAuth();
+  const user = auth.currentUser;
+
+  if (!user) {
+    throw new Error("Kullanıcı oturum açmamış!");
+  }
+
+  const storage = getStorage();
+  const storageRef = ref(storage, `profilePhotos/${user.uid}`);
+
   try {
-    const auth = getAuth();
-    const user = auth.currentUser;
+    // Dosyayı Firebase Storage'a yükle
+    await uploadBytes(storageRef, file);
 
-    if (!user) throw new Error("Kullanıcı bulunamadı.");
-    if (!file) throw new Error("Dosya seçilmedi.");
+    // Yüklenen dosyanın URL'sini al
+    const photoURL = await getDownloadURL(storageRef);
 
-    // Kullanıcının Firestore'daki gerçek belge ID'sini bul
-    const usersRef = collection(db, "users");
-    const q = query(usersRef, where("uid", "==", user.uid));
-    const querySnapshot = await getDocs(q);
+    // Firebase Authentication'da profil fotoğrafını güncelle
+    await updateProfile(user, { photoURL });
 
-    if (querySnapshot.empty) {
-      throw new Error("Firestore'da böyle bir kullanıcı bulunamadı!");
-    }
+    // Redux state'ini güncelle (isteğe bağlı)
+    dispatch({ type: "UPDATE_PROFILE_PHOTO", payload: photoURL });
 
-    const userDocID = querySnapshot.docs[0].id; // Firestore'daki gerçek belge ID'si
-
-    // Yeni profil fotoğrafını yükle
-    const fileRef = ref(storage, `profilePhotos/${user.uid}/${file.name}`);
-    await uploadBytes(fileRef, file);
-    const downloadURL = await getDownloadURL(fileRef);
-
-    // Firestore belgesini güncelle
-    const userDocRef = doc(db, "users", userDocID);
-    await updateDoc(userDocRef, { profilePhoto: downloadURL });
-
-    console.log("Profil fotoğrafı başarıyla güncellendi:", downloadURL);
-    return downloadURL;
+    return photoURL; // Yeni fotoğraf URL'sini döndür
   } catch (error) {
-    console.error("Profil fotoğrafı yükleme hatası:", error.message);
+    console.error("Profil fotoğrafı güncellenirken hata:", error);
     throw error;
   }
 };
@@ -601,9 +596,8 @@ export const getProductsById = async (productIds) => {
   }
 };
 
-
-export const sendMessage = async (senderId, receiverId, text) => {
-  const chatId = [senderId, receiverId].sort().join("_");
+export const sendMessage = async (chatId, senderId, receiverId, text) => {
+  const chatRef = doc(db, "messages", chatId); // chatId'yi parametre olarak al
 
   // Mesajı messages/{chatId}/messages alt koleksiyonuna ekle
   const messagesRef = collection(db, "messages", chatId, "messages");
@@ -612,10 +606,10 @@ export const sendMessage = async (senderId, receiverId, text) => {
     receiverId,
     text,
     timestamp: serverTimestamp(),
+    chatId,
   });
 
   // Chat belgesini güncelle
-  const chatRef = doc(db, "messages", chatId);
   await setDoc(
     chatRef,
     {

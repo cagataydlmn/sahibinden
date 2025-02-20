@@ -18,8 +18,8 @@ const auth = createSlice({
     },
     updateProfilePhoto: (state, action) => {
       if (state.user) {
-        state.user.profilePhoto = action.payload; // Sadece URL'yi kaydediyoruz
-        localStorage.setItem("user", JSON.stringify(state.user)); // Güncel bilgiyi kaydet
+        state.user.photoURL = action.payload; 
+        localStorage.setItem("user", JSON.stringify(state.user));
       }
     },
   },
