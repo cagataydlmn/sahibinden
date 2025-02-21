@@ -31,6 +31,7 @@ export default function Nav() {
     <div>
       <MobileNav/>
       <nav className="nav">
+        <Link to="/admin123">admin</Link>
         <div className="nav__general">
           <div>
             <Link to="/" className="nav__general__left">

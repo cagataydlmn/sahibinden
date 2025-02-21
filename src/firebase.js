@@ -71,7 +71,6 @@ export const register = async (email, password, name, lastName) => {
     throw error;
   }
 };
-
 export const updateProfilePhoto = (file) => async (dispatch) => {
   const auth = getAuth();
   const user = auth.currentUser;
@@ -81,11 +80,16 @@ export const updateProfilePhoto = (file) => async (dispatch) => {
   }
 
   const storage = getStorage();
-  const storageRef = ref(storage, `profilePhotos/${user.uid}`);
+  const storageRef = ref(storage, `profilePhotos/${user.uid}.jpg`);
 
   try {
+    // Yüklenen dosyanın MIME türünü belirt
+    const metadata = {
+      contentType: 'image/jpeg',
+    };
+
     // Dosyayı Firebase Storage'a yükle
-    await uploadBytes(storageRef, file);
+    await uploadBytes(storageRef, file, metadata);
 
     // Yüklenen dosyanın URL'sini al
     const photoURL = await getDownloadURL(storageRef);
@@ -93,15 +97,23 @@ export const updateProfilePhoto = (file) => async (dispatch) => {
     // Firebase Authentication'da profil fotoğrafını güncelle
     await updateProfile(user, { photoURL });
 
-    // Redux state'ini güncelle (isteğe bağlı)
+    // Firestore'da kullanıcı bilgilerini güncelle (bu adımı ekledik)
+    const db = getFirestore();
+    const userRef = doc(db, "users", user.uid);
+    await updateDoc(userRef, {
+      photoURL: photoURL
+    });
+
+    // Redux state'ini güncelle
     dispatch({ type: "UPDATE_PROFILE_PHOTO", payload: photoURL });
 
-    return photoURL; // Yeni fotoğraf URL'sini döndür
+    return photoURL;
   } catch (error) {
     console.error("Profil fotoğrafı güncellenirken hata:", error);
     throw error;
   }
 };
+
 
 //google ile giriş 
 export const googleSignIn = () => {
