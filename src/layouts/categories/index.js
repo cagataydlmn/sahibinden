@@ -29,6 +29,7 @@ export default function Categories() {
             to={`/category/${category.id}`}
           >
             {category.name}
+            
           </Link>
           {subCategories[category.id] && (
             <ul className="mt-4 space-y-2 list-none">

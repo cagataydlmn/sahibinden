@@ -9,8 +9,11 @@ import "../style/style.scss";
 import Provider from "../context";
 import AdvertDetail from "../pages/advertDetail";
 import Profile from "../pages/profile";
-import CategoryDetail from "../pages/categoryDetail";
 import ChatPage from "../pages/profileMessages";
+import SubCategoryDetail from "../pages/subCategoryDetail";
+import DetailCategory from "../pages/detailCategory";
+import TempCategoryDetail from "../pages/tempCategory";
+import MoreDetailCategory from "../pages/moreDetailCategory";
 
 const routes = createBrowserRouter([
   {
@@ -55,13 +58,15 @@ const routes = createBrowserRouter([
       },
       {
         path: "/category/:id",
-        element: <CategoryDetail />,
+        element: <TempCategoryDetail />,
       },
       {
         path: "/chat/:advertId",
         element: <ChatPage />,
       },
-      { path: "/category/:id/sub/:subCategoryId", element: <CategoryDetail /> },
+      { path: "/category/:id/sub/:subCategoryId", element: <SubCategoryDetail /> },
+      { path: "/category/:id/sub/:subCategoryId/detail/:detailId", element: <DetailCategory /> },
+      { path: "/category/:id/sub/:subCategoryId/detail/:detailId/moredetail/:moreDetailId", element: <MoreDetailCategory /> },
       {
         path: "/messages/:chatId",
         element: <ChatPage />,
