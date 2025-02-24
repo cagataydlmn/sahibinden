@@ -16,23 +16,27 @@ export default function Home() {
       <div className="just__home">
         <search />
       </div>
+
+    
       <Categories />
-      <div className="home">
+      <div className="home ">
         {Products.map((advert) => (
           <Link
             to={`adverts/${advert.id}`}
-            className="home__advert"
+            className="bg-white p-4 rounded-lg shadow hover:shadow-md transition-shadow no-underline"
             key={advert.id}
           >
             <div className="home__advert__image">
               <img
                 src={advert.foto[0]}
                 alt={`Ürün resmi: ${advert.brut}`}
-                style={{ objectFit: "cover" }}
-              />
+
+                className="w-full h-32 object-cover mb-4 rounded-lg"
+                />
             </div>
-            <div>{advert.title}</div>
-            <div>{advert.price} TL</div>
+            <div className="text-lg font-semibold text-gray-700">
+{advert.title}</div>
+<div className="text-sm text-gray-500">{advert.price} TL</div>
           </Link>
         ))}
       </div>

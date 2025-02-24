@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body{
+  background-color: rgb(247, 247, 247);
+}
+
 .categoryHome {
 
   background-color: #f9f9f9;
@@ -9,16 +13,19 @@
 
   &__general {
     margin: auto;
-    width: 80%;
+
+    width: 90%;
     display: flex;
     flex-wrap: wrap;
-
+    gap: 15px;
+    ul{
+      padding: 0;
+    }
     a {
       text-decoration: none;
       color: #333;
       font-weight: 500;
       padding: 0px 10px;
-      border: 1px solid #ddd;
       border-radius: 5px;
       background-color: #fff;
       transition: all 0.3s ease-in-out;
@@ -455,31 +462,24 @@ button,
   }
 
   .advert__detail__car {
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 20px 0;
-      font-size: 18px;
-      text-align: left;
 
-    }
-
-    th {
-      background-color: #f4f4f4;
-      font-weight: bold;
-      border: 1px solid #ddd;
-      padding: 12px;
-    }
-
-    td {
-      border: 1px solid #ddd;
-      padding: 12px;
-      width: 50%;
-    }
-
-    tr:nth-child(even) {
-      background-color: #f9f9f9;
-    }
+   ul{
+    padding: 0;
+    display: grid;
+    grid-template-columns: 48% 48%;
+    grid-column-gap: 4%;
+    column-gap: 4%;
+    list-style: none;
+   }
+   li{
+    border-top: 1px solid #ececec;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    display: flex
+;
+    align-items: center;
+    justify-content: space-between;
+   }
   }
 
   .advert__Description__title {
@@ -836,12 +836,10 @@ button,
   }
 
   .home {
-    display: flex;
-    flex-wrap: wrap;
 
-    &__advert {
-      width: 45%;
-    }
+    display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Varsayılan olarak 2 kolon */
+  gap: 1rem; 
   }
 
   .advert-detail-swiper {
@@ -1064,6 +1062,80 @@ h3 {
 }
 /* Küçük ekranlar için */
 @media (max-width: 768px) {
+  .advert-detail-top{
+    font-size: 15px;
+    margin: 10px 0px;
+    display: flex;
+    justify-content: center;
+  }
+ .advert__detail__car {
+   ul{
+    padding: 0;
+    display: grid;
+    grid-template-columns: auto !important;
+    grid-column-gap: 4%;
+    column-gap: 4%;
+    list-style: none;
+   }
+   li{
+    border-top: 1px solid #ececec;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    display: flex
+;
+    align-items: center;
+    justify-content: space-between;
+   }
+  }
+.home {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  width: 80%;
+  margin: auto;
+
+  &__advert {
+    text-decoration: none;
+    color: inherit;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &:hover {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    &__image {
+      width: 100%;
+      /* Görselin genişliği kartı doldurur */
+      height: 150px;
+      /* Sabit bir yükseklik */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      img {
+        max-width: 100%;
+        max-height: 100%;
+        /* Görseli kırpmadan sığdırır */
+        background-color: #fff;
+        /* Boş alanların rengi */
+      }
+    }
+
+    div {
+      margin-top: 10px;
+      font-size: 16px;
+      text-align: center;
+    }
+  }
+}
+
   .message{
     display: none;
   }

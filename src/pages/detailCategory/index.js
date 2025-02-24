@@ -4,7 +4,8 @@ import { collection, getDocs } from "firebase/firestore";
 import { db, getMoreDetail } from "../../firebase";
 
 export default function DetailCategory() {
-  const { id:categoryId, subCategoryId, detailId } = useParams();
+
+  const { id: categoryId, subCategoryId, detailId } = useParams();
   const [moreDetails, setMoreDetails] = useState([]);
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
@@ -30,23 +31,26 @@ export default function DetailCategory() {
   useEffect(() => {
     if (!detailId) return;
 
-    setLoading(true); 
+    setLoading(true);
 
-    console.log("Fetching moreDetails for:", { categoryId, subCategoryId, detailId });
-
-    getMoreDetail(categoryId, subCategoryId, detailId, (moreDetailData) => {
-        console.log("Gelen moreDetails:", moreDetailData);
-
-        if (moreDetailData.length > 0) {
-          setMoreDetails(moreDetailData);
-        } else {
-          console.warn("Detay verisi bulunamadı.");
-          setMoreDetails([]);
-        }
-        setLoading(false);
+    console.log("Fetching moreDetails for:", {
+      categoryId,
+      subCategoryId,
+      detailId,
     });
 
-}, [categoryId, subCategoryId, detailId]);
+    getMoreDetail(categoryId, subCategoryId, detailId, (moreDetailData) => {
+      console.log("Gelen moreDetails:", moreDetailData);
+
+      if (moreDetailData.length > 0) {
+        setMoreDetails(moreDetailData);
+      } else {
+        console.warn("Detay verisi bulunamadı.");
+        setMoreDetails([]);
+      }
+      setLoading(false);
+    });
+  }, [categoryId, subCategoryId, detailId]);
 
   useEffect(() => {
     if (!products.length || !detailId) return;
@@ -56,34 +60,60 @@ export default function DetailCategory() {
   }, [products, detailId]);
 
   return (
-    <div className="p-5 bg-gray-50 rounded-lg shadow-lg">
-      <h2 className="text-xl font-bold text-gray-800 mb-4">Detaylar</h2>
-
+  
+    <div className="flex mt-4 gap-10   ">
       {loading ? (
         <p className="text-center text-gray-500">Yükleniyor...</p>
       ) : moreDetails.length === 0 ? (
-        <p className="text-center text-gray-500">Bu detaya ait daha fazla bilgi bulunamadı.</p>
+        <p className="text-center text-gray-500">
+          Bu detaya ait daha fazla bilgi bulunamadı.
+        </p>
       ) : (
-        <div>
-          {moreDetails.map((detail) => (
-            <Link to={`/category/${categoryId}/sub/${subCategoryId}/detail/${detailId}/moredetail/${detail.id}`} key={detail.id} className="mb-4">
-              <h3 className="font-semibold text-gray-700">{detail.name}</h3>
-            </Link>
-          ))}
+        <div className="details p-5 bg-gray-50 rounded-lg shadow-lg w-auto">
+          <h2 className="text-xl font-bold text-gray-800 mb-4 w-[200px]">
+            Modeller
+          </h2>
+          <ul className="list-none p-0 decoration-slice h-[400px] overflow-auto">
+            {moreDetails.map((detail) => (
+              <li key={detail.id} className="mb-4">
+                <Link
+                  to={`/category/${categoryId}/sub/${subCategoryId}/detail/${detailId}/moredetail/${detail.id}`}
+                  key={detail.id}
+                  className="font-semibold text-gray-700 no-underline"
+                >
+                  {detail.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
       )}
 
-      <div className="categoryDetail p-5 bg-gray-50 rounded-lg shadow-lg">
+      <div className="categoryDetail p-5 bg-gray-50 rounded-lg shadow-lg w-full">
         <h2 className="text-xl font-bold text-gray-800 mb-4">İlgili Ürünler</h2>
         {filteredProducts.length === 0 ? (
-          <p className="text-center text-gray-500">Bu detaya ait ürün bulunamadı.</p>
+          <p className="text-center text-gray-500">
+            Bu detaya ait ürün bulunamadı.
+          </p>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 ">
             {filteredProducts.map((product) => (
-              <Link                 to={`/adverts/${product.id}`}
-             className="bg-white p-4 rounded-lg shadow hover:shadow-md transition-shadow">
-                <h3 className="text-lg font-semibold text-gray-700">{product.title}</h3>
-                <p className="text-sm text-gray-500">{product.description}</p>
+              <Link
+                to={`/adverts/${product.id}`}
+                className="bg-white p-4 rounded-lg shadow hover:shadow-md transition-shadow no-underline"
+              >
+                <div className="home__advert__image">
+                  <img
+                    src={product.foto[0]}
+                    alt={`Ürün resmi: ${product.brut}`}
+                    style={{ objectFit: "cover" }}
+                    className="w-full h-32 object-cover mb-4 rounded-lg"
+                  />
+                </div>
+                <div className="text-lg font-semibold text-gray-700">
+                  {product.title}
+                </div>
+                <div className="text-sm text-gray-500">{product.price} TL</div>
               </Link>
             ))}
           </div>
@@ -91,4 +121,5 @@ export default function DetailCategory() {
       </div>
     </div>
   );
+
 }

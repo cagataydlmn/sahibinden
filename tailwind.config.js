@@ -4,7 +4,11 @@ module.exports = {
     "./src/**/*.{html,js,jsx,ts,tsx}", // Tailwind'in hangi dosyalar üzerinde çalışacağını belirtir
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        customGray: 'rgb(217, 217, 217)', // İstediğiniz RGB değerini buraya yazın
+      },
+    },
   },
   plugins: [],
   corePlugins: {

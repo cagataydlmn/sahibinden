@@ -46,7 +46,8 @@ const SubCategoryDetail = () => {
     const fetchDetails = async () => {
       try {
         getDetail(categoryId, subCategoryId, (detailsData) => {
-          setDetails(detailsData); 
+
+          setDetails(detailsData);
         });
       } catch (error) {
         console.error("Detaylar alınırken hata oluştu:", error);
@@ -56,19 +57,23 @@ const SubCategoryDetail = () => {
     fetchDetails();
   }, [categoryId, subCategoryId]);
 
+
+  const sortedProducts = [...details].sort((a, b) =>
+    a.name.localeCompare(b.name)
+  );
   return (
-    <div className="flex">
-      <div className="details p-5 bg-gray-50 rounded-lg shadow-lg w-1/4">
-        <h2 className="text-xl font-bold text-gray-800 mb-4">
-          Alt Kategori Detayları
+    <div className="flex mt-4 gap-10">
+      <div className="details p-5 bg-gray-50 rounded-lg shadow-lg w-auto">
+        <h2 className="text-xl font-bold text-gray-800 mb-4 w-[200px]">
+          Modeller
         </h2>
-        {details.length > 0 ? (
-          <ul>
-            {details.map((detail) => (
+        {sortedProducts.length > 0 ? (
+          <ul className="list-none p-0 decoration-slice h-[400px] overflow-auto">
+            {sortedProducts.map((detail) => (
               <li key={detail.id} className="mb-4">
                 <Link
                   to={`/category/${categoryId}/sub/${subCategoryId}/detail/${detail.id}`}
-                  className="font-semibold text-gray-700"
+                  className="font-semibold text-gray-700 no-underline"
                 >
                   {detail.name}
                 </Link>
@@ -80,7 +85,8 @@ const SubCategoryDetail = () => {
         )}
       </div>
 
-      <div className="categoryDetail p-5 bg-gray-50 rounded-lg shadow-lg w-3/4 ml-5">
+
+      <div className="categoryDetail p-5 bg-gray-50 rounded-lg shadow-lg  w-full">
         <h2 className="text-xl font-bold text-gray-800 mb-4">
           {categoryId} Kategorisi Ürünleri
         </h2>
@@ -91,7 +97,7 @@ const SubCategoryDetail = () => {
             Bu kategoriye ait ürün bulunamadı.
           </p>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 ">
             {filteredItems.map((advert) => (
               <Link
                 to={`/adverts/${advert.id}`}
@@ -120,4 +126,3 @@ const SubCategoryDetail = () => {
 };
 
 export default SubCategoryDetail;
-

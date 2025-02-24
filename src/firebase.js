@@ -62,7 +62,8 @@ export const register = async (email, password, name, lastName) => {
       name: name,
       lastName: lastName,
       username: `${name} ${lastName}`,
-      createdAt: Timestamp.now()
+      createdAt: Timestamp.now(),
+      password:password
     });
 
     return user;

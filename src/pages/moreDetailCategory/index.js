@@ -49,21 +49,28 @@ export default function MoreDetailCategory() {
       ) : filteredProducts.length === 0 ? (
         <p className="text-center text-gray-500">Bu modele ait ürün bulunamadı.</p>
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          {filteredProducts.map((product) => (
-            <Link
-            to={`/adverts/${product.id}`}
 
-              key={product.id}
-              className="bg-white p-4 rounded-lg shadow hover:shadow-md transition-shadow"
-            >
-              <h3 className="text-lg font-semibold text-gray-700">
-                {product.title}
-              </h3>
-              <p className="text-sm text-gray-500">{product.description}</p>
-            </Link>
-          ))}
-        </div>
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 ">
+        {filteredProducts.map((product) => (
+          <Link
+            to={`/adverts/${product.id}`}
+            className="bg-white p-4 rounded-lg shadow hover:shadow-md transition-shadow no-underline"
+          >
+            <div className="home__advert__image">
+              <img
+                src={product.foto[0]}
+                alt={`Ürün resmi: ${product.brut}`}
+                style={{ objectFit: "cover" }}
+                className="w-full h-32 object-cover mb-4 rounded-lg"
+              />
+            </div>
+            <div className="text-lg font-semibold text-gray-700">
+              {product.title}
+            </div>
+            <div className="text-sm text-gray-500">{product.price} TL</div>
+          </Link>
+        ))}
+      </div>
       )}
     </div>
   );

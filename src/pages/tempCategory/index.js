@@ -20,9 +20,16 @@ export default function TempCategoryDetail() {
     const fetchProducts = async () => {
       setLoading(true);
       try {
-        const q = query(collection(db, "products"), where("tempCategory", "==", id));
+
+        const q = query(
+          collection(db, "products"),
+          where("tempCategory", "==", id)
+        );
         const querySnapshot = await getDocs(q);
-        const productData = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        const productData = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
         setProducts(productData);
       } catch (error) {
         console.error("Ürünleri çekerken hata oluştu:", error);
@@ -45,7 +52,6 @@ export default function TempCategoryDetail() {
     });
   }, [categories]);
 
-  // categoryId ile eşleşen kategoriyi bul
   const currentCategory = categories.find((category) => category.id === id);
 
   if (!currentCategory) {
@@ -53,23 +59,28 @@ export default function TempCategoryDetail() {
   }
 
   return (
-    <div className="flex">
+
+    <div className="flex gap-10 mt-4">
       <div className="categoryHome">
-        <div className="categoryHome__general flex flex-col gap-10 p-5 bg-gray-50 rounded-lg shadow-lg">
-          <div key={currentCategory.id} className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
+      <div className="categoryHome__general flex flex-col gap-10 p-5 bg-gray-50 rounded-lg shadow-lg !w-[100%]">
+          <div
+            key={currentCategory.id}
+            className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"
+          >
             <Link
-              className="text-l font-semibold text-gray-800 hover:text-blue-600 transition-colors duration-300"
+              className="text-[18px] font-semibold text-gray-800 hover:text-blue-600 transition-colors duration-300"
               to={`/category/${currentCategory.id}`}
             >
               {currentCategory.name}
             </Link>
             {subCategories[currentCategory.id] && (
-              <ul className="mt-4 space-y-2 list-none">
-                {subCategories[currentCategory.id].map((subCategory) => (
+
+            <ul className="mt-4 space-y-2 list-none w-[100%]">
+            {subCategories[currentCategory.id].map((subCategory) => (
                   <li key={subCategory.id}>
                     <Link
-                      className="text-sm text-gray-600 hover:text-blue-500 transition-colors duration-300"
-                      to={`/category/${currentCategory.id}/sub/${subCategory.id}`}
+                    className="text-sm text-gray-600 hover:text-blue-500 transition-colors duration-300"
+                    to={`/category/${currentCategory.id}/sub/${subCategory.id}`}
                     >
                       {subCategory.name}
                     </Link>
@@ -81,31 +92,36 @@ export default function TempCategoryDetail() {
         </div>
       </div>
 
-      <div className="categoryDetail p-5 bg-gray-50 rounded-lg shadow-lg">
-        <h2 className="text-xl font-bold text-gray-800 mb-4">{currentCategory.name} Kategorisi Ürünleri</h2>
+
+      <div className="categoryDetail p-5 bg-gray-50 rounded-lg shadow-lg  ml-5 w-full">
+        
         {loading ? (
           <p className="text-center text-gray-500">Yükleniyor...</p>
         ) : products.length === 0 ? (
-          <p className="text-center text-gray-500">Bu kategoriye ait ürün bulunamadı.</p>
+          <p className="text-center text-gray-500">
+            Bu kategoriye ait ürün bulunamadı.
+          </p>
         ) : (
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {products.map((product) => (
-              <Link 
-              to={`/adverts/${product.id}`}
-              key={product.id}
-              className="bg-white p-4 rounded-lg shadow hover:shadow-md transition-shadow">
-         <div className="home__advert__image">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 ">
+            {products.map((advert) => (
+              <Link
+                to={`/adverts/${advert.id}`}
+                className="bg-white p-4 rounded-lg shadow hover:shadow-md transition-shadow no-underline"
+                key={advert.id}
+              >
+                <div className="home__advert__image">
                   <img
-                    src={product.foto[0]}
-                    alt={`Ürün resmi: ${product.brut}`}
+                    src={advert.foto[0]}
+                    alt={`Ürün resmi: ${advert.brut}`}
                     style={{ objectFit: "cover" }}
                     className="w-full h-32 object-cover mb-4 rounded-lg"
                   />
                 </div>
                 <div className="text-lg font-semibold text-gray-700">
-                  {product.title}
+
+                  {advert.title}
                 </div>
-                <div className="text-sm text-gray-500">{product.price} TL</div>
+                <div className="text-sm text-gray-500">{advert.price} TL</div>
               </Link>
             ))}
           </div>
@@ -114,4 +130,3 @@ export default function TempCategoryDetail() {
     </div>
   );
 }
-

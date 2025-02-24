@@ -1,4 +1,5 @@
-import { useParams, useNavigate } from "react-router-dom";
+
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import defaultProfile from "../../assets/default-profile.jpeg";
 import {
@@ -51,7 +52,7 @@ export default function AdvertDetail() {
           const user = await getUserByUID(foundAdvert.uid);
           console.log("Kullanıcı Verisi:", user); // Kullanıcı verisini kontrol et
           setUserName(user?.name || "Bilinmeyen Kullanıcı");
-          setProfilePhoto(user?.profilePhoto || "/default-profile.jpg"); // Varsayılan resim ekledik
+          setProfilePhoto(user?.profilePhoto || defaultProfile); // Varsayılan resim ekledik
         }
 
         if (foundAdvert && foundAdvert.tempCategory) {
@@ -196,16 +197,30 @@ export default function AdvertDetail() {
     navigate(`/messages/${senderId}_${receiverId}`);
   };
 
+
   return (
     <div className="advert-detail">
       <div className="advert-detail-top">
-        {categoryName}
+        <Link className="no-underline text-black" to={`/category/${advert.tempCategory}`}> {categoryName}</Link>
         {" > "}
-        {subCategoryName}
+        <Link className="no-underline text-black" to={`/category/${advert.tempCategory}/sub/${advert.altcategory}`}>
+          {" "}
+          {subCategoryName}
+        </Link>
         {" > "}
-        {detailName}
+        <Link className="no-underline text-black"
+          to={`/category/${advert.tempCategory}/sub/${advert.altcategory}/detail/${advert.marka}`}
+        >
+          {" "}
+          {detailName}
+        </Link>
         {" > "}
-        {moreDetailName}
+        <Link className="no-underline text-black"
+          to={`/category/${advert.tempCategory}/sub/${advert.altcategory}/detail/${advert.marka}/moredetail/${advert.model}`}
+        >
+          {" "}
+          {moreDetailName}
+        </Link>
       </div>
       <div className="advert-detail-swiper">
         <Swiper
@@ -258,67 +273,78 @@ export default function AdvertDetail() {
             </SwiperSlide>
           )}
         </Swiper>
-          <div className="username">
 
+        <div className="username">
           <div className="flex items-center gap-5 p-[15px] border border-gray-300 rounded-lg shadow-sm bg-white">
-          <img
-            src={profilePhoto}
-            alt="Profil Fotoğrafı"
-            className="w-[70px] h-[70px] rounded-full object-cover border-2 border-gray-300"
+            <img
+              src={profilePhoto}
+              alt="Profil Fotoğrafı"
+              className="w-[70px] h-[70px] rounded-full object-cover border-2 border-gray-300"
             />
-  <div className="text-xl font-semibold text-gray-800">
-            {userName ? userName : "Bilinmeyen Kullanıcı"}</div>
+            <div className="text-xl font-semibold text-gray-800">
+              {userName ? userName : "Bilinmeyen Kullanıcı"}
+            </div>
+          </div>
+          <button
+            className="w-[110%] mt-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition duration-200"
+            onClick={handleSendMessage}
+          >
+            Mesaj Gönder
+          </button>
         </div>
-        <button   className="w-[110%] mt-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition duration-200"
- onClick={handleSendMessage}>
-          Mesaj Gönder</button>
-      </div>
       </div>
 
-
-      <div className="advert-detail-border">
+      <div className="advert-detail-border w-[65%] p-[30px] m-[30px] bg-white">
         <div>
-          <h3>{advert.price} TL</h3>
+          <h3 className="border-none">{advert.price} TL</h3>
           <div>
             {advert.title}
             <hr />
           </div>
         </div>
         <div>
+
+          <h4>İlan özellikleri</h4>
           {advert.tempCategory === "FecwhXkriZmMzoepLg4E" ? (
-            <div className="advert__detail__car">
-              <table>
-                <tbody>
-                  <tr>
-                    <td>Ağır Hasar</td>
-                    <td>{advert.hasar}</td>
-                  </tr>
-                  <tr>
-                    <td>Marka</td>
-                    <td>{detailName}</td>
-                  </tr>
-                  <tr>
-                    <td>Model</td>
-                    <td>{moreDetailName}</td>
-                  </tr>
-                  <tr>
-                    <td>Vites</td>
-                    <td>{advert.vites}</td>
-                  </tr>
-                  <tr>
-                    <td>Yakıt</td>
-                    <td>{advert.yakıt}</td>
-                  </tr>
-                  <tr>
-                    <td>Ana Kategori</td>
-                    <td>{categoryName}</td>
-                  </tr>
-                  <tr>
-                    <td>Alt Kategori</td>
-                    <td>{subCategoryName}</td>
-                  </tr>
-                </tbody>
-              </table>
+            <div className="advert__detail__car ">
+              <ul>
+                <li>
+                  <span>Ağır Hasar</span>
+                  <span>{advert.hasar}</span>
+                </li>
+                <li>
+                  <span>Marka</span>
+                  <span>{detailName}</span>
+                </li>
+                <li>
+                  <span>Model</span>
+                  <span>{moreDetailName}</span>
+                </li>
+                <li>
+                  <span>Vites</span>
+                  <span>{advert.vites}</span>
+                </li>
+                <li>
+                  <span>Yakıt</span>
+                  <span>{advert.yakıt}</span>
+                </li>
+                <li>
+                  <span>KM</span>
+                  <span>{advert.km}</span>
+                </li>
+                <li>
+                  <span>Ana Kategori</span>
+                  <span>{categoryName}</span>
+                </li>
+                <li>
+                  <span>Alt Kategori</span>
+                  <span>{subCategoryName}</span>
+                </li>
+                <li>
+                  <span>Alt Kategori</span>
+                  <span>{subCategoryName}</span>
+                </li>
+              </ul>
             </div>
           ) : advert.tempCategory === "PKHj5ev6aFCMDyJVQpka" ? (
             <div className="advert__detail__car">

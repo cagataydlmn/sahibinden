@@ -162,6 +162,8 @@ export default function Advert() {
       title,
       vites,
       yakıt,
+
+      km: parseFloat(price),
     };
 
     try {
@@ -194,112 +196,126 @@ export default function Advert() {
 
   return (
     <div className="addadvert flex justify-center py-6">
-      <form onSubmit={submitHandle} className="w-full max-w-4xl space-y-6">
-        <div>
-          {step === 1 &&
-            categories.map((category) => (
-              <div className="flex w-full mb-4" key={category.id}>
-                <button
-                  className={`w-full py-3 px-6 text-center rounded-lg ${
-                    tempCategory === category.id
-                      ? "bg-blue-600 text-white border-2 border-blue-700 shadow-md"
-                      : "bg-gray-200 text-gray-700 border-2 border-gray-300"
-                  } transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50`}
-                  type="button"
-                  onClick={() => handleCategorySelect(category.id)}
-                >
-                  {category.name}
-                </button>
-              </div>
-            ))}
-        </div>
-        {step === 2 &&
-          subCategories.map((sub) => (
-            <div
-              key={sub.id}
-              onClick={() => handleSubCategorySelect(sub.id)}
-              className={`cursor-pointer py-3 px-4 rounded-lg mb-4 transition-all duration-200 ${
-                selectedSubCategory === sub.id
-                  ? "bg-blue-100 text-blue-700 border-2 border-blue-300"
-                  : "bg-white text-gray-700 border-2 border-gray-200"
-              } hover:bg-blue-50 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50`}
-            >
-              {sub.name}
-            </div>
-          ))}
+    <form onSubmit={submitHandle} className="w-full max-w-4xl space-y-6">
+      {/* Step Indicator */}
+      <div className="adımsayar flex gap-5 justify-end text-xl font-semibold">
+        {[...Array(7)].map((_, index) => (
+          <div
+            key={index}
+            className={`w-8 border h-1.5 ${
+              step > index ? "bg-red-500" : "bg-customGray"
+            } rounded-[6px]`}
+          ></div>
+        ))}
+        {step}/7
+      </div>
 
-        {step === 3 &&
-          details.map((detail) => (
-            <div
-              key={detail.id}
-              onClick={() => handleDetailSelect(detail.id)}
-              className={`cursor-pointer py-3 px-4 rounded-lg mb-4 transition-all duration-200 ${
-                selectedDetail === detail.id
-                  ? "bg-blue-100 text-blue-700 border-2 border-blue-300"
-                  : "bg-white text-gray-700 border-2 border-gray-200"
-              } hover:bg-blue-50 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50`}
+      {/* Step 1: Categories */}
+      {step === 1 &&
+        categories.map((category) => (
+          <div className="flex w-full mb-4" key={category.id}>
+            <button
+              className={`w-full py-3 px-6 text-center rounded-lg ${
+                tempCategory === category.id
+                  ? "bg-blue-600 text-white border-2 border-blue-700 shadow-md"
+                  : "bg-gray-200 text-gray-700 border-2 border-gray-300"
+              } transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50`}
+              type="button"
+              onClick={() => handleCategorySelect(category.id)}
             >
-              {detail.name}
-            </div>
-          ))}
-
-        {step === 4 && moreDetails && moreDetails.length > 0
-          ? moreDetails.map((moreDetail) => (
-              <div
-                key={moreDetail.id}
-                onClick={() => handleMoreDetailSelect(moreDetail.id)}
-                className={`cursor-pointer py-3 px-4 rounded-lg mb-4 transition-all duration-200 ${
-                  selectedMoreDetail === moreDetail.id
-                    ? "bg-blue-100 text-blue-700 border-2 border-blue-300"
-                    : "bg-white text-gray-700 border-2 border-gray-200"
-                } hover:bg-blue-50 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50`}
-              >
-                {moreDetail.name}
-              </div>
-            ))
-          : step === 4 && setStep((prevStep) => prevStep + 1)}
-        {step === 5 && (
-          <div>
-            <h3 className="text-xl font-semibold mb-4">
-              Fotoğrafları Yükleyin
-            </h3>
-            <input
-              value={foto}
-              type="file"
-              accept="image/*"
-              multiple
-              onChange={handlePhotoUpload}
-              className="w-full py-2 px-4 mb-4 border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            {previews.length > 0 && (
-              <div className="flex flex-wrap space-x-4 mt-4">
-                {previews.map((preview, index) => (
-                  <div
-                    key={index}
-                    className="flex flex-col items-center justify-center"
-                  >
-                    <img
-                      src={preview}
-                      alt={`Preview ${index}`}
-                      className="w-24 h-24 object-cover rounded-lg mb-2"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => removePhoto(index)}
-                      value={foto}
-                      className="bg-red-500 text-white py-1 px-3 rounded-lg hover:bg-red-600"
-                    >
-                      Kaldır
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
-            <p className="mt-2 text-sm text-gray-600">
-              {photos.length}/10 fotoğraf yüklendi.
-            </p>
+              {category.name}
+            </button>
           </div>
-        )}
+        ))}
+
+      {/* Step 2: Sub Categories */}
+      {step === 2 &&
+        subCategories.map((sub) => (
+          <div
+            key={sub.id}
+            onClick={() => handleSubCategorySelect(sub.id)}
+            className={`cursor-pointer py-3 px-4 rounded-lg mb-4 transition-all duration-200 ${
+              selectedSubCategory === sub.id
+                ? "bg-blue-100 text-blue-700 border-2 border-blue-300"
+                : "bg-white text-gray-700 border-2 border-gray-200"
+            } hover:bg-blue-50 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50`}
+          >
+            {sub.name}
+          </div>
+        ))}
+
+      {/* Step 3: Details */}
+      {step === 3 &&
+        details.map((detail) => (
+          <div
+            key={detail.id}
+            onClick={() => handleDetailSelect(detail.id)}
+            className={`cursor-pointer py-3 px-4 rounded-lg mb-4 transition-all duration-200 ${
+              selectedDetail === detail.id
+                ? "bg-blue-100 text-blue-700 border-2 border-blue-300"
+                : "bg-white text-gray-700 border-2 border-gray-200"
+            } hover:bg-blue-50 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50`}
+          >
+            {detail.name}
+          </div>
+        ))}
+
+      {/* Step 4: More Details */}
+      {step === 4 &&
+        moreDetails.length > 0 &&
+        moreDetails.map((moreDetail) => (
+          <div
+            key={moreDetail.id}
+            onClick={() => handleMoreDetailSelect(moreDetail.id)}
+            className={`cursor-pointer py-3 px-4 rounded-lg mb-4 transition-all duration-200 ${
+              selectedMoreDetail === moreDetail.id
+                ? "bg-blue-100 text-blue-700 border-2 border-blue-300"
+                : "bg-white text-gray-700 border-2 border-gray-200"
+            } hover:bg-blue-50 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50`}
+          >
+            {moreDetail.name}
+          </div>
+        ))}
+
+      {/* Step 5: Upload Photos */}
+      {step === 5 && (
+        <div>
+          <h3 className="text-xl font-semibold mb-4">Fotoğrafları Yükleyin</h3>
+          <input
+            value={foto}
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={handlePhotoUpload}
+            className="w-full py-2 px-4 mb-4 border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          {previews.length > 0 && (
+            <div className="flex flex-wrap space-x-4 mt-4">
+              {previews.map((preview, index) => (
+                <div
+                  key={index}
+                  className="flex flex-col items-center justify-center"
+                >
+                  <img
+                    src={preview}
+                    alt={`Preview ${index}`}
+                    className="w-24 h-24 object-cover rounded-lg mb-2"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => removePhoto(index)}
+                    className="bg-red-500 text-white py-1 px-3 rounded-lg hover:bg-red-600"
+                  >
+                    Kaldır
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+          <p className="mt-2 text-sm text-gray-600">{photos.length}/10 fotoğraf yüklendi.</p>
+        </div>
+      )}
+
 
         {step === 6 && (
           <>
