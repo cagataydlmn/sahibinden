@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
+body {
   background-color: rgb(247, 247, 247);
 }
 
@@ -18,9 +18,11 @@ body{
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
-    ul{
+
+    ul {
       padding: 0;
     }
+
     a {
       text-decoration: none;
       color: #333;
@@ -46,6 +48,7 @@ body{
 .nav {
   &-link {
     width: 80px;
+
     :hover {
       cursor: pointer;
 
@@ -71,6 +74,7 @@ body{
       position: relative;
       margin: 0 20px;
       width: 50%;
+
       input {
         width: 100%;
         padding: 10px 15px;
@@ -78,15 +82,17 @@ body{
         border-radius: 5px;
         font-size: 16px;
         outline: none;
-      
-       
+
+
       }
+
       input:focus {
         border-color: #007bff;
         box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
       }
+
       .results-dropdown {
-        width: 105%;
+        width: 104%;
         position: absolute;
         top: 100%;
         left: 0;
@@ -97,7 +103,7 @@ body{
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         max-height: 400px;
         overflow-y: auto;
-        z-index: 1000; 
+        z-index: 1000;
         margin-top: 0px;
         padding: 0;
         list-style: none;
@@ -105,26 +111,32 @@ body{
         flex-direction: column;
         gap: 10px;
       }
+
       .result-item {
         font-size: 16px;
         cursor: pointer;
         width: 100%;
         display: flex;
-        a{
+
+        a {
           text-decoration: none;
         }
-        .search__div{
+
+        .search__div {
           display: flex;
           gap: 20px;
-          .search__img{
+
+          .search__img {
             padding-top: 10px;
             padding-left: 20px;
             width: 10%;
-            img{
+
+            img {
               width: 100%;
             }
           }
-          .search__title{
+
+          .search__title {
             width: 100%;
             display: flex;
             align-items: center;
@@ -134,6 +146,7 @@ body{
           }
         }
       }
+
       .result-item:hover {
         background-color: #f1f1f1;
       }
@@ -439,47 +452,56 @@ button,
 
 .advert-detail {
   width: 80%;
-  margin: auto;
 
   &-swiper {
     display: flex;
     gap: 30px;
-
+    .swiper{
+      margin-left: 0;
+    }
     .username {
-     width: 300px;
-  height: 100px;
-  border: 1px solid #ddd; /* Daha soft bir kenar rengi */
-  border-radius: 10px; /* Köşeleri yuvarlat */
-  padding: 15px;
-  display: flex;
-  align-items: center; /* İçeriği dikeyde ortala */
-  justify-content: flex-start; /* İçeriği sola hizala */
-  background-color: #f9f9f9; /* Hafif gri bir arka plan */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Hafif gölge efekti */
-  flex-direction: column; /* İçeriği dikeyde hizalamak için */
-  gap: 10px; /* Elemanlar arasına boşluk ekle */
+      width: 300px;
+      height: 100px;
+      border: 1px solid #ddd;
+      /* Daha soft bir kenar rengi */
+      border-radius: 10px;
+      /* Köşeleri yuvarlat */
+      padding: 15px;
+      display: flex;
+      align-items: center;
+      /* İçeriği dikeyde ortala */
+      justify-content: flex-start;
+      /* İçeriği sola hizala */
+      background-color: #f9f9f9;
+      /* Hafif gri bir arka plan */
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      /* Hafif gölge efekti */
+      flex-direction: column;
+      /* İçeriği dikeyde hizalamak için */
+      gap: 10px;
+      /* Elemanlar arasına boşluk ekle */
     }
   }
 
   .advert__detail__car {
 
-   ul{
-    padding: 0;
-    display: grid;
-    grid-template-columns: 48% 48%;
-    grid-column-gap: 4%;
-    column-gap: 4%;
-    list-style: none;
-   }
-   li{
-    border-top: 1px solid #ececec;
-    padding-top: 12px;
-    padding-bottom: 12px;
-    display: flex
-;
-    align-items: center;
-    justify-content: space-between;
-   }
+    ul {
+      padding: 0;
+      display: grid;
+      grid-template-columns: 48% 48%;
+      grid-column-gap: 4%;
+      column-gap: 4%;
+      list-style: none;
+    }
+
+    li {
+      border-top: 1px solid #ececec;
+      padding-top: 12px;
+      padding-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
   }
 
   .advert__Description__title {
@@ -492,10 +514,11 @@ button,
 
     .advert__description {
       padding: 10px 15px;
-      border: 1px solid black;
       border-image-slice: 1;
       margin-bottom: 15px;
       height: 500px;
+      background-color:rgb(246, 246, 246);
+      border-radius: 10px;
     }
   }
 
@@ -787,85 +810,22 @@ button,
 .mobile__nav {
   display: none;
 }
-.just__home{
+
+.just__home {
   display: none;
 }
-.messages{
-  ul{
+
+.messages {
+  ul {
     list-style: none;
     padding: 0;
   }
-  a{
+
+  a {
     text-decoration: none;
   }
 }
-@media (max-width:800px) {
-  .advert-detail-border{
-    margin-top: 65px;
-  }
-  .just__home{
-    display: flex;
-  }
-  .mobile__nav {
-    display: flex;
-    flex-direction: column;
-    a{
-      color: black;
-    }
-    &__top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      &__left{
-        background-color: #c8d8f0;
-        
-      }
-      .nav__general__right{
-        background-color: rgb(255, 255, 255);
-         
-        }
-    }
-  }
 
-  .nav {
-    display: none
-  }
-
-  .categoryHome {
-    display: none;
-  }
-
-  .home {
-
-    display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Varsayılan olarak 2 kolon */
-  gap: 1rem; 
-  }
-
-  .advert-detail-swiper {
-    flex-direction: column;
-  }
-
-  .nav__media {
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: #333;
-    display: flex;
-    justify-content: space-around;
-    padding: 10px 0;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
-    align-items: center;
-
-    a {
-      color: white;
-      text-decoration: none;
-      font-size: 16px;
-      padding: 5px 10px;
-      transition: background-color 0.3s ease;
-    }
-  }
-}
 
 
 .profile-settings {
@@ -961,7 +921,8 @@ button,
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.6); /* Yarı saydam siyah arka plan */
+  background: rgba(0, 0, 0, 0.6);
+  /* Yarı saydam siyah arka plan */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -975,7 +936,8 @@ button,
   padding: 24px;
   max-width: 600px;
   width: 100%;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2); /* Hafif gölge */
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  /* Hafif gölge */
   animation: fadeIn 0.3s ease;
 }
 
@@ -985,6 +947,7 @@ button,
     opacity: 0;
     transform: scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -1034,7 +997,8 @@ select:focus {
 input[type="checkbox"] {
   margin-right: 8px;
   transform: scale(1.2);
-  accent-color: #007bff; /* Checkbox rengi */
+  accent-color: #007bff;
+  /* Checkbox rengi */
 }
 
 /* Textarea */
@@ -1054,102 +1018,200 @@ h3 {
   padding-bottom: 6px;
 }
 
-.message__mobile{
+.message__mobile {
   display: none;
 }
-.message{
+
+.message {
   display: block;
+}
+.profile__mobil{
+  display: none;
+}
+.profile{
+  display: flex;
+  justify-content: center;
+  
+}
+.search__mobile{
+  display: none;
 }
 /* Küçük ekranlar için */
 @media (max-width: 768px) {
-  .advert-detail-top{
-    font-size: 15px;
-    margin: 10px 0px;
-    display: flex;
-    justify-content: center;
-  }
- .advert__detail__car {
-   ul{
-    padding: 0;
-    display: grid;
-    grid-template-columns: auto !important;
-    grid-column-gap: 4%;
-    column-gap: 4%;
-    list-style: none;
-   }
-   li{
-    border-top: 1px solid #ececec;
-    padding-top: 12px;
-    padding-bottom: 12px;
-    display: flex
-;
-    align-items: center;
-    justify-content: space-between;
-   }
-  }
-.home {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
-  padding: 20px;
-  width: 80%;
-  margin: auto;
-
-  &__advert {
-    text-decoration: none;
-    color: inherit;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    &:hover {
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
-
-    &__image {
-      width: 100%;
-      /* Görselin genişliği kartı doldurur */
-      height: 150px;
-      /* Sabit bir yükseklik */
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      img {
-        max-width: 100%;
-        max-height: 100%;
-        /* Görseli kırpmadan sığdırır */
-        background-color: #fff;
-        /* Boş alanların rengi */
-      }
-    }
-
-    div {
-      margin-top: 10px;
-      font-size: 16px;
-      text-align: center;
+  
+  .search__mobile{
+    display: block;
+    width: 91%;
+    .results-dropdown{
+      width: 108%;
     }
   }
-}
-
-  .message{
+  .nav__general__input{
+    width: 100%;
+    margin: 0;
+  }
+  .profile{
     display: none;
   }
-  .message__mobile{
+  .profile__mobil{
+    margin-top: 30px;
+    display: block;
+  }
+  .advert-detail-border {
+    margin-top: 65px;
+  }
+
+  .just__home {
+    display: flex;
+  }
+
+  .mobile__nav {
+    display: flex;
+    flex-direction: column;
+
+    a {
+      color: black;
+    }
+
+    &__top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      &__left {
+        background-color: #c8d8f0;
+
+      }
+
+      .nav__general__right {
+        background-color: rgb(255, 255, 255);
+
+      }
+    }
+  }
+
+  .nav {
+    display: none
+  }
+
+  .categoryHome {
+    display: none;
+  }
+
+  .home {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .advert-detail-swiper {
+    flex-direction: column;
+  }
+
+  .nav__media {
+    
+   
+    display: flex;
+  
+
+    a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      padding: 5px 10px;
+      transition: background-color 0.3s ease;
+    }
+  }
+  .advert-detail-top {
+    font-size: 15px;
     display: flex;
     justify-content: center;
-    li{
+  }
+
+  .advert__detail__car {
+    ul {
+      padding: 0;
+      display: grid;
+      grid-template-columns: auto !important;
+      grid-column-gap: 4%;
+      column-gap: 4%;
+      list-style: none;
+    }
+
+    li {
+      border-top: 1px solid #ececec;
+      padding-top: 12px;
+      padding-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+
+  .home {
+    display: grid;
+    gap: 20px;
+    width: 100%;
+    padding: 0 ;
+    &__advert {
+      text-decoration: none;
+      color: inherit;
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      &:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      &__image {
+        width: 100%;
+        /* Görselin genişliği kartı doldurur */
+        height: 150px;
+        /* Sabit bir yükseklik */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        img {
+          max-width: 100%;
+          max-height: 100%;
+          /* Görseli kırpmadan sığdırır */
+          background-color: #fff;
+          /* Boş alanların rengi */
+        }
+      }
+
+      div {
+        margin-top: 10px;
+        font-size: 16px;
+        text-align: center;
+      }
+    }
+  }
+
+  .message {
+    display: none;
+  }
+
+  .message__mobile {
+    display: flex;
+    justify-content: center;
+
+    li {
       border-bottom: 1px solid;
     }
   }
+
   .model-content {
     max-width: 90%;
     padding: 16px;
   }
+
   h2 {
     font-size: 20px;
   }
@@ -1187,6 +1249,7 @@ h3 {
     opacity: 0;
     transform: scale(0.9);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -1194,7 +1257,8 @@ h3 {
 }
 
 /* Başlık */
-h2, h3 {
+h2,
+h3 {
   color: #333;
   font-size: 1.5rem;
   margin-bottom: 10px;
@@ -1250,7 +1314,7 @@ input[type="checkbox"] {
 form div {
   display: flex;
   align-items: center;
-  
+
   flex-wrap: wrap;
   gap: 10px;
 }

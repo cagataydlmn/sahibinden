@@ -93,22 +93,22 @@ export const updateProfilePhoto = (file) => async (dispatch) => {
     await uploadBytes(storageRef, file, metadata);
 
     // Yüklenen dosyanın URL'sini al
-    const profilePhoto = await getDownloadURL(storageRef);
+    const photoURL = await getDownloadURL(storageRef);
 
     // Firebase Authentication'da profil fotoğrafını güncelle
-    await updateProfile(user, { profilePhoto });
+    await updateProfile(user, { photoURL });
 
     // Firestore'da kullanıcı bilgilerini güncelle (bu adımı ekledik)
     const db = getFirestore();
     const userRef = doc(db, "users", user.uid);
     await updateDoc(userRef, {
-      profilePhoto: profilePhoto
+      photoURL: photoURL
     });
 
     // Redux state'ini güncelle
-    dispatch({ type: "UPDATE_PROFILE_PHOTO", payload: profilePhoto });
+    dispatch({ type: "UPDATE_PROFILE_PHOTO", payload: photoURL });
 
-    return profilePhoto;
+    return photoURL;
   } catch (error) {
     console.error("Profil fotoğrafı güncellenirken hata:", error);
     throw error;

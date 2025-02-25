@@ -3,35 +3,46 @@ import { Link, NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera, faMessage } from '@fortawesome/free-solid-svg-icons';
 
-export default function MobileNav(){
-    const { user } = useSelector((state) => state.auth);
+export default function MobileNav() {
+  const { user } = useSelector((state) => state.auth);
 
-    return(
+  return (
     <div className="mobile__nav">
-        <div className="mobile__nav__top">
-            <div className="mobile__nav__top__left">
-            {user ? (
-            <div className="nav__general__right">
-               <NavLink className="nav-link flex gap-3" to="/post-advert">
-              <FontAwesomeIcon className="size-[30px]" icon={faCamera} /> Sat              </NavLink>
-             
-            </div>
+      <div className="fixed top-0 pl-[23px] left-0 w-full bg-gradient-to-r from-indigo-600 to-blue-500 text-white shadow-xl py-4 flex justify-between items-center z-50 rounded-b-2xl">
+        <div>
+          {user ? (
+            <NavLink
+              className="flex flex-col items-center text-gray-300 hover:text-white transition-all duration-300 transform hover:scale-110"
+              to="/post-advert"
+            >
+              <FontAwesomeIcon className="text-2xl" icon={faCamera} />
+              <span className="text-sm font-medium mt-1">Sat</span>
+            </NavLink>
           ) : (
-            <div className="nav__general__right">
-              <NavLink to="/login" className="nav-link">
-                Login
-              </NavLink>
-            </div>
+            <NavLink
+              to="/login"
+              className="text-gray-300 hover:text-white transition-all duration-300 transform hover:scale-110 text-sm font-medium"
+            >
+              Giriş Yap
+            </NavLink>
           )}
+        </div>
+            <div>
+            <Link to="/" className="text-xl font-semibold tracking-widest text-white ml-auto">
+          Bazar
+        </Link>
             </div>
-            <Link to="/" className="">
-                    Bazar
-            </Link>
-            <NavLink to="/messages">
-              <FontAwesomeIcon className="size-[30px] flex " icon={faMessage} />
-              </NavLink>
-        </div>
-      
-        </div>
-        )
+   
+<div>
+<NavLink
+          to="/messages"
+          className="flex pr-[50px] flex-col items-center text-gray-300 hover:text-white transition-all duration-300 transform hover:scale-110 mr-2"
+        >
+          <FontAwesomeIcon className="text-2xl" icon={faMessage} />
+        </NavLink>
+</div>
+    
+      </div>
+    </div>
+  );
 }

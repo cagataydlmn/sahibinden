@@ -146,7 +146,7 @@ export default function Advert() {
     const advertData = {
       tempCategory,
       altcategory,
-      price: parseFloat(price),
+      price:price,
       marka,
       createdAt: new Date(),
       foto: photoUrls,
@@ -163,7 +163,7 @@ export default function Advert() {
       vites,
       yakıt,
 
-      km: parseFloat(price),
+      km: km,
     };
 
     try {
@@ -348,16 +348,14 @@ export default function Advert() {
                 <div className="car__km">
                   Kilometre:
                   <input
-                    value={km}
-                    type="text"
-                    onChange={(e) => {
-                      const rawValue = e.target.value.replace(/\D/g, "");
-                      const formattedValue = new Intl.NumberFormat(
-                        "tr-TR"
-                      ).format(rawValue);
-                      setKm(formattedValue); // Durumu güncelle
-                    }}
-                  />
+    value={km}
+    type="text"
+    onChange={(e) => {
+      const rawValue = e.target.value.replace(/\D/g, ""); // Sadece rakamları al
+      const formattedValue = rawValue.replace(/\B(?=(\d{3})+(?!\d))/g, "."); // Noktalı format
+      setKm(formattedValue); // State'i string olarak güncelle
+    }}
+  />
                 </div>
                 <div className="car__bilgi">
                   <div className="car__bilgi__renk">

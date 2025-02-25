@@ -8,12 +8,15 @@ import ProfileSettings from "../profileSettings";
 
 export default function Profile() {
   const [activeComponent, setActiveComponent] = useState("İlanlarım");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user } = useSelector((state) => state.auth);
+  const [step, setStep] = useState(1);
 
   const logout = () => {
     localStorage.removeItem("user");
     document.location.href = "/";
   };
+
   const components = {
     İlanlarım: <ProfileAdverts />,
     Sattıklarım: <ProfileSell />,
@@ -21,71 +24,89 @@ export default function Profile() {
     Favoriler: <ProfileFavourites />,
     deneme: <Loading />,
   };
-
+  const handleCategorySelect = (categoryId) => {
+    setActiveComponent(categoryId);
+    setStep(2); // İkinci adımda kategoriye tıklandığında içerik değişsin
+  };
+  const handleBack = () => {
+    setStep(1); // Geri butonuna tıklanınca menüye dön
+  };
   return (
-    <div
-      style={{
-        display: "flex",
-        maxHeight: "100vh",
-        justifyContent: "space-between",
-      }}
-    >
-      
-      <div style={{
-            listStyle: "none",
-            padding: 0,
-            width: "200px",
-            borderRight: "1px solid #ccc",
-            display:"flex",
-            flexDirection:"column",
-            justifyContent:"space-between"
-          }}>
-        <ul
-          style={{
-            listStyle: "none",
-            padding: 0,
-            width: "200px",
-          }}
+    <div>
+      <div className="profile flex flex-col lg:flex-row">
+        {/* Web Menü */}
+        <div className="flex flex-col lg:w-1/4 lg:border-r lg:border-gray-300 lg:h-full p-4 ">
+          <ul className="space-y-4 list-none">
+            {Object.keys(components).map((item) => (
+              <li
+                key={item}
+                onClick={() => setActiveComponent(item)}
+                className={`cursor-pointer px-4 py-2 rounded-lg ${
+                  activeComponent === item
+                    ? "bg-gray-700 text-white"
+                    : "bg-transparent text-black"
+                }`}
+              >
+                {item}
+              </li>
+            ))}
+            {user ? (
+              <button
+                onClick={logout}
+                className="w-full py-2 mt-4 bg-red-500 text-white rounded-lg"
+              >
+                Çıkış Yap
+              </button>
+            ) : (
+              <div></div>
+            )}
+          </ul>
+        </div>
+
+        {/* Mobile Menü Butonu */}
+        <button
+          className="lg:hidden p-4 bg-gray-800 text-white rounded-lg"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
-          {Object.keys(components).map((item) => (
-            <li
-              key={item}
-              onClick={() => setActiveComponent(item)}
-              style={{
-                padding: "10px",
-                margin: "5px 0",
-                backgroundColor:
-                  activeComponent === item ? "gray" : "transparent",
-                color: activeComponent === item ? "white" : "black",
-                cursor: "pointer",
-                borderRadius: "4px",
-              }}
+          Menü
+        </button>
+        <div className="flex-1 p-6">{components[activeComponent]}</div>
+      </div>
+      <div className="profile__mobil">
+        <div className="flex flex-col min-h-screen mt-24">
+          {step === 1 && (
+            <ul className="space-y-4 list-none p-0">
+              {Object.keys(components).map((item) => (
+                <li
+                    key={item}
+                    onClick={() => handleCategorySelect(item)}
+                  className={`cursor-pointer px-4 py-2 rounded-lg text-lg font-medium ${
+                    activeComponent === item
+                      ? "bg-gray-800 text-white"
+                      : "bg-transparent text-gray-700"
+                  }`}
+                >
+                  {item}
+                </li>
+              ))}
+               <button
+              onClick={logout}
+              className="w-full py-2 mt-4 bg-red-500 text-white rounded-lg"
             >
-              {item}
-            </li>
-            
-          ))}
-           {user ? (
-                 <button  style={{
-                  backgroundColor: "red",
-                  color: "white",
-                  border: "none",
-                  borderRadius: "4px", 
-                  width:"90%"              
-                }} onClick={logout} to="/">çıkış yap</button>
-          ) : (
-            <div className="nav__general__right">
-            
+              Çıkış Yap
+            </button>
+            </ul>
+          )}
+
+          {step === 2 && (
+            <div className="w-full max-w-4xl p-6 flex justify-center items-center">
+              <div><button onClick={handleBack}>GERİ</button></div>
+              <div className="w-full">{components[activeComponent]}</div>
             </div>
           )}
-     
-        </ul>
 
-       
-      </div>
-
-      <div style={{ flex: 1, padding: "20px" }}>
-        {components[activeComponent]}
+          
+        </div>
       </div>
     </div>
   );

@@ -30,7 +30,7 @@ export default function Nav() {
   return (
     <div>
       <MobileNav/>
-      <nav className="nav">
+      <nav className="nav bg-gradient-to-r from-indigo-600 to-blue-500">
         <Link to="/admin123">admin</Link>
         <div className="nav__general">
           <div>
@@ -69,24 +69,28 @@ export default function Nav() {
         </div>
       </nav>
       <div className="nav__media">
-        <NavLink to="/">Ana Sayfa</NavLink>
-        {user ? (
-          <>
-           <NavLink>Kategoriler</NavLink>
-            <NavLink to="/profile" className="">
-                  <img
-                    src={isInvalidPhoto ? defaultProfile : profilePhoto}
-                    alt="Profil"
-                    className="profile-photo"
-                  />
-                </NavLink>
-          </>
-        ) : (
-          <div><NavLink>Kategoriler</NavLink>
-          <NavLink className="nav-link" to="/login">
-            Profil
-          </NavLink></div>
-        )}
+        <div className="fixed bottom-0 left-0 w-full bg-gradient-to-r from-indigo-600 to-blue-500 text-white shadow-xl py-4 px-6 flex justify-between items-center z-50 rounded-t-2xl">
+          <NavLink to="/">Ana Sayfa</NavLink>
+          {user ? (
+            <>
+              <NavLink>Kategoriler</NavLink>
+              <NavLink to="/profile" className="">
+                <img
+                  src={isInvalidPhoto ? defaultProfile : profilePhoto}
+                  alt="Profil"
+                  className="profile-photo"
+                />
+              </NavLink>
+            </>
+          ) : (
+            <div>
+              <NavLink>Kategoriler</NavLink>
+              <NavLink className="nav-link" to="/login">
+                Profil
+              </NavLink>
+            </div>
+          )}
+        </div>
       </div>
       <Outlet />
     </div>

@@ -199,8 +199,8 @@ export default function AdvertDetail() {
 
 
   return (
-    <div className="advert-detail">
-      <div className="advert-detail-top">
+    <div className="advert-detail  flex flex-col m-auto flex-grow pb-24 overflow-y-auto w-full">
+      <div className="advert-detail-top mt-24">
         <Link className="no-underline text-black" to={`/category/${advert.tempCategory}`}> {categoryName}</Link>
         {" > "}
         <Link className="no-underline text-black" to={`/category/${advert.tempCategory}/sub/${advert.altcategory}`}>
@@ -230,6 +230,7 @@ export default function AdvertDetail() {
           loop={true}
           modules={[Navigation, Pagination, Scrollbar]}
           pagination={{ clickable: true }}
+          className="swiper"
         >
           {advert?.foto && advert.foto.length > 0 ? (
             advert.foto.map((imageUrl, index) => (
@@ -294,7 +295,7 @@ export default function AdvertDetail() {
         </div>
       </div>
 
-      <div className="advert-detail-border w-[65%] p-[30px] m-[30px] bg-white">
+      <div className="advert-detail-border w-[66%] p-[30px] mt-[30px] bg-white border border-gray-300 shadow-md rounded-lg">
         <div>
           <h3 className="border-none">{advert.price} TL</h3>
           <div>
@@ -374,7 +375,7 @@ export default function AdvertDetail() {
           )}
         </div>
         <div>
-          <div className="advert__Description__title">
+          <div className="advert__Description__title ">
             <div className="advert__Description__titles">ilan açıklaması:</div>
             <div className="advert__description">{advert.description}</div>
           </div>
