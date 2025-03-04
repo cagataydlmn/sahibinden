@@ -320,7 +320,7 @@ export default function AdvertDetail() {
                       <span>Yıl:</span> {advert.year}
                     </li>
                     <li>
-                      <span>Fiyats:</span> {advert.price}
+                      <span>Fiyatss:</span> {advert.price}
                     </li>
                   </ul>
                 </div>
