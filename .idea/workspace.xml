@@ -4,13 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7041d728-dd92-426f-8e86-9fda1a6bde8a" name="Changes" comment="style changes">
-      <change beforePath="$PROJECT_DIR$/src/firebase.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/firebase.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/advert/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/advert/index.js" afterDir="false" />
+    <list default="true" id="7041d728-dd92-426f-8e86-9fda1a6bde8a" name="Changes" comment="logout">
       <change beforePath="$PROJECT_DIR$/src/pages/advertDetail/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/advertDetail/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/profile/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/profile/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/profileMessages/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/profileMessages/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/style/style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/style/style.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,7 +74,7 @@
       <updated>1741047564649</updated>
       <workItem from="1741047566201" duration="6062000" />
       <workItem from="1741100792137" duration="840000" />
-      <workItem from="1741101639246" duration="1019000" />
+      <workItem from="1741101639246" duration="1189000" />
     </task>
     <task id="LOCAL-00001" summary="deneme">
       <option name="closed" value="true" />
@@ -105,7 +100,23 @@
       <option name="project" value="LOCAL" />
       <updated>1741050466632</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="logout">
+      <option name="closed" value="true" />
+      <created>1741102712909</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1741102712909</updated>
+    </task>
+    <task id="LOCAL-00005" summary="logout">
+      <option name="closed" value="true" />
+      <created>1741102809304</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1741102809304</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -115,6 +126,7 @@
     <MESSAGE value="deneme" />
     <MESSAGE value="deneme commiti" />
     <MESSAGE value="style changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="style changes" />
+    <MESSAGE value="logout" />
+    <option name="LAST_COMMIT_MESSAGE" value="logout" />
   </component>
 </project>
