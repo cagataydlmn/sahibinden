@@ -8,7 +8,7 @@ export default function MobileNav() {
 
   return (
     <div className="mobile__nav">
-      <div className="fixed top-0 pl-[23px] left-0 w-full bg-gradient-to-r from-indigo-600 to-blue-500 text-white shadow-xl py-4 flex justify-between items-center z-50 rounded-b-2xl">
+      <div className="fixed top-0 pl-[23px] left-0 w-full bg-gradient-to-r from-indigo-600 to-blue-500 text-white shadow-xl py-1 flex justify-between items-center z-50 rounded-b-2xl">
         <div>
           {user ? (
             <NavLink

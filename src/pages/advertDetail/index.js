@@ -199,8 +199,8 @@ export default function AdvertDetail() {
 
 
   return (
-    <div className="advert-detail  flex flex-col m-auto flex-grow pb-24 overflow-y-auto w-full">
-      <div className="advert-detail-top mt-24">
+    <div className="advert-detail  flex flex-col m-auto flex-grow overflow-y-auto w-full">
+      <div className="advert-detail-top ">
         <Link className="no-underline text-black" to={`/category/${advert.tempCategory}`}> {categoryName}</Link>
         {" > "}
         <Link className="no-underline text-black" to={`/category/${advert.tempCategory}/sub/${advert.altcategory}`}>

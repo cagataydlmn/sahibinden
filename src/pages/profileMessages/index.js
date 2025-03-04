@@ -312,7 +312,7 @@ export default function ChatScreen() {
         </div>
       </div>
 
-    <div className="message__mobile bg-gray-200 mt-24 mb-24 h-screen">
+    <div className="message__mobile bg-gray-200 h-screen">
   <div className="messages flex flex-col  bg-gray-300 font-sans justify-between items-center w-full md:w-[75%] mx-auto">
     <div className="border border-gray-300 rounded-lg w-full max-w-md h-full">
       <div className="flex h-full flex-col">

@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getAddvert } from "../../firebase";
 import Categories from "../../layouts/categories";
-import MobileNav from "../../layouts/mobileNav";
 import Search from "../../components/search";
 
 export default function Home() {
@@ -17,11 +16,10 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <div className="relative z-10">
-        <MobileNav />
-      </div>
 
-      <div className="flex overflow-y-auto pb-24 mt-24">
+
+
+      <div className="flex overflow-y-auto">
         <div className="just__home">
           <search />
         </div>

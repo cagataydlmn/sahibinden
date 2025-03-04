@@ -14,6 +14,8 @@ import SubCategoryDetail from "../pages/subCategoryDetail";
 import DetailCategory from "../pages/detailCategory";
 import TempCategoryDetail from "../pages/tempCategory";
 import MoreDetailCategory from "../pages/moreDetailCategory";
+import MobileNav from "../layouts/mobileNav";
+import MobileNavBottom from "../layouts/mobileNavBottom";
 
 const routes = createBrowserRouter([
   {
@@ -21,6 +23,8 @@ const routes = createBrowserRouter([
     element: (
       <Provider>
         <Nav />
+        <MobileNav/>
+        <MobileNavBottom/>
       </Provider>
     ),
     children: [
