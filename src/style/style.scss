@@ -4,6 +4,7 @@
 
 body {
   background-color: rgb(247, 247, 247);
+  margin: 0;
 }
 
 .categoryHome {
@@ -1038,7 +1039,15 @@ h3 {
 }
 /* Küçük ekranlar için */
 @media (max-width: 768px) {
-  
+    .addadvert{
+      form{
+        margin:0;
+        padding: 0;
+        .car{
+
+        }
+      }
+    }
   .search__mobile{
     display: block;
     width: 91%;

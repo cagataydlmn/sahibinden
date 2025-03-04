@@ -1,4 +1,3 @@
-
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import defaultProfile from "../../assets/default-profile.jpeg";
@@ -38,7 +37,7 @@ export default function AdvertDetail() {
   const [profilePhoto, setProfilePhoto] = useState(defaultProfile);
 
   const auth = getAuth();
-  const user = auth.currentUser;
+  const user = auth.currentUser; // Firebase'den kullanıcıyı alıyoruz
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -60,43 +59,43 @@ export default function AdvertDetail() {
           setCategoryName(category || "Bilinmeyen Kategori");
         }
         if (
-          foundAdvert &&
-          foundAdvert.altcategory &&
-          foundAdvert.tempCategory
+            foundAdvert &&
+            foundAdvert.altcategory &&
+            foundAdvert.tempCategory
         ) {
           const subCategory = await getSubCategoryById(
-            foundAdvert.altcategory,
-            foundAdvert.tempCategory
+              foundAdvert.altcategory,
+              foundAdvert.tempCategory
           );
           setSubCategoryName(subCategory || "Bilinmeyen Alt Kategori");
         }
 
         if (
-          foundAdvert &&
-          foundAdvert.tempCategory &&
-          foundAdvert.altcategory &&
-          foundAdvert.marka
+            foundAdvert &&
+            foundAdvert.tempCategory &&
+            foundAdvert.altcategory &&
+            foundAdvert.marka
         ) {
           const detail = await getDetailById(
-            foundAdvert.tempCategory,
-            foundAdvert.altcategory,
-            foundAdvert.marka
+              foundAdvert.tempCategory,
+              foundAdvert.altcategory,
+              foundAdvert.marka
           );
           setDetailName(detail || "Bilinmeyen Detay");
         }
 
         if (
-          foundAdvert &&
-          foundAdvert.tempCategory &&
-          foundAdvert.altcategory &&
-          foundAdvert.marka &&
-          foundAdvert.model
+            foundAdvert &&
+            foundAdvert.tempCategory &&
+            foundAdvert.altcategory &&
+            foundAdvert.marka &&
+            foundAdvert.model
         ) {
           const moreDetail = await getMoreDetailById(
-            foundAdvert.tempCategory,
-            foundAdvert.altcategory,
-            foundAdvert.marka,
-            foundAdvert.model
+              foundAdvert.tempCategory,
+              foundAdvert.altcategory,
+              foundAdvert.marka,
+              foundAdvert.model
           );
           setMoreDetailName(moreDetail || "Bilinmeyen Detay");
         }
@@ -105,6 +104,7 @@ export default function AdvertDetail() {
       });
     }
   }, [advertId]);
+
   useEffect(() => {
     const checkFavoriteStatus = async () => {
       const auth = getAuth();
@@ -154,9 +154,9 @@ export default function AdvertDetail() {
 
         // Favoriyi ekle/kaldır
         const updatedFavorites = await toggleFavoriteFirebase(
-          user.uid,
-          advertId,
-          currentFavorites
+            user.uid,
+            advertId,
+            currentFavorites
         );
 
         // Favori durumu güncelle
@@ -174,11 +174,14 @@ export default function AdvertDetail() {
   if (loading) {
     return <Loading />;
   }
+
+  // Kullanıcı giriş yapmamışsa kullanıcı verisini göstermemek için kontrol ekliyoruz
   if (!user) {
-    alert("Lütfen giriş yapın.");
-    return;
+    console.warn("Kullanıcı giriş yapmamış, ancak sayfa gösterilmeye devam ediyor.");
+  } else {
+    console.log("Current User UID: ", user.email); // Giriş yapmış kullanıcı verisini logluyoruz
   }
-  console.log("Current User UID: ", user.email);
+
   const handleSendMessage = async () => {
     if (!user) {
       alert("Lütfen giriş yapın.");
@@ -197,190 +200,133 @@ export default function AdvertDetail() {
     navigate(`/messages/${senderId}_${receiverId}`);
   };
 
-
   return (
-    <div className="advert-detail  flex flex-col m-auto flex-grow overflow-y-auto w-full">
-      <div className="advert-detail-top ">
-        <Link className="no-underline text-black" to={`/category/${advert.tempCategory}`}> {categoryName}</Link>
-        {" > "}
-        <Link className="no-underline text-black" to={`/category/${advert.tempCategory}/sub/${advert.altcategory}`}>
-          {" "}
-          {subCategoryName}
-        </Link>
-        {" > "}
-        <Link className="no-underline text-black"
-          to={`/category/${advert.tempCategory}/sub/${advert.altcategory}/detail/${advert.marka}`}
-        >
-          {" "}
-          {detailName}
-        </Link>
-        {" > "}
-        <Link className="no-underline text-black"
-          to={`/category/${advert.tempCategory}/sub/${advert.altcategory}/detail/${advert.marka}/moredetail/${advert.model}`}
-        >
-          {" "}
-          {moreDetailName}
-        </Link>
-      </div>
-      <div className="advert-detail-swiper">
-        <Swiper
-          spaceBetween={50}
-          slidesPerView={1}
-          navigation={true}
-          loop={true}
-          modules={[Navigation, Pagination, Scrollbar]}
-          pagination={{ clickable: true }}
-          className="swiper"
-        >
-          {advert?.foto && advert.foto.length > 0 ? (
-            advert.foto.map((imageUrl, index) => (
-              <SwiperSlide
-                key={index}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <button
-                  onClick={handleFavoriteToggle}
-                  disabled={isButtonLoading}
-                  className={`absolute top-2 right-2 p-2 rounded-full transition-all text-[20px] ${
-                    isFavorite
-                      ? "bg-red-100 text-red-500"
-                      : "bg-white/70 text-gray-500"
-                  } hover:bg-red-200`}
-                >
-                  {isFavorite ? (
-                    <FontAwesomeIcon icon={faHeart} className="text-red-500" />
-                  ) : (
-                    <FontAwesomeIcon icon={faHeart} className="text-gray-500" />
-                  )}
-                </button>
-                <img
-                  src={imageUrl}
-                  alt={`Advert ${index + 1}`}
-                  className="swiper-image"
-                />
-              </SwiperSlide>
-            ))
-          ) : (
-            <SwiperSlide>
-              <img
-                src="/default-image.jpg"
-                alt="No images available"
-                className="swiper-image"
-              />
-            </SwiperSlide>
-          )}
-        </Swiper>
-
-        <div className="username">
-          <div className="flex items-center gap-5 p-[15px] border border-gray-300 rounded-lg shadow-sm bg-white">
-            <img
-              src={profilePhoto}
-              alt="Profil Fotoğrafı"
-              className="w-[70px] h-[70px] rounded-full object-cover border-2 border-gray-300"
-            />
-            <div className="text-xl font-semibold text-gray-800">
-              {userName ? userName : "Bilinmeyen Kullanıcı"}
-            </div>
-          </div>
-          <button
-            className="w-[110%] mt-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition duration-200"
-            onClick={handleSendMessage}
+      <div className="advert-detail  flex flex-col m-auto flex-grow overflow-y-auto w-full">
+        <div className="advert-detail-top ">
+          <Link className="no-underline text-black" to={`/category/${advert.tempCategory}`}> {categoryName}</Link>
+          {" > "}
+          <Link className="no-underline text-black" to={`/category/${advert.tempCategory}/sub/${advert.altcategory}`}>
+            {" "}
+            {subCategoryName}
+          </Link>
+          {" > "}
+          <Link className="no-underline text-black"
+                to={`/category/${advert.tempCategory}/sub/${advert.altcategory}/detail/${advert.marka}`}
           >
-            Mesaj Gönder
-          </button>
+            {" "}
+            {detailName}
+          </Link>
+          {" > "}
+          <Link className="no-underline text-black"
+                to={`/category/${advert.tempCategory}/sub/${advert.altcategory}/detail/${advert.marka}/moredetail/${advert.model}`}
+          >
+            {" "}
+            {moreDetailName}
+          </Link>
         </div>
-      </div>
+        <div className="advert-detail-swiper">
+          <Swiper
+              spaceBetween={50}
+              slidesPerView={1}
+              navigation={true}
+              loop={true}
+              modules={[Navigation, Pagination, Scrollbar]}
+              pagination={{ clickable: true }}
+              className="swiper"
+          >
+            {advert?.foto && advert.foto.length > 0 ? (
+                advert.foto.map((imageUrl, index) => (
+                    <SwiperSlide
+                        key={index}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                    >
+                      <button
+                          onClick={handleFavoriteToggle}
+                          disabled={isButtonLoading}
+                          className={`absolute top-2 right-2 p-2 rounded-full transition-all text-[20px] ${
+                              isFavorite
+                                  ? "bg-red-100 text-red-500"
+                                  : "bg-white/70 text-gray-500"
+                          } hover:bg-red-200`}
+                      >
+                        {isFavorite ? (
+                            <FontAwesomeIcon icon={faHeart} className="text-red-500" />
+                        ) : (
+                            <FontAwesomeIcon icon={faHeart} className="text-gray-500" />
+                        )}
+                      </button>
+                      <img
+                          src={imageUrl}
+                          alt={`Advert ${index + 1}`}
+                          className="swiper-image"
+                      />
+                    </SwiperSlide>
+                ))
+            ) : (
+                <SwiperSlide>
+                  <img
+                      src="/default-image.jpg"
+                      alt="No images available"
+                      className="swiper-image"
+                  />
+                </SwiperSlide>
+            )}
+          </Swiper>
 
-      <div className="advert-detail-border w-[66%] p-[30px] mt-[30px] bg-white border border-gray-300 shadow-md rounded-lg">
-        <div>
-          <h3 className="border-none">{advert.price} TL</h3>
+          <div className="username">
+            <div className="flex items-center gap-5 p-[15px] border border-gray-300 rounded-lg shadow-sm bg-white">
+              <img
+                  src={profilePhoto}
+                  alt="Profil Fotoğrafı"
+                  className="w-[70px] h-[70px] rounded-full object-cover border-2 border-gray-300"
+              />
+              <div className="text-xl font-semibold text-gray-800">
+                {userName ? userName : "Bilinmeyen Kullanıcı"}
+              </div>
+            </div>
+            <button
+                className="w-[110%] mt-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition duration-200"
+                onClick={handleSendMessage}
+            >
+              Mesaj Gönder
+            </button>
+          </div>
+        </div>
+
+        <div className="advert-detail-border w-[66%] p-[30px] mt-[30px] bg-white border border-gray-300 shadow-md rounded-lg">
           <div>
-            {advert.title}
-            <hr />
+            <h3 className="border-none">{advert.price} TL</h3>
+            <div>
+              {advert.title}
+              <hr />
+            </div>
           </div>
-        </div>
-        <div>
-
-          <h4>İlan özellikleri</h4>
-          {advert.tempCategory === "FecwhXkriZmMzoepLg4E" ? (
-            <div className="advert__detail__car ">
-              <ul>
-                <li>
-                  <span>Ağır Hasar</span>
-                  <span>{advert.hasar}</span>
-                </li>
-                <li>
-                  <span>Marka</span>
-                  <span>{detailName}</span>
-                </li>
-                <li>
-                  <span>Model</span>
-                  <span>{moreDetailName}</span>
-                </li>
-                <li>
-                  <span>Vites</span>
-                  <span>{advert.vites}</span>
-                </li>
-                <li>
-                  <span>Yakıt</span>
-                  <span>{advert.yakıt}</span>
-                </li>
-                <li>
-                  <span>KM</span>
-                  <span>{advert.km}</span>
-                </li>
-                <li>
-                  <span>Ana Kategori</span>
-                  <span>{categoryName}</span>
-                </li>
-                <li>
-                  <span>Alt Kategori</span>
-                  <span>{subCategoryName}</span>
-                </li>
-                <li>
-                  <span>Alt Kategori</span>
-                  <span>{subCategoryName}</span>
-                </li>
-              </ul>
-            </div>
-          ) : advert.tempCategory === "PKHj5ev6aFCMDyJVQpka" ? (
-            <div className="advert__detail__car">
-              <table>
-                <tbody>
-                  <tr>
-                    <td>Brüt m2</td>
-                    <td>{advert.brut}</td>
-                  </tr>
-                  <tr>
-                    <td>Net m2</td>
-                    <td>{advert.net}</td>
-                  </tr>
-                  <tr>
-                    <td>Bina yaşı</td>
-                    <td>{advert.bina}</td>
-                  </tr>
-                  <tr>
-                    <td>Oda Sayısı</td>
-                    <td>{advert.oda}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          ) : (
-            <div>Kategori bulunamadı</div>
-          )}
-        </div>
-        <div>
-          <div className="advert__Description__title ">
-            <div className="advert__Description__titles">ilan açıklaması:</div>
-            <div className="advert__description">{advert.description}</div>
+          <div>
+            <h4>İlan özellikleri</h4>
+            {advert.tempCategory === "FecwhXkriZmMzoepLg4E" ? (
+                <div className="advert__detail__car ">
+                  <ul>
+                    <li>
+                      <span>Marka:</span> {advert.marka}
+                    </li>
+                    <li>
+                      <span>Model:</span> {advert.model}
+                    </li>
+                    <li>
+                      <span>Yıl:</span> {advert.year}
+                    </li>
+                    <li>
+                      <span>Fiyat:</span> {advert.price}
+                    </li>
+                  </ul>
+                </div>
+            ) : null}
           </div>
         </div>
       </div>
-    </div>
   );
 }

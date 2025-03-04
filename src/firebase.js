@@ -27,7 +27,7 @@ import {
   EmailAuthProvider,
   reauthenticateWithCredential,
   updatePassword,
-  updateProfile,
+  updateProfile,signOut
 } from "firebase/auth";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 
@@ -126,7 +126,15 @@ export const login = async (email, password) => {
   const { user } = await signInWithEmailAndPassword(auth, email, password);
   return { user };
 };
-
+export const logout = async () => {
+  try {
+    await signOut(auth); // Firebase oturumunu kapat
+    localStorage.removeItem("user"); // LocalStorage'dan kullanıcıyı sil
+    document.location.href = "/"; // Sayfayı yenileyerek yönlendirme yap
+  } catch (error) {
+    console.error("Çıkış yaparken hata oluştu:", error);
+  }
+};
 export const getUserById = async (uid) => {
   try {
     const userDoc = await getDoc(doc(db, "users", uid));

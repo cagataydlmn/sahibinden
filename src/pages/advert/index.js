@@ -195,7 +195,7 @@ export default function Advert() {
   };
 
   return (
-    <div className="addadvert flex justify-center py-6">
+    <div className="addadvert flex justify-center ">
     <form onSubmit={submitHandle} className="w-full max-w-4xl space-y-6">
       {/* Step Indicator */}
       <div className="adımsayar flex gap-5 justify-end text-xl font-semibold">

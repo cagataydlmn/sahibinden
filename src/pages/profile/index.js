@@ -5,6 +5,7 @@ import ProfileAdverts from "../profileAdverts";
 import ProfileFavourites from "../profileFavourites";
 import ProfileSell from "../profileSell";
 import ProfileSettings from "../profileSettings";
+import {logout} from "../../firebase";
 
 export default function Profile() {
   const [activeComponent, setActiveComponent] = useState("İlanlarım");
@@ -12,10 +13,7 @@ export default function Profile() {
   const { user } = useSelector((state) => state.auth);
   const [step, setStep] = useState(1);
 
-  const logout = () => {
-    localStorage.removeItem("user");
-    document.location.href = "/";
-  };
+
 
   const components = {
     İlanlarım: <ProfileAdverts />,

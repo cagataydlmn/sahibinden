@@ -317,7 +317,6 @@ export default function ChatScreen() {
     <div className="border border-gray-300 rounded-lg w-full max-w-md h-full">
       <div className="flex h-full flex-col">
 
-        {/* Sohbet Listesi */}
         {!chatId && (
           <div className="w-full bg-gray-100 border-b border-gray-200 overflow-y-auto flex-1">
             <ul className="space-y-2 p-4">
