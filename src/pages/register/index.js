@@ -3,6 +3,22 @@ import { Link, useNavigate } from "react-router-dom";
 import { register } from "../../firebase.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
+import { Box, Button, Card, CssBaseline, Divider, TextField, Typography } from "@mui/material";
+import { styled } from "@mui/material/styles";
+
+const StyledCard = styled(Card)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  alignSelf: "center",
+  width: "100%",
+  padding: theme.spacing(4),
+  gap: theme.spacing(2),
+  margin: "auto",
+  [theme.breakpoints.up("sm")]: {
+    maxWidth: "450px",
+  },
+  boxShadow: theme.shadows[5],
+}));
 
 export default function Register() {
   const navigate = useNavigate();
@@ -25,55 +41,116 @@ export default function Register() {
   };
 
   return (
-    <div className="register">
-      <form className="register__general" onSubmit={handleSubmit}>
-        <div className="register__general__top">
-          <FontAwesomeIcon icon={faGoogle} />
-          |
-          <FontAwesomeIcon icon={faGoogle} />
-        </div>
+      <>
+        <CssBaseline />
+        <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100vh",
+              px: 2,
+            }}
+        >
+          <StyledCard variant="outlined">
+            <Typography component="h1" variant="h5" align="center">
+              Kayıt Ol
+            </Typography>
+            <form onSubmit={handleSubmit} noValidate>
+              <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                <Box sx={{ display: "flex", justifyContent: "center", gap: 2 }}>
+                  <FontAwesomeIcon icon={faGoogle} style={{ fontSize: 24 }} />
+                  <span>|</span>
+                  <FontAwesomeIcon icon={faGoogle} style={{ fontSize: 24 }} />
+                </Box>
 
-        <div className="register__general__genel">
-          <div className="register__general__genel__name">
-            <input
-              type="text"
-              placeholder="Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-            <input
-              placeholder="Last Name"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              type="text"
-            />
-          </div>
+                <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2 }}>
+                  <TextField
+                      type="email"
+                      label="Ad"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      required
+                      fullWidth
+                      sx={{
+                        "& .MuiInputBase-root": {
+                          height: 45, // Ensure consistent height across inputs
+                        },
+                      }}
+                  />
+                  <TextField
+                      type="email"
+                      label="Soyad"
+                      value={lastName}
+                      onChange={(e) => setLastName(e.target.value)}
+                      required
+                      fullWidth
+                      sx={{
+                        "& .MuiInputBase-root": {
+                          height: 45, // Ensure consistent height across inputs
+                        },
+                      }}
+                  />
+                </Box>
 
-          <div className="register__general__genel__mid">
-            <input
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              type="e-mail"
-            />
-          </div>
-          <div className="register__general__genel__mid">
-            <input
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              type="password"
-            />
-          </div>
-        </div>
+                <TextField
+                    label="Email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    fullWidth
+                    sx={{
+                      "& .MuiInputBase-root": {
+                        height: 45, // Ensure consistent height across inputs
+                      },
+                    }}
+                />
 
-        <div className="register__general__under">
-          <button>Kayıt ol</button>
-          <div className="register__general__under__text">
-            Hesabın varsa <Link to="/login">Giriş Yap!</Link>
-          </div>
-        </div>
-      </form>
-    </div>
+                <TextField
+                    label="Şifre"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    fullWidth
+                    sx={{
+                      "& .MuiInputBase-root": {
+                        height: 45, // Ensure consistent height across inputs
+                      },
+                    }}
+                />
+
+                <Button
+                    type="submit"
+                    variant="contained"
+                    fullWidth
+                    sx={{ mt: 2 }}
+                >
+                  Kayıt Ol
+                </Button>
+              </Box>
+            </form>
+
+            <Divider sx={{ my: 2 }}>veya</Divider>
+
+            <Button
+                fullWidth
+                variant="outlined"
+                startIcon={<FontAwesomeIcon icon={faGoogle} />}
+                sx={{ mb: 2 }}
+            >
+              Google ile giriş yap
+            </Button>
+
+            <Typography align="center">
+              Hesabın varsa{" "}
+              <Link to="/login" style={{ textDecoration: "none" }}>
+                Giriş Yap!
+              </Link>
+            </Typography>
+          </StyledCard>
+        </Box>
+      </>
   );
 }

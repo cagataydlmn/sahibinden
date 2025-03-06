@@ -201,7 +201,7 @@ export default function AdvertDetail() {
   };
 
   return (
-      <div className="advert-detail  flex flex-col m-auto flex-grow overflow-y-auto w-full">
+      <div className="advert-detail mt-[60px]  flex flex-col m-auto flex-grow overflow-y-auto w-full">
         <div className="advert-detail-top ">
           <Link className="no-underline text-black" to={`/category/${advert.tempCategory}`}> {categoryName}</Link>
           {" > "}
@@ -297,6 +297,7 @@ export default function AdvertDetail() {
           </div>
         </div>
 
+
         <div className="advert-detail-border w-[66%] p-[30px] mt-[30px] bg-white border border-gray-300 shadow-md rounded-lg">
           <div>
             <h3 className="border-none">{advert.price} TL</h3>
@@ -306,25 +307,81 @@ export default function AdvertDetail() {
             </div>
           </div>
           <div>
+
             <h4>İlan özellikleri</h4>
             {advert.tempCategory === "FecwhXkriZmMzoepLg4E" ? (
                 <div className="advert__detail__car ">
                   <ul>
                     <li>
-                      <span>Marka:</span> {advert.marka}
+                      <span>Ağır Hasar</span>
+                      <span>{advert.hasar}</span>
                     </li>
                     <li>
-                      <span>Model:</span> {advert.model}
+                      <span>Marka</span>
+                      <span>{detailName}</span>
                     </li>
                     <li>
-                      <span>Yıl:</span> {advert.year}
+                      <span>Model</span>
+                      <span>{moreDetailName}</span>
                     </li>
                     <li>
-                      <span>Fiyatss:</span> {advert.price}
+                      <span>Vites</span>
+                      <span>{advert.vites}</span>
+                    </li>
+                    <li>
+                      <span>Yakıt</span>
+                      <span>{advert.yakıt}</span>
+                    </li>
+                    <li>
+                      <span>KM</span>
+                      <span>{advert.km}</span>
+                    </li>
+                    <li>
+                      <span>Ana Kategori</span>
+                      <span>{categoryName}</span>
+                    </li>
+                    <li>
+                      <span>Alt Kategori</span>
+                      <span>{subCategoryName}</span>
+                    </li>
+                    <li>
+                      <span>Alt Kategori</span>
+                      <span>{subCategoryName}</span>
                     </li>
                   </ul>
                 </div>
-            ) : null}
+            ) : advert.tempCategory === "PKHj5ev6aFCMDyJVQpka" ? (
+                <div className="advert__detail__car">
+                  <table>
+                    <tbody>
+                    <tr>
+                      <td>Brüt m2</td>
+                      <td>{advert.brut}</td>
+                    </tr>
+                    <tr>
+                      <td>Net m2</td>
+                      <td>{advert.net}</td>
+                    </tr>
+                    <tr>
+                      <td>Bina yaşı</td>
+                      <td>{advert.bina}</td>
+                    </tr>
+                    <tr>
+                      <td>Oda Sayısı</td>
+                      <td>{advert.oda}</td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+            ) : (
+                <div>Kategori bulunamadı</div>
+            )}
+          </div>
+          <div>
+            <div className="advert__Description__title ">
+              <div className="advert__Description__titles">ilan açıklaması:</div>
+              <div className="advert__description">{advert.description}</div>
+            </div>
           </div>
         </div>
       </div>

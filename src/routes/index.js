@@ -16,6 +16,7 @@ import TempCategoryDetail from "../pages/tempCategory";
 import MoreDetailCategory from "../pages/moreDetailCategory";
 import MobileNav from "../layouts/mobileNav";
 import MobileNavBottom from "../layouts/mobileNavBottom";
+import CategoriesMobile from "../layouts/categoriesMobile";
 
 const routes = createBrowserRouter([
   {
@@ -78,6 +79,10 @@ const routes = createBrowserRouter([
       {
         path:"/messages",
         element:<ChatPage/>
+      },
+      {
+        path:"/category",
+        element:<CategoriesMobile/>
       }
     ],
   },

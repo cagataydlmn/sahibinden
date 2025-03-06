@@ -13,8 +13,7 @@ body {
   padding-top: 5px;
 
   &__general {
-    margin: auto;
-
+  margin-top: 50px;
     width: 90%;
     display: flex;
     flex-wrap: wrap;
@@ -1037,8 +1036,12 @@ h3 {
 .search__mobile{
   display: none;
 }
+
 /* Küçük ekranlar için */
 @media (max-width: 768px) {
+  .categoryHome__Device{
+    display: block;
+  }
     .addadvert{
       form{
         margin:0;

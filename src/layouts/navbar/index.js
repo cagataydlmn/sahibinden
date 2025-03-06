@@ -36,7 +36,6 @@ export default function Nav() {
         {/* Ana Navbar (Sadece Masaüstü) */}
         <div className="hidden md:block">
           <nav className="nav bg-gradient-to-r from-indigo-600 to-blue-500">
-            <Link to="/admin123">admin</Link>
             <div className="nav__general">
               <div>
                 <Link to="/" className="nav__general__left">
@@ -77,7 +76,7 @@ export default function Nav() {
         </div>
 
         {/* Sayfa İçeriği */}
-        <div className="flex-grow pt-[60px] pb-[70px]">
+        <div className="flex-grow  pb-[70px]">
           <Outlet />
         </div>
 

@@ -39,7 +39,7 @@ export default function MoreDetailCategory() {
   }, [products, moreDetailId]);
 
   return (
-    <div className="p-5 bg-gray-50 rounded-lg shadow-lg">
+    <div className="p-5 bg-gray-50 rounded-lg shadow-lg mt-[50px] w-[80%]">
       <h2 className="text-xl font-bold text-gray-800 mb-4">
         {moreDetailId} Modeline Ait Ürünler
       </h2>
