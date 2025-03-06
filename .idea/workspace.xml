@@ -4,23 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7041d728-dd92-426f-8e86-9fda1a6bde8a" name="Changes" comment="logout">
-      <change afterPath="$PROJECT_DIR$/src/layouts/categoriesMobile/index.js" afterDir="false" />
+    <list default="true" id="7041d728-dd92-426f-8e86-9fda1a6bde8a" name="Changes" comment="categories design">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/layouts/mobileNavBottom/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/mobileNavBottom/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/layouts/navbar/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/navbar/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/advert/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/advert/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/advertDetail/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/advertDetail/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/detailCategory/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/detailCategory/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/home/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/home/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/login/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/login/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/moreDetailCategory/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/moreDetailCategory/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/register/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/register/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/subCategoryDetail/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/subCategoryDetail/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/style/style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/style/style.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,7 +77,7 @@
       <workItem from="1741100792137" duration="840000" />
       <workItem from="1741101639246" duration="4732000" />
       <workItem from="1741136346852" duration="5774000" />
-      <workItem from="1741267625677" duration="3613000" />
+      <workItem from="1741267625677" duration="3730000" />
     </task>
     <task id="LOCAL-00001" summary="deneme">
       <option name="closed" value="true" />
@@ -149,7 +135,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741102863838</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="categories design">
+      <option name="closed" value="true" />
+      <created>1741271313460</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1741271313460</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -160,6 +154,7 @@
     <MESSAGE value="deneme commiti" />
     <MESSAGE value="style changes" />
     <MESSAGE value="logout" />
-    <option name="LAST_COMMIT_MESSAGE" value="logout" />
+    <MESSAGE value="categories design" />
+    <option name="LAST_COMMIT_MESSAGE" value="categories design" />
   </component>
 </project>
