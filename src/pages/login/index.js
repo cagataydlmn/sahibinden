@@ -40,7 +40,7 @@ export default function Login() {
                 if (user.uid === adminUID) {
                     navigate("/admin123"); // Admin giriş yaptıysa admin sayfasına yönlendir
                 } else {
-                    navigate("/"); // Normal kullanıcı ana sayfaya yönlendir
+                    navigate("/"); // Normal kullanıcı ana sayfaya yönlendi
                 }
             }
         });

@@ -4,17 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7041d728-dd92-426f-8e86-9fda1a6bde8a" name="Changes" comment="categories design">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/firebase 2.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/firebase.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/firebase.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index 2.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/admin/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/admin/index.js" afterDir="false" />
+    <list default="true" id="7041d728-dd92-426f-8e86-9fda1a6bde8a" name="Changes" comment="email varification">
       <change beforePath="$PROJECT_DIR$/src/pages/login/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/login/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/register/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/register/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/auth 2.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/index 2.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,6 +81,7 @@
       <workItem from="1741315685142" duration="537000" />
       <workItem from="1741353352287" duration="1969000" />
       <workItem from="1741473683287" duration="2052000" />
+      <workItem from="1741475878856" duration="272000" />
     </task>
     <task id="LOCAL-00001" summary="deneme">
       <option name="closed" value="true" />
@@ -163,7 +155,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741271518603</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="email varification">
+      <option name="closed" value="true" />
+      <created>1741475891464</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1741475891464</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -175,6 +175,7 @@
     <MESSAGE value="style changes" />
     <MESSAGE value="logout" />
     <MESSAGE value="categories design" />
-    <option name="LAST_COMMIT_MESSAGE" value="categories design" />
+    <MESSAGE value="email varification" />
+    <option name="LAST_COMMIT_MESSAGE" value="email varification" />
   </component>
 </project>
