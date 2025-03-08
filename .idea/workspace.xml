@@ -6,7 +6,15 @@
   <component name="ChangeListManager">
     <list default="true" id="7041d728-dd92-426f-8e86-9fda1a6bde8a" name="Changes" comment="categories design">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/home/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/home/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/firebase 2.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/firebase.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/firebase.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index 2.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/admin/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/admin/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/login/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/login/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/register/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/register/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/auth 2.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/index 2.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,7 +85,11 @@
       <workItem from="1741100792137" duration="840000" />
       <workItem from="1741101639246" duration="4732000" />
       <workItem from="1741136346852" duration="5774000" />
-      <workItem from="1741267625677" duration="3730000" />
+      <workItem from="1741267625677" duration="3889000" />
+      <workItem from="1741304602442" duration="37000" />
+      <workItem from="1741315685142" duration="537000" />
+      <workItem from="1741353352287" duration="1969000" />
+      <workItem from="1741473683287" duration="2052000" />
     </task>
     <task id="LOCAL-00001" summary="deneme">
       <option name="closed" value="true" />
@@ -143,7 +155,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741271313460</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="categories design">
+      <option name="closed" value="true" />
+      <created>1741271518602</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1741271518603</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

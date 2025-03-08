@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { login as loginHandle } from "../../store/auth";
-import { login } from "../../firebase";
+import { auth, login } from "../../firebase";
 import { Box, Button, Card, Checkbox, CssBaseline, Divider, FormControl, FormControlLabel, FormLabel, Link as MuiLink, Stack, TextField, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import {Google} from "@mui/icons-material";
+import { Google } from "@mui/icons-material";
+import { onAuthStateChanged } from "firebase/auth";
 
 const StyledCard = styled(Card)(({ theme }) => ({
     display: "flex",
@@ -28,22 +29,50 @@ export default function Login() {
     const [password, setPassword] = useState("");
     const [emailError, setEmailError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
+    const adminUID = "5mO361wCr1YanR19pCXJgg8w55l2"; // Admin UID
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                if (!user.emailVerified) {
+                    return;
+                }
+                if (user.uid === adminUID) {
+                    navigate("/admin123"); // Admin giriş yaptıysa admin sayfasına yönlendir
+                } else {
+                    navigate("/"); // Normal kullanıcı ana sayfaya yönlendir
+                }
+            }
+        });
+        return () => unsubscribe();
+    }, [navigate]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         if (!email || !password) {
             setEmailError(!email);
             setPasswordError(!password);
             return;
         }
+
         try {
-            const user = await login(email, password);
+            const userCredential = await login(email, password);
+            const user = userCredential.user;
+
+            if (user.uid === adminUID) {
+                navigate("/admin123");
+            } else {
+                navigate("/");
+            }
+
             dispatch(loginHandle(user));
-            navigate("/", { replace: true });
         } catch (error) {
-            console.error("Login failed", error);
+            console.error("Giriş hatası:", error.message);
+            alert(error.message);
         }
     };
+
 
     return (
         <>

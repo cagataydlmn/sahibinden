@@ -5,6 +5,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { Box, Button, Card, CssBaseline, Divider, TextField, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import { sendEmailVerification } from "firebase/auth";
+import { auth } from "../../firebase.js";
 
 const StyledCard = styled(Card)(({ theme }) => ({
   display: "flex",
@@ -33,7 +35,12 @@ export default function Register() {
     try {
       const user = await register(email, password, name, lastName);
       if (user) {
-        navigate("/");
+          await sendEmailVerification(user);
+
+          alert("Kaydınız başarılı! Lütfen e-postanızı doğruladıktan sonra giriş yapın.");
+          await auth.signOut();
+
+          navigate("/");
       }
     } catch (error) {
       console.error("Kayıt hatası:", error);

@@ -49,8 +49,7 @@ export { db, auth };
 export const register = async (email, password, name, lastName) => {
   try {
     const { user } = await createUserWithEmailAndPassword(auth, email, password);
-    
-    // Kullanıcı profilini güncelle
+
     await updateProfile(auth.currentUser, {
       username: `${name} ${lastName}`
     });
@@ -124,6 +123,9 @@ export const googleSignIn = () => {
 
 export const login = async (email, password) => {
   const { user } = await signInWithEmailAndPassword(auth, email, password);
+  if (!user.emailVerified) {
+    throw new Error("Hesabınızı kullanabilmek için e-posta adresinizi doğrulamanız gerekiyor.");
+  }
   return { user };
 };
 export const logout = async () => {
