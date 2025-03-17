@@ -20,11 +20,12 @@ export default function Categories() {
   return (
     <div className="categoryHome">
 
-      <div className="categoryHome__general flex flex-col gap-10 p-5 bg-gray-50 rounded-lg shadow-lg">
+      <div className="categoryHome__general flex justify-center  gap-10   rounded-lg shadow-lg ">
+
         {categories.map((category) => (
           <div
             key={category.id}
-            className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"
+            className=" p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"
           >
             <Link
               className=" font-semibold text-gray-800 hover:text-blue-600 transition-colors duration-300 text-[18px]"
@@ -32,7 +33,8 @@ export default function Categories() {
             >
               {category.name}
             </Link>
-            {subCategories[category.id] && (
+            {/*
+              {subCategories[category.id] && (
             <ul className="mt-4 space-y-2 list-none w-[100%] ">
             {subCategories[category.id].map((subCategory) => (
                   <li key={subCategory.id}>
@@ -46,6 +48,8 @@ export default function Categories() {
                 ))}
               </ul>
             )}
+            */}
+
           </div>
         ))}
       </div>

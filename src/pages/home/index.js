@@ -11,8 +11,8 @@ export default function Home() {
   }, []);
 
   return (
-      <div className="flex flex-col min-h-screen mt-[30px]">
-        <div className="flex flex-col lg:flex-row w-full ">
+      <div className="flex flex-row  min-h-screen">
+        <div className="flex lg:flex-col w-full ">
           <div className="lg:w-1/8 lg:mr-4 mb-4 lg:mb-0">
             <Categories />
           </div>
@@ -22,27 +22,28 @@ export default function Home() {
               <Search />
             </div>
 
-            <div className="home  w-[90%] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="home w-[90%] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-6 ml-[30px]">
               {Products.map((advert) => (
                   <Link
                       to={`adverts/${advert.id}`}
-                      className="bg-white p-4 rounded-lg shadow hover:shadow-md transition-shadow no-underline"
+                      className="bg-white p-2 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 no-underline"
                       key={advert.id}
                   >
-                    <div className="home__advert__image">
+                    <div className="overflow-hidden rounded-xl">
                       <img
                           src={advert.foto[0]}
                           alt={`Ürün resmi: ${advert.brut}`}
-                          className="w-full h-32 object-cover mb-4 rounded-lg"
+                          className="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
                       />
                     </div>
-                    <div className="text-lg font-semibold text-gray-700">
-                      {advert.title}
+                    <div className="mt-1 pb-2">
+                      <div className="text-lg font-bold text-gray-800 truncate">{advert.title}</div>
+                      <div className="text-md font-semibold text-indigo-600 mt-1">{advert.price} TL</div>
                     </div>
-                    <div className="text-sm text-gray-500">{advert.price} TL</div>
                   </Link>
               ))}
             </div>
+
           </div>
         </div>
       </div>

@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import MobileNav from "../mobileNav";
 import Search from "../../components/search";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCamera, faMessage } from '@fortawesome/free-solid-svg-icons';
+import { faCamera, faMessage ,faHeart} from '@fortawesome/free-solid-svg-icons';
 import MobileNavBottom from "../mobileNavBottom";
 export default function Nav() {
   const { user } = useSelector((state) => state.auth);
@@ -34,7 +34,7 @@ export default function Nav() {
         </div>
 
         {/* Ana Navbar (Sadece Masaüstü) */}
-        <div className="hidden md:block">
+        <div className="hidden md:block sticky top-0 bg-white z-50 shadow-md">
           <nav className="nav bg-gradient-to-r from-indigo-600 to-blue-500">
             <div className="nav__general">
               <div>
@@ -45,16 +45,22 @@ export default function Nav() {
               <Search />
               {user ? (
                   <div className="nav__general__right">
-                    <NavLink className="nav-link flex gap-3" to="/post-advert">
-                      <FontAwesomeIcon className="size-[30px]" icon={faCamera} /> Sat
+                    <NavLink className="nav-link flex " to="/post-advert">
+                      <FontAwesomeIcon className="size-[30px]" icon={faCamera} />
                     </NavLink>
                     <NavLink to="/messages">
                       <FontAwesomeIcon className="size-[30px] flex" icon={faMessage} />
                     </NavLink>
+                      <NavLink to="/like">
+                          <FontAwesomeIcon
+                              icon={faHeart}
+                              className="text-red-500  flex cursor-pointer size-[30px]"
+                          />
+                      </NavLink>
                     <NavLink className="nav-link" to="/profile">
                       <NavLink className="profile-info" to="/profile">
                         <img
-                            src={isInvalidPhoto ? defaultProfile : profilePhoto}
+                            src={isInvalidPhoto ? defaultProfile : defaultProfile}
                             alt="Profil"
                             className="profile-photo"
                         />

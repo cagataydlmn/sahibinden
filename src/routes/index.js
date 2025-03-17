@@ -20,6 +20,7 @@ import MobileNav from "../layouts/mobileNav";
 import MobileNavBottom from "../layouts/mobileNavBottom";
 import CategoriesMobile from "../layouts/categoriesMobile";
 import {auth} from "../firebase";
+import YourComponent from "../pages/profileFavourites";
 
 const ProtectedAdminRoute = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -124,6 +125,10 @@ const routes = createBrowserRouter([
         path: "/category",
         element: <CategoriesMobile />,
       },
+      {
+        path:"/like",
+        element: <YourComponent/>
+      }
     ],
   },
 ]);
