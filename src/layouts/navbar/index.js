@@ -54,7 +54,7 @@ export default function Nav() {
                       <NavLink to="/like">
                           <FontAwesomeIcon
                               icon={faHeart}
-                              className="text-red-500  flex cursor-pointer size-[30px]"
+                              className="text-red-400  flex cursor-pointer size-[30px]"
                           />
                       </NavLink>
                     <NavLink className="nav-link" to="/profile">

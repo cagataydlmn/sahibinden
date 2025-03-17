@@ -4,15 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7041d728-dd92-426f-8e86-9fda1a6bde8a" name="Changes" comment="email varification">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/search/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/search/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/layouts/categories/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/categories/index.js" afterDir="false" />
+    <list default="true" id="7041d728-dd92-426f-8e86-9fda1a6bde8a" name="Changes" comment="style changes">
       <change beforePath="$PROJECT_DIR$/src/layouts/navbar/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/navbar/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/home/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/home/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/style/style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/style/style.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tailwind.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/tailwind.config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,7 +87,7 @@
       <workItem from="1741782017528" duration="638000" />
       <workItem from="1741784323507" duration="75000" />
       <workItem from="1741994415167" duration="6019000" />
-      <workItem from="1742175066546" duration="2363000" />
+      <workItem from="1742175066546" duration="2465000" />
     </task>
     <task id="LOCAL-00001" summary="deneme">
       <option name="closed" value="true" />
@@ -184,7 +177,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741476157304</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="style changes">
+      <option name="closed" value="true" />
+      <created>1742177499212</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1742177499212</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -193,10 +194,10 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="deneme" />
     <MESSAGE value="deneme commiti" />
-    <MESSAGE value="style changes" />
     <MESSAGE value="logout" />
     <MESSAGE value="categories design" />
     <MESSAGE value="email varification" />
-    <option name="LAST_COMMIT_MESSAGE" value="email varification" />
+    <MESSAGE value="style changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="style changes" />
   </component>
 </project>
