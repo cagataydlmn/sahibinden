@@ -16,7 +16,7 @@ export default function Categories() {
       });
     });
   }, [categories]);
-
+  console.log(subCategories);
   return (
     <div className="categoryHome">
 
