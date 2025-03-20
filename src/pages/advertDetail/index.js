@@ -201,7 +201,7 @@ export default function AdvertDetail() {
   };
 
   return (
-      <div className="advert-detail mt-[60px]  flex flex-col m-auto flex-grow overflow-y-auto w-full">
+      <div className="advert-detail   flex flex-col m-auto flex-grow overflow-y-auto w-full">
         <div className="advert-detail-top ">
           <Link className="no-underline text-black" to={`/category/${advert.tempCategory}`}> {categoryName}</Link>
           {" > "}
@@ -298,7 +298,7 @@ export default function AdvertDetail() {
         </div>
 
 
-        <div className="advert-detail-border w-[66%] p-[30px] mt-[30px] bg-white border border-gray-300 shadow-md rounded-lg">
+        <div className="advert-detail-border w-[66%] p-[30px]  bg-white border border-gray-300 shadow-md rounded-lg">
           <div>
             <h3 className="border-none">{advert.price} TL</h3>
             <div>

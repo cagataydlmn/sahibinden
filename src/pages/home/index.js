@@ -17,28 +17,32 @@ export default function Home() {
             <Categories />
           </div>
 
-          <div className="flex-1 w-[90%] mt-[30px] ml-auto mr-auto">
+          <div className="flex-1 w-[90%]  ml-auto mr-auto">
             <div className="search__mobile mb-4 lg:hidden">
               <Search />
             </div>
 
-            <div className="home w-[90%] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-6 ml-[30px]">
+            <div className="home w-full lg:px-8 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 mx-auto">
               {Products.map((advert) => (
                   <Link
                       to={`adverts/${advert.id}`}
-                      className="bg-white p-2 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 no-underline"
+                      className="bg-white p-3 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 no-underline"
                       key={advert.id}
                   >
                     <div className="overflow-hidden rounded-xl">
                       <img
                           src={advert.foto[0]}
                           alt={`Ürün resmi: ${advert.brut}`}
-                          className="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
+                          className="w-full h-40 md:h-48 object-cover transition-transform duration-300 hover:scale-105"
                       />
                     </div>
-                    <div className="mt-1 pb-2">
-                      <div className="text-lg font-bold text-gray-800 truncate">{advert.title}</div>
-                      <div className="text-md font-semibold text-indigo-600 mt-1">{advert.price} TL</div>
+                    <div className="mt-2 pb-2">
+                      <div className="text-base md:text-lg font-bold text-gray-800 truncate">
+                        {advert.title}
+                      </div>
+                      <div className="text-sm md:text-md font-semibold text-indigo-600 mt-1">
+                        {advert.price} TL
+                      </div>
                     </div>
                   </Link>
               ))}

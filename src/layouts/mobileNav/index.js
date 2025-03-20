@@ -7,7 +7,7 @@ export default function MobileNav() {
   const { user } = useSelector((state) => state.auth);
 
   return (
-    <div className="mobile__nav">
+    <nav className="mobile__nav">
       <div className="fixed top-0 pl-[23px] left-0 w-full bg-gradient-to-r from-indigo-600 to-blue-500 text-white shadow-xl py-1 flex justify-between items-center z-50 rounded-b-2xl">
         <div>
           {user ? (
@@ -32,7 +32,7 @@ export default function MobileNav() {
           Bazar
         </Link>
             </div>
-   
+
 <div>
 <NavLink
           to="/messages"
@@ -41,8 +41,8 @@ export default function MobileNav() {
           <FontAwesomeIcon className="text-2xl" icon={faMessage} />
         </NavLink>
 </div>
-    
+
       </div>
-    </div>
+    </nav>
   );
 }

@@ -672,4 +672,3 @@ export const getMessages = async (chatId) => {
   return messages;
 };
 
-//deneme commit

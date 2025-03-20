@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { sendMessage, getChats } from "../../firebase";
+import {sendMessage, getChats} from "../../firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { db } from "../../firebase";
 import defaultProfile from "../../assets/default-profile.jpeg";

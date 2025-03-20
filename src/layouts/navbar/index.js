@@ -82,7 +82,7 @@ export default function Nav() {
         </div>
 
         {/* Sayfa İçeriği */}
-        <div className="flex-grow  pb-[70px]">
+        <div className="flex-grow">
           <Outlet />
         </div>
 
