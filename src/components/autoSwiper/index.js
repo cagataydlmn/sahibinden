@@ -8,7 +8,7 @@ export default function AutoSwiper() {
     return (
         <Swiper
             spaceBetween={30} // Slaytlar arası boşluk
-            centeredSlides={true} // Slaytları ortala
+            centeredSlides={true} // Slaytları ortalasa
             autoplay={{
                 delay: 4000, // 3 saniyede bir geçiş yapar
                 disableOnInteraction: false, // Kullanıcı etkileşiminde otomatik döngüyü durdurma
