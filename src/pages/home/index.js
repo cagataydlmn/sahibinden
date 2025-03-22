@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { getAddvert } from "../../firebase";
 import Categories from "../../layouts/categories";
 import Search from "../../components/search";
-import AutoSwiper from "../../components/AutoSwiper";
+import AutoSwiper from "../../components/autoSwiper";
 
 export default function Home() {
   const [Products, setProducts] = useState([]);
