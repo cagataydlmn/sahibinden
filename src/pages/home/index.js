@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { getAddvert } from "../../firebase";
 import Categories from "../../layouts/categories";
 import Search from "../../components/search";
+import AutoSwiper from "../../components/AutoSwiper";
 
 export default function Home() {
   const [Products, setProducts] = useState([]);
@@ -13,7 +14,7 @@ export default function Home() {
   return (
       <div className="flex flex-row  min-h-screen">
         <div className="flex lg:flex-col w-full ">
-          <div className="lg:w-1/8 lg:mr-4 mb-4 lg:mb-0">
+          <div className="lg:w-1/8 lg:mr-4 mb-4 lg:mb-0 hidden sm:flex">
             <Categories />
           </div>
 
@@ -21,8 +22,8 @@ export default function Home() {
             <div className="search__mobile mb-4 lg:hidden">
               <Search />
             </div>
-
-            <div className="home w-full lg:px-8 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 mx-auto">
+            <AutoSwiper/>
+            <div className="home mt-[30px] w-full  grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 mx-auto">
               {Products.map((advert) => (
                   <Link
                       to={`adverts/${advert.id}`}
