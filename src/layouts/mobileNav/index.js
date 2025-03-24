@@ -8,7 +8,7 @@ export default function MobileNav() {
 
   return (
     <nav className="mobile__nav">
-      <div className="fixed top-0 pl-[23px] left-0 w-full bg-gradient-to-r from-indigo-600 to-blue-500 text-white shadow-xl py-1 flex justify-between items-center z-50 rounded-b-2xl">
+      <div className="fixed h-10 top-0 pl-[23px] left-0 w-full bg-gradient-to-r from-indigo-600 to-blue-500 text-white shadow-xl py-1 flex justify-between items-center z-50">
         <div>
           {user ? (
             <NavLink
@@ -16,7 +16,7 @@ export default function MobileNav() {
               to="/post-advert"
             >
               <FontAwesomeIcon className="text-2xl" icon={faCamera} />
-              <span className="text-sm font-medium mt-1">Sat</span>
+              {/*<span className="text-sm font-medium mt-1">Sat</span>*/}
             </NavLink>
           ) : (
             <NavLink

@@ -10,12 +10,12 @@ export default function AutoSwiper() {
             spaceBetween={30} // Slaytlar arası boşluk
             centeredSlides={true} // Slaytları ortalasa
             autoplay={{
-                delay: 4000, // 3 saniyede bir geçiş yapar
+                delay: 4000, // 3 saniyede bir g      eçiş yapar
                 disableOnInteraction: false, // Kullanıcı etkileşiminde otomatik döngüyü durdurma
             }}
 
             modules={[Autoplay, Pagination, Navigation]}
-            className="!w-full mt-4"
+            className="!w-full mt-4 !h-52"
         >
             <SwiperSlide>
                 <div className="w-full h-full bg-red-600">

@@ -22,7 +22,7 @@ export default function CategoriesMobile() {
 
             <div className="categoryHome__Device">
 
-                <div className="categoryHome__general flex flex-col gap-10 p-5 bg-gray-50 rounded-lg shadow-lg">
+                <div className="categoryHome__general flex flex-col gap-10  bg-gray-50 rounded-lg shadow-lg">
                     {categories.map((category) => (
                         <div
                             key={category.id}

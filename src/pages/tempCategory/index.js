@@ -61,7 +61,7 @@ export default function TempCategoryDetail() {
   return (
 
     <div className="flex gap-10 mt-4">
-      <div className="categoryHome">
+      <div className="categoryHome mr-10">
       <div className="categoryHome__general flex flex-col gap-10 p-5 bg-gray-50 rounded-lg shadow-lg !w-[100%]">
           <div
             key={currentCategory.id}
@@ -93,7 +93,7 @@ export default function TempCategoryDetail() {
       </div>
 
 
-      <div className="categoryDetail p-5 bg-gray-50 rounded-lg shadow-lg  ml-5 w-full">
+      <div className="categoryDetail p-5 bg-gray-50 rounded-lg shadow-lg w-full">
         
         {loading ? (
           <p className="text-center text-gray-500">Yükleniyor...</p>
@@ -102,26 +102,26 @@ export default function TempCategoryDetail() {
             Bu kategoriye ait ürün bulunamadı.
           </p>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 ">
+            <div className="home  w-full  grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 mx-auto">
             {products.map((advert) => (
               <Link
                 to={`/adverts/${advert.id}`}
-                className="bg-white p-4 rounded-lg shadow hover:shadow-md transition-shadow no-underline"
+                className="bg-white p-3 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 no-underline"
                 key={advert.id}
               >
-                <div className="home__advert__image">
+                <div className="overflow-hidden rounded-xl">
                   <img
                     src={advert.foto[0]}
                     alt={`Ürün resmi: ${advert.brut}`}
-                    style={{ objectFit: "cover" }}
-                    className="w-full h-32 object-cover mb-4 rounded-lg"
+                    className="w-full h-40 md:h-48 object-cover transition-transform duration-300 hover:scale-105"
                   />
                 </div>
-                <div className="text-lg font-semibold text-gray-700">
+                <div className="text-base md:text-lg font-bold text-gray-800 truncate">
 
                   {advert.title}
                 </div>
-                <div className="text-sm text-gray-500">{advert.price} TL</div>
+                <div className="text-sm md:text-md font-semibold text-indigo-600 mt-1">
+                  {advert.price} TL</div>
               </Link>
             ))}
           </div>

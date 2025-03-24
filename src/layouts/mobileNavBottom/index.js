@@ -16,20 +16,20 @@ export default function MobileNavBottom() {
             }
         });
 
-        return () => unsubscribe()
+        return () => unsubscribe();
     }, []);
 
     const isInvalidPhoto = profilePhoto && profilePhoto.includes("undefined");
     return (
         <div className="nav__media">
             <div
-                className="fixed bottom-0 left-0 w-full bg-gradient-to-r from-indigo-600 to-blue-500 text-white shadow-xl py-2 flex justify-between items-center z-50 rounded-t-2xl">
+                className="fixed h-10 bottom-0 left-0 w-full bg-gradient-to-r from-indigo-600 to-blue-500 text-white shadow-xl py-2 flex justify-between items-center z-50 ">
                 <NavLink to="/">Ana Sayfa</NavLink>
                 {user ? (<>
                     <NavLink to="/category">Kategoriler</NavLink>
                     <NavLink to="/profile" className="">
                         <img
-                            src={isInvalidPhoto ? defaultProfile : profilePhoto}
+                            src={isInvalidPhoto ? defaultProfile : defaultProfile}
                             alt="Profil"
                             className="profile-photo"
                         />

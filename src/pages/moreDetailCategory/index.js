@@ -39,7 +39,7 @@ export default function MoreDetailCategory() {
   }, [products, moreDetailId]);
 
   return (
-    <div className="p-5 bg-gray-50 rounded-lg shadow-lg mt-[50px] w-[80%]">
+    <div className="p-5 bg-gray-50 rounded-lg shadow-lg ]">
       <h2 className="text-xl font-bold text-gray-800 mb-4">
         {moreDetailId} Modeline Ait Ürünler
       </h2>
@@ -50,24 +50,24 @@ export default function MoreDetailCategory() {
         <p className="text-center text-gray-500">Bu modele ait ürün bulunamadı.</p>
       ) : (
 
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 ">
+          <div className="home mt-[30px] w-full  grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 mx-auto">
         {filteredProducts.map((product) => (
           <Link
             to={`/adverts/${product.id}`}
-            className="bg-white p-4 rounded-lg shadow hover:shadow-md transition-shadow no-underline"
+            className="bg-white p-3 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 no-underline"
           >
-            <div className="home__advert__image">
+            <div className="overflow-hidden rounded-xl">
               <img
                 src={product.foto[0]}
                 alt={`Ürün resmi: ${product.brut}`}
-                style={{ objectFit: "cover" }}
-                className="w-full h-32 object-cover mb-4 rounded-lg"
+                className="w-full h-40 md:h-48 object-cover transition-transform duration-300 hover:scale-105"
               />
             </div>
-            <div className="text-lg font-semibold text-gray-700">
+            <div className="text-base md:text-lg font-bold text-gray-800 truncate">
               {product.title}
             </div>
-            <div className="text-sm text-gray-500">{product.price} TL</div>
+            <div className="text-sm md:text-md font-semibold text-indigo-600 mt-1">
+              {product.price} TL</div>
           </Link>
         ))}
       </div>

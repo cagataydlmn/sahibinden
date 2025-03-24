@@ -14,7 +14,7 @@ export default function Home() {
   return (
       <div className="flex flex-row  min-h-screen">
         <div className="flex lg:flex-col w-full ">
-          <div className="lg:w-1/8 lg:mr-4 mb-4 lg:mb-0 hidden sm:flex">
+          <div className="lg:w-1/8 mb-4 lg:mb-0 hidden sm:flex">
             <Categories />
           </div>
 
