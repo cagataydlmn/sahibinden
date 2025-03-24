@@ -11,7 +11,7 @@ export default function AutoSwiper() {
             centeredSlides={true} // Slaytları ortalasa
             autoplay={{
                 delay: 4000, // 3 saniyede bir g      eçiş yapar
-                disableOnInteraction: false, // Kullanıcı etkileşiminde otomatik döngüyü durdurma
+                disableOnInteraction: false,
             }}
 
             modules={[Autoplay, Pagination, Navigation]}
