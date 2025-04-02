@@ -298,7 +298,7 @@ export default function AdvertDetail() {
         </div>
 
 
-        <div className="advert-detail-border w-[66%] p-[30px]  bg-white border border-gray-300 shadow-md rounded-lg">
+        <div className="advert-detail-border mt-8 w-[66%] p-[30px]  bg-white border border-gray-300 shadow-md rounded-lg">
           <div>
             <h3 className="border-none">{advert.price} TL</h3>
             <div>

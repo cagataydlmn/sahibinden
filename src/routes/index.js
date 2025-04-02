@@ -21,6 +21,7 @@ import MobileNavBottom from "../layouts/mobileNavBottom";
 import CategoriesMobile from "../layouts/categoriesMobile";
 import {auth} from "../firebase";
 import YourComponent from "../pages/profileFavourites";
+import Footer from "../layouts/footer";
 
 const ProtectedAdminRoute = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -54,6 +55,7 @@ const routes = createBrowserRouter([
           <Nav />
           <MobileNav />
           <MobileNavBottom />
+          <Footer />
         </Provider>
     ),
     children: [

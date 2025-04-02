@@ -43,40 +43,41 @@ export default function Nav() {
                 </Link>
               </div>
               <Search />
-              {user ? (
-                  <div className="nav__general__right">
-                    <NavLink className="nav-link flex " to="/post-advert">
-                      <FontAwesomeIcon className="size-[30px]" icon={faCamera} />
-                    </NavLink>
-                    <NavLink to="/messages">
-                      <FontAwesomeIcon className="size-[30px] flex" icon={faMessage} />
-                    </NavLink>
-                      <NavLink to="/like">
-                          <FontAwesomeIcon
-                              icon={faHeart}
-                              className="text-red-500  flex cursor-pointer size-[30px]"
-                          />
-                      </NavLink>
-                    <NavLink className="nav-link" to="/profile">
-                      <NavLink className="profile-info" to="/profile">
-                        <img
-                            src={isInvalidPhoto ? defaultProfile : defaultProfile}
-                            alt="Profil"
-                            className="profile-photo"
-                        />
-                      </NavLink>
-                    </NavLink>
-                  </div>
-              ) : (
-                  <div className="nav__general__right">
-                    <NavLink to="/login" className="nav-link">
-                      Login
-                    </NavLink>
-                    <NavLink to="/register" className="nav-link">
-                      Register
-                    </NavLink>
-                  </div>
-              )}
+                {user ? (
+                    <div className="nav__general__right flex justify-between items-center">
+                        <NavLink className="nav-link flex justify-center items-center p-2" to="/post-advert">
+                            <FontAwesomeIcon className="text-3xl text-gray-300 hover:text-white transition-all duration-300 transform hover:scale-110" icon={faCamera} />
+                        </NavLink>
+
+                        <NavLink className="nav-link flex justify-center items-center p-2" to="/messages">
+                            <FontAwesomeIcon className="text-3xl text-gray-300 hover:text-white transition-all duration-300 transform hover:scale-110" icon={faMessage} />
+                        </NavLink>
+
+                        <NavLink className="nav-link flex justify-center items-center p-2" to="/like">
+                            <FontAwesomeIcon className="text-3xl text-red-500 hover:text-red-400 transition-all duration-300 transform hover:scale-110" icon={faHeart} />
+                        </NavLink>
+
+                        <NavLink className="nav-link" to="/profile">
+                            <div className="flex items-center justify-center">
+                                <img
+                                    src={isInvalidPhoto ? defaultProfile : defaultProfile}
+                                    alt="Profil"
+                                    className="w-10 h-10 rounded-full object-cover border-2 border-white shadow-md"
+                                />
+                            </div>
+                        </NavLink>
+                    </div>
+                ) : (
+                    <div className="nav__general__right flex space-x-4">
+                        <NavLink to="/login" className="nav-link text-white hover:text-gray-300 transition-all duration-300 transform hover:scale-110">
+                            Login
+                        </NavLink>
+                        <NavLink to="/register" className="nav-link text-white hover:text-gray-300 transition-all duration-300 transform hover:scale-110">
+                            Register
+                        </NavLink>
+                    </div>
+                )}
+
             </div>
           </nav>
         </div>

@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./src/**/*.{html,js,jsx,ts,tsx}", // Tailwind'in hangi dosyalar üzerinde çalışacağını belirtir
+    "./src/**/*.{html,js,jsx,ts,tsx}",
   ],
   theme: {
     extend: {
@@ -17,6 +17,6 @@ module.exports = {
   },
   plugins: [],
   corePlugins: {
-    preflight: false, // Preflight'ı devre dışı bırak
+    preflight: false,
   },
 }

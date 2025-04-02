@@ -39,7 +39,7 @@ export default function ChatScreen() {
       const sorted = [...fetchedChats].sort((a, b) => {
         if (b.lastMessageTimestamp && a.lastMessageTimestamp) {
           return (
-            b.lastMessageTimestamp.toDate() - a.lastMessageTimestamp.toDate()
+              b.lastMessageTimestamp.toDate() - a.lastMessageTimestamp.toDate()
           );
         } else if (b.lastMessageTimestamp) {
           return -1;
@@ -92,7 +92,7 @@ export default function ChatScreen() {
     if (currentChat) {
       const otherUserId = currentChat.userIds.find((id) => id !== user.uid);
       setOtherUserName(
-        otherUserNames[otherUserId]?.displayName || "Bilinmiyor"
+          otherUserNames[otherUserId]?.displayName || "Bilinmiyor"
       );
     } else {
       setOtherUserName("");
@@ -149,326 +149,326 @@ export default function ChatScreen() {
   };
 
   return (
-    <div>
-      <div className="message">
-        <div className="messages flex h-screen bg-gray-100 font-sans justify-center items-center">
-          <div className="mt-[-100px] border border-gray-300 rounded-lg w-3/4 h-5/6">
-            <div className="flex h-full">
-              {/* Sohbet Listesi (Adım 1) */}
-              <div className="w-1/4 bg-white border-r border-gray-200 overflow-y-auto">
-                <div className="p-4">
-                  <ul className="space-y-2">
-                    {sortedChats.map((chat) => {
-                      const otherUserId = getOtherUserId(chat.userIds);
+      <div>
+        <div className="message">
+          <div className="messages flex h-screen bg-gray-100 font-sans justify-center items-center">
+            <div className="mt-[-100px] border border-gray-300 rounded-lg w-3/4 h-5/6">
+              <div className="flex h-full">
+                {/* Sohbet Listesi (Adım 1) */}
+                <div className="w-1/4 bg-white border-r border-gray-200 overflow-y-auto">
+                  <div className="p-4">
+                    <ul className="space-y-2">
+                      {sortedChats.map((chat) => {
+                        const otherUserId = getOtherUserId(chat.userIds);
+                        const otherUserInfo = otherUserNames[otherUserId] || {
+                          displayName: "Bilinmiyor",
+                          profilePhoto: null,
+                        };
+
+                        return (
+                            <li
+                                key={chat.id}
+                                className={`p-2 rounded-lg ${
+                                    chatId === chat.id
+                                        ? "bg-blue-100"
+                                        : "hover:bg-gray-100"
+                                }`}
+                            >
+                              <Link
+                                  to={`/messages/${chat.id}`}
+                                  className="block"
+                                  style={{
+                                    pointerEvents:
+                                        chatId === chat.id ? "none" : "auto",
+                                  }}
+                              >
+                                <div className="flex items-center text-black">
+                                  {otherUserInfo.profilePhoto && (
+                                      <img
+                                          src={otherUserInfo.profilePhoto}
+                                          alt={otherUserInfo.displayName}
+                                          className="w-8 h-8 rounded-full mr-2"
+                                      />
+                                  )}
+                                  <span>{otherUserInfo.displayName}</span>
+                                </div>
+                                <p className="text-black text-sm font-medium truncate">
+                                  {chat.lastMessage}
+                                </p>
+                                <span className="text-xs text-gray-500">
+                              {chat.lastMessageTimestamp
+                                  ? new Date(
+                                      chat.lastMessageTimestamp.toDate()
+                                  ).toLocaleTimeString()
+                                  : ""}
+                            </span>
+                              </Link>
+                            </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                </div>
+
+                {/* Sohbet Detayı (Adım 2) */}
+                <div className="flex-1 flex flex-col">
+                  {chatId && (
+                      <div className="p-4 bg-white border-b border-gray-200 flex items-center">
+                        {otherUserNames[
+                            getOtherUserId(
+                                sortedChats.find((chat) => chat.id === chatId)?.userIds
+                            )
+                            ]?.profilePhoto && (
+                            <img
+                                src={
+                                  otherUserNames[
+                                      getOtherUserId(
+                                          sortedChats.find((chat) => chat.id === chatId)
+                                              ?.userIds
+                                      )
+                                      ]?.profilePhoto
+                                }
+                                alt={otherUserName}
+                                className="w-8 h-8 rounded-full mr-2"
+                            />
+                        )}
+                        <h3 className="text-lg font-semibold flex-grow">
+                          {otherUserName}
+                        </h3>
+                      </div>
+                  )}
+
+                  {/* Mesaj Alanı (Adım 2) */}
+                  <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50">
+                    {messages.map((msg) => {
+                      const otherUserId = getOtherUserId(
+                          sortedChats.find((chat) => chat.id === chatId)?.userIds
+                      );
                       const otherUserInfo = otherUserNames[otherUserId] || {
                         displayName: "Bilinmiyor",
-                        profilePhoto: null,
+                        profilePhoto: defaultProfile,
                       };
 
                       return (
-                        <li
-                          key={chat.id}
-                          className={`p-2 rounded-lg ${
-                            chatId === chat.id
-                              ? "bg-blue-100"
-                              : "hover:bg-gray-100"
-                          }`}
-                        >
-                          <Link
-                            to={`/messages/${chat.id}`}
-                            className="block"
-                            style={{
-                              pointerEvents:
-                                chatId === chat.id ? "none" : "auto",
-                            }}
+                          <div
+                              key={msg.id}
+                              className={`flex ${
+                                  msg.senderId === user?.uid
+                                      ? "justify-end"
+                                      : "justify-start"
+                              }`}
                           >
-                            <div className="flex items-center text-black">
-                              {otherUserInfo.profilePhoto && (
-                                <img
-                                  src={otherUserInfo.profilePhoto}
-                                  alt={otherUserInfo.displayName}
-                                  className="w-8 h-8 rounded-full mr-2"
-                                />
-                              )}
-                              <span>{otherUserInfo.displayName}</span>
-                            </div>
-                            <p className="text-black text-sm font-medium truncate">
-                              {chat.lastMessage}
-                            </p>
-                            <span className="text-xs text-gray-500">
-                              {chat.lastMessageTimestamp
+                            {msg.senderId !== user?.uid &&
+                                otherUserInfo.profilePhoto && (
+                                    <img
+                                        src={otherUserInfo.profilePhoto}
+                                        alt={otherUserInfo.displayName}
+                                        className="w-8 h-8 rounded-full mr-2"
+                                    />
+                                )}
+
+                            <div
+                                className={`max-w-xs p-3 rounded-lg ${
+                                    msg.senderId === user?.uid
+                                        ? "bg-blue-500 text-white"
+                                        : "bg-white text-gray-800"
+                                } shadow-sm`}
+                            >
+                              <p>{msg.text}</p>
+                              <span className="text-xs text-gray-400 block mt-1">
+                            {msg.timestamp
                                 ? new Date(
-                                    chat.lastMessageTimestamp.toDate()
-                                  ).toLocaleTimeString()
+                                    msg.timestamp.toDate()
+                                ).toLocaleTimeString()
                                 : ""}
-                            </span>
-                          </Link>
-                        </li>
+                          </span>
+                            </div>
+                          </div>
                       );
                     })}
-                  </ul>
-                </div>
-              </div>
-
-              {/* Sohbet Detayı (Adım 2) */}
-              <div className="flex-1 flex flex-col">
-                {chatId && (
-                  <div className="p-4 bg-white border-b border-gray-200 flex items-center">
-                    {otherUserNames[
-                      getOtherUserId(
-                        sortedChats.find((chat) => chat.id === chatId)?.userIds
-                      )
-                    ]?.profilePhoto && (
-                      <img
-                        src={
-                          otherUserNames[
-                            getOtherUserId(
-                              sortedChats.find((chat) => chat.id === chatId)
-                                ?.userIds
-                            )
-                          ]?.profilePhoto
-                        }
-                        alt={otherUserName}
-                        className="w-8 h-8 rounded-full mr-2"
-                      />
-                    )}
-                    <h3 className="text-lg font-semibold flex-grow">
-                      {otherUserName}
-                    </h3>
                   </div>
-                )}
 
-                {/* Mesaj Alanı (Adım 2) */}
-                <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50">
-                  {messages.map((msg) => {
-                    const otherUserId = getOtherUserId(
-                      sortedChats.find((chat) => chat.id === chatId)?.userIds
-                    );
-                    const otherUserInfo = otherUserNames[otherUserId] || {
-                      displayName: "Bilinmiyor",
-                      profilePhoto: defaultProfile,
-                    };
-
-                    return (
-                      <div
-                        key={msg.id}
-                        className={`flex ${
-                          msg.senderId === user?.uid
-                            ? "justify-end"
-                            : "justify-start"
-                        }`}
-                      >
-                        {msg.senderId !== user?.uid &&
-                          otherUserInfo.profilePhoto && (
-                            <img
-                              src={otherUserInfo.profilePhoto}
-                              alt={otherUserInfo.displayName}
-                              className="w-8 h-8 rounded-full mr-2"
-                            />
-                          )}
-
-                        <div
-                          className={`max-w-xs p-3 rounded-lg ${
-                            msg.senderId === user?.uid
-                              ? "bg-blue-500 text-white"
-                              : "bg-white text-gray-800"
-                          } shadow-sm`}
-                        >
-                          <p>{msg.text}</p>
-                          <span className="text-xs text-gray-400 block mt-1">
-                            {msg.timestamp
-                              ? new Date(
-                                  msg.timestamp.toDate()
-                                ).toLocaleTimeString()
-                              : ""}
-                          </span>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-
-                {/* Mesaj Gönderme Alanı */}
-                <div className="p-4 bg-white border-t border-gray-200">
-                  <div className="flex items-center space-x-2">
+                  {/* Mesaj Gönderme Alanı */}
+                  <div className="p-4 bg-white border-t border-gray-200">
+                    <div className="flex items-center space-x-2">
                     <textarea
-                      type="text"
-                      value={newMessage}
-                      onChange={(e) => setNewMessage(e.target.value)}
-                      placeholder="Mesaj yaz..."
-                      className="flex-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        type="text"
+                        value={newMessage}
+                        onChange={(e) => setNewMessage(e.target.value)}
+                        placeholder="Mesaj yaz..."
+                        className="flex-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
-                    <button
-                      onClick={handleSendMessage}
-                      className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    >
-                      Gönder
-                    </button>
+                      <button
+                          onClick={handleSendMessage}
+                          className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      >
+                        Gönder
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-    <div className="message__mobile bg-gray-200 h-screen">
-  <div className="messages flex flex-col  bg-gray-300 font-sans justify-between items-center w-full md:w-[75%] mx-auto">
-    <div className="border border-gray-300 rounded-lg w-full max-w-md h-full">
-      <div className="flex h-full flex-col">
+        <div className="message__mobile bg-gray-200 h-screen">
+          <div className="messages flex flex-col  bg-gray-300 font-sans justify-between items-center w-full md:w-[75%] mx-auto">
+            <div className="border border-gray-300 rounded-lg w-full max-w-md h-full">
+              <div className="flex h-full flex-col">
 
-        {!chatId && (
-          <div className="w-full bg-gray-100 border-b border-gray-200 overflow-y-auto flex-1">
-            <ul className="space-y-2 p-4">
-              {sortedChats.map((chat) => {
-                const otherUserId = getOtherUserId(chat.userIds);
-                const otherUserInfo = otherUserNames[otherUserId] || {
-                  displayName: "Bilinmiyor",
-                  profilePhoto: null,
-                };
+                {!chatId && (
+                    <div className="w-full bg-gray-100 border-b border-gray-200 overflow-y-auto flex-1">
+                      <ul className="space-y-2 p-4">
+                        {sortedChats.map((chat) => {
+                          const otherUserId = getOtherUserId(chat.userIds);
+                          const otherUserInfo = otherUserNames[otherUserId] || {
+                            displayName: "Bilinmiyor",
+                            profilePhoto: null,
+                          };
 
-                return (
-                  <li
-                    key={chat.id}
-                    className={`border-b border-black p-2 rounded-lg ${
-                      chatId === chat.id ? "bg-blue-100" : "hover:bg-gray-100"
-                    }`}
-                  >
-                    <Link
-                      to={`/messages/${chat.id}`}
-                      className="block"
-                      style={{
-                        pointerEvents: chatId === chat.id ? "none" : "auto",
-                      }}
-                    >
-                      <div className="flex items-center text-black">
-                        {otherUserInfo.profilePhoto && (
-                          <img
-                            src={otherUserInfo.profilePhoto}
-                            alt={otherUserInfo.displayName}
-                            className="w-8 h-8 rounded-full mr-2"
-                          />
-                        )}
-                        <span>{otherUserInfo.displayName}</span>
-                      </div>
-                      <p className="text-black text-sm font-medium truncate">
-                        {chat.lastMessage}
-                      </p>
-                      <span className="text-xs text-gray-500">
+                          return (
+                              <li
+                                  key={chat.id}
+                                  className={`border-b border-black p-2 rounded-lg ${
+                                      chatId === chat.id ? "bg-blue-100" : "hover:bg-gray-100"
+                                  }`}
+                              >
+                                <Link
+                                    to={`/messages/${chat.id}`}
+                                    className="block"
+                                    style={{
+                                      pointerEvents: chatId === chat.id ? "none" : "auto",
+                                    }}
+                                >
+                                  <div className="flex items-center text-black">
+                                    {otherUserInfo.profilePhoto && (
+                                        <img
+                                            src={otherUserInfo.profilePhoto}
+                                            alt={otherUserInfo.displayName}
+                                            className="w-8 h-8 rounded-full mr-2"
+                                        />
+                                    )}
+                                    <span>{otherUserInfo.displayName}</span>
+                                  </div>
+                                  <p className="text-black text-sm font-medium truncate">
+                                    {chat.lastMessage}
+                                  </p>
+                                  <span className="text-xs text-gray-500">
                         {chat.lastMessageTimestamp
-                          ? new Date(chat.lastMessageTimestamp.toDate()).toLocaleTimeString()
-                          : ""}
+                            ? new Date(chat.lastMessageTimestamp.toDate()).toLocaleTimeString()
+                            : ""}
                       </span>
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        )}
-
-        {/* Sohbet Detayı */}
-        {chatId && (
-          <div className="overflow-auto flex-1 flex flex-col">
-            {/* Sohbet Başlık */}
-            <div className="p-4 bg-white border-b border-gray-200 flex items-center">
-              {otherUserNames[
-                getOtherUserId(
-                  sortedChats.find((chat) => chat.id === chatId)?.userIds
-                )
-              ]?.profilePhoto && (
-                <img
-                  src={
-                    otherUserNames[
-                      getOtherUserId(
-                        sortedChats.find((chat) => chat.id === chatId)
-                          ?.userIds
-                      )
-                    ]?.profilePhoto
-                  }
-                  alt="Profile"
-                  className="w-8 h-8 rounded-full mr-2"
-                />
-              )}
-              <h3 className="text-lg font-semibold flex-grow">
-                {otherUserNames[
-                  getOtherUserId(
-                    sortedChats.find((chat) => chat.id === chatId)?.userIds
-                  )
-                ]?.displayName || "Bilinmiyor"}
-              </h3>
-            </div>
-
-            {/* Sohbet Mesajları */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50">
-              {messages.map((msg) => {
-                const otherUserId = getOtherUserId(
-                  sortedChats.find((chat) => chat.id === chatId)?.userIds
-                );
-                const otherUserInfo = otherUserNames[otherUserId] || {
-                  displayName: "Bilinmiyor",
-                  profilePhoto: defaultProfile,
-                };
-
-                return (
-                  <div
-                    key={msg.id}
-                    className={`flex ${
-                      msg.senderId === user?.uid ? "justify-end" : "justify-start"
-                    }`}
-                  >
-                    {msg.senderId !== user?.uid && otherUserInfo.profilePhoto && (
-                      <img
-                        src={otherUserInfo.profilePhoto}
-                        alt={otherUserInfo.displayName}
-                        className="w-8 h-8 rounded-full mr-2"
-                      />
-                    )}
-
-                    <div
-                      className={`max-w-xs p-3 rounded-lg ${
-                        msg.senderId === user?.uid
-                          ? "bg-blue-500 text-white"
-                          : "bg-white text-gray-800"
-                      } shadow-sm`}
-                    >
-                      <p>{msg.text}</p>
-                      <span className="text-xs text-gray-400 block mt-1">
-                        {msg.timestamp
-                          ? new Date(msg.timestamp.toDate()).toLocaleTimeString()
-                          : ""}
-                      </span>
+                                </Link>
+                              </li>
+                          );
+                        })}
+                      </ul>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
+                )}
 
-            {/* Mesaj Gönderme Alanı */}
-            <div className="p-4 bg-white border-t border-gray-200">
-              <div className="flex items-center space-x-2">
+                {/* Sohbet Detayı */}
+                {chatId && (
+                    <div className="overflow-auto flex-1 flex flex-col">
+                      {/* Sohbet Başlık */}
+                      <div className="p-4 bg-white border-b border-gray-200 flex items-center">
+                        {otherUserNames[
+                            getOtherUserId(
+                                sortedChats.find((chat) => chat.id === chatId)?.userIds
+                            )
+                            ]?.profilePhoto && (
+                            <img
+                                src={
+                                  otherUserNames[
+                                      getOtherUserId(
+                                          sortedChats.find((chat) => chat.id === chatId)
+                                              ?.userIds
+                                      )
+                                      ]?.profilePhoto
+                                }
+                                alt="Profile"
+                                className="w-8 h-8 rounded-full mr-2"
+                            />
+                        )}
+                        <h3 className="text-lg font-semibold flex-grow">
+                          {otherUserNames[
+                              getOtherUserId(
+                                  sortedChats.find((chat) => chat.id === chatId)?.userIds
+                              )
+                              ]?.displayName || "Bilinmiyor"}
+                        </h3>
+                      </div>
+
+                      {/* Sohbet Mesajları */}
+                      <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50">
+                        {messages.map((msg) => {
+                          const otherUserId = getOtherUserId(
+                              sortedChats.find((chat) => chat.id === chatId)?.userIds
+                          );
+                          const otherUserInfo = otherUserNames[otherUserId] || {
+                            displayName: "Bilinmiyor",
+                            profilePhoto: defaultProfile,
+                          };
+
+                          return (
+                              <div
+                                  key={msg.id}
+                                  className={`flex ${
+                                      msg.senderId === user?.uid ? "justify-end" : "justify-start"
+                                  }`}
+                              >
+                                {msg.senderId !== user?.uid && otherUserInfo.profilePhoto && (
+                                    <img
+                                        src={otherUserInfo.profilePhoto}
+                                        alt={otherUserInfo.displayName}
+                                        className="w-8 h-8 rounded-full mr-2"
+                                    />
+                                )}
+
+                                <div
+                                    className={`max-w-xs p-3 rounded-lg ${
+                                        msg.senderId === user?.uid
+                                            ? "bg-blue-500 text-white"
+                                            : "bg-white text-gray-800"
+                                    } shadow-sm`}
+                                >
+                                  <p>{msg.text}</p>
+                                  <span className="text-xs text-gray-400 block mt-1">
+                        {msg.timestamp
+                            ? new Date(msg.timestamp.toDate()).toLocaleTimeString()
+                            : ""}
+                      </span>
+                                </div>
+                              </div>
+                          );
+                        })}
+                      </div>
+
+                      {/* Mesaj Gönderme Alanı */}
+                      <div className="p-4 bg-white border-t border-gray-200">
+                        <div className="flex items-center space-x-2">
                 <textarea
-                  type="text"
-                  value={newMessage}
-                  onChange={(e) => setNewMessage(e.target.value)}
-                  placeholder="Mesaj yaz..."
-                  className="flex-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    type="text"
+                    value={newMessage}
+                    onChange={(e) => setNewMessage(e.target.value)}
+                    placeholder="Mesaj yaz..."
+                    className="flex-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
-                <button
-                  onClick={handleSendMessage}
-                  className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  Gönder
-                </button>
+                          <button
+                              onClick={handleSendMessage}
+                              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          >
+                            Gönder
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                )}
               </div>
             </div>
           </div>
-        )}
-      </div>
-    </div>
-  </div>
-</div>
+        </div>
 
-    </div>
+      </div>
   );
 }

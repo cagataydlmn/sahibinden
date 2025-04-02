@@ -18,17 +18,23 @@ export default function ProfileAdverts() {
     if (user) {
       try {
         const parsedData = JSON.parse(user);
-        if (parsedData?.user?.uid) {
-          const filteredAds = advert.filter(
-            (ad) => ad.uid === parsedData.user.uid
-          );
+        console.log("Parsed User Data:", parsedData); // Kullanıcı verisini kontrol edelim
+
+        if (parsedData?.uid) {  // Burada 'user.uid' yerine direk 'uid' kullanıyoruz
+          console.log("User UID:", parsedData.uid);
+
+          console.log("Adverts Before Filtering:", advert); // Gelen ilanları kontrol edelim
+
+          const filteredAds = advert.filter((ad) => ad.uid === parsedData.uid);
+          console.log("Filtered Ads:", filteredAds); // Filtreleme sonucunu kontrol edelim
+
           setItems(filteredAds);
         }
       } catch (error) {
-        console.error(error);
+        console.error("Error parsing user data:", error);
       }
     }
-  }, [advert, user]);
+  }, [advert,user]);
 
   const handleDelete = async (id) => {
     try {
@@ -44,9 +50,11 @@ export default function ProfileAdverts() {
   const handleEdit = (advert) => {
     setEditingAdvert(advert);
   };
-
+  console.log(advert,"advert");
+  console.log(items,"items");
   return (
     <div className="home">
+      ilanlar
       {items.map((advert) => (
         <div className="home__advert" key={advert.id}>
           <Link to={`adverts/${advert.id}`}>

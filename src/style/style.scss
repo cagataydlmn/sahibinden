@@ -63,7 +63,7 @@ body {
   justify-content: space-between;
 
   &__general {
-    width: 80%;
+    width: 90%;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -482,61 +482,60 @@ button,
 
 .swiper {
   width: 70%;
-  height: 450px;
-  /* Yüksekliği belirleyebilirsiniz */
-  border-radius: 10px;
-  /* Köşeleri yuvarlatır */
-  overflow: hidden;
-  /* Taşan içerikleri gizler */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  /* Şık bir gölge ekler */
+  height: 450px; /* Yükseklik iyi görünüyor, değiştirmedim */
+  border-radius: 15px; /* Köşeler biraz daha yuvarlatıldı */
+  overflow: hidden; /* Taşan içerikler gizlendi */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* Daha şık bir gölge efekti */
+  position: relative; /* Navigasyon butonlarının konumlandırılması için gerek */
+}
 
+.swiper-image {
+  height: 90%; /* Görsellerin boyutunu artırdım */
+  object-fit: cover; /* Görsellerin taşmasını engelledi ve düzgün görünmesini sağladı */
+  border-radius: 15px; /* Görsellerin köşeleri de yuvarlatıldı */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Görsellerin altına daha belirgin bir gölge ekledim */
+  transition: transform 0.3s ease-in-out; /* Görsellerin üzerine gelindiğinde büyüme efekti */
+}
 
-  &-image {
-    height: 70%;
-    object-fit: cover;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+.swiper-image:hover {
+  transform: scale(1.05); /* Hover efektinde görseller büyüyecek */
+}
 
-  &-pagination {
-    bottom: 15px;
-    /* Sayfalama çubuğunun konumunu ayarlar */
-    z-index: 10;
-  }
+.swiper-pagination {
+  bottom: 20px; /* Sayfalama konumunu biraz daha aşağıya aldım */
+  z-index: 10;
+}
 
-  &-pagination-bullet {
-    background-color: rgba(0, 0, 0, 0.5);
-    /* Sayfalama yuvarlakları için arka plan rengi */
-  }
+.swiper-pagination-bullet {
+  background-color: #333333; /* Sayfalama yuvarlakları için şeffaf beyaz arka plan */
+  width: 12px; /* Yuvarlakların boyutunu küçülttüm */
+  height: 12px; /* Yuvarlakların boyutunu küçülttüm */
+  transition: background-color 0.3s ease-in-out; /* Geçiş efekti */
+}
 
-  &-pagination-bullet-active {
-    background-color: #ff6600;
-    /* Aktif sayfa yuvarlağı için renk */
-  }
+.swiper-pagination-bullet-active {
+  background-color: #0048ff; /* Aktif sayfa yuvarlağı için turuncu renk */
+}
 
-  .swiper-button-next,
-  .swiper-button-prev {
-    color: #ff6600;
-    /* Önceki ve sonraki butonlar için renk */
-    background-color: rgba(255, 255, 255, 0.7);
-    /* Buton arka planı */
-    border-radius: 50%;
-    /* Yuvarlak butonlar */
-    padding: 8px;
-    /* Butonların boyutunu ayarlamak için */
-  }
+.swiper-button-next,
+.swiper-button-prev {
+  background-color: rgba(255, 255, 255, 0.8); /* Buton arka planını biraz daha açık hale getirdim */
+  border-radius: 50%; /* Yuvarlak butonlar */
+  padding: 12px; /* Buton boyutunu biraz büyüttüm */
+  transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out; /* Buton hover efekti ve animasyon */
+}
 
-  .swiper-button-next:hover,
-  .swiper-button-prev:hover {
-    background-color: #ff6600;
-    /* Hoverda buton rengi değişir */
-    color: white;
-  }
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background-color: #0015ff; /* Hoverda butonun rengi değişecek */
+  transform: scale(1.1); /* Hoverda buton biraz büyüyecek */
+  color: white;
+}
 
+.swiper-button-next,
+.swiper-button-prev {
+  color: #333; /* Başlangıçta buton rengi gri olacak */
+  font-size: 20px; /* Font büyüklüğü ayarlandı */
 }
 
 .addadvert {

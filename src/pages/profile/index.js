@@ -24,15 +24,14 @@ export default function Profile() {
   };
   const handleCategorySelect = (categoryId) => {
     setActiveComponent(categoryId);
-    setStep(2); // İkinci adımda kategoriye tıklandığında içerik değişsin
+    setStep(2);
   };
   const handleBack = () => {
-    setStep(1); // Geri butonuna tıklanınca menüye dön
+    setStep(1);
   };
   return (
     <div>
       <div className="profile flex flex-col lg:flex-row">
-        {/* Web Menü */}
         <div className="flex flex-col lg:w-1/4 lg:border-r lg:border-gray-300 lg:h-full p-4 ">
           <ul className="space-y-4 list-none">
             {Object.keys(components).map((item) => (

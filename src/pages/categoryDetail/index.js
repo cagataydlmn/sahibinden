@@ -44,7 +44,7 @@ const CategoryDetail = () => {
 
   return (
     <div>
-      <h1>Category: {categoryName}</h1> {/* Kategori adı burada gösteriliyor */}
+      <h1>Category: {categoryName}</h1>
       <div className="home">
         {filteredItems.map((item) => (
           <Link
