@@ -7,13 +7,9 @@ Bu proje, kullanıcıların ikinci el ürünlerini kolayca alıp satabileceği m
 
 ❤️ Favorilere ekleme ve listeleme (Firebase Firestore)
 
-📍 Google Maps ile konum seçimi ve konuma göre filtreleme
-
 🧭 Kategori → Alt Kategori → Detay → Alt Detay filtreleme sistemi
 
 📱 Mobil uyumlu responsive tasarım (Tailwind + SCSS)
-
-🧠 "Bana Sor" özelliği (AI destekli ilan öneri sistemi)
 
 🛠️ Admin Panel (Kullanıcı ve ilan yönetimi)
 
